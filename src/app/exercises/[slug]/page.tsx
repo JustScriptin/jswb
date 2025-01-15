@@ -9,8 +9,10 @@ type Props = {
   };
 };
 
-export default function ExercisePage({ params }: Props) {
-  const exercise = EXERCISES.find((ex) => ex.slug === params.slug);
+export default async function ExercisePage({ params }: Props) {
+  // Wait for params to be available before accessing slug
+  const { slug } = await params;
+  const exercise = EXERCISES.find((ex) => ex.slug === slug);
 
   if (!exercise) {
     notFound();
@@ -89,4 +91,4 @@ export default function ExercisePage({ params }: Props) {
       </div>
     </div>
   );
-} 
+}
