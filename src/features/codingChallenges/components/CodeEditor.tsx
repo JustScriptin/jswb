@@ -3,7 +3,11 @@
 import { useCallback, useRef, useState } from "react";
 import Editor, { type EditorProps, type OnMount } from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { TestResults } from "./TestResults";
 
 export type TestResult = {
   passed: boolean;
@@ -29,6 +33,7 @@ export function CodeEditor({
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [testResults, setTestResults] = useState<TestResult[]>([]);
 
   const handleEditorDidMount: OnMount = useCallback((editor) => {
     editorRef.current = editor;
@@ -47,6 +52,7 @@ export function CodeEditor({
     try {
       setIsSubmitting(true);
       setError(null);
+      setTestResults([]);
       
       const code = editorRef.current.getValue();
       
@@ -62,8 +68,9 @@ export function CodeEditor({
         throw new Error("Failed to run tests");
       }
 
-      const { testResults } = await response.json();
-      onTestResults?.(testResults);
+      const { testResults: newResults } = await response.json();
+      setTestResults(newResults);
+      onTestResults?.(newResults);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
       console.error("Failed to run tests:", err);
@@ -87,36 +94,54 @@ export function CodeEditor({
   };
 
   return (
-    <div className={cn("flex flex-col gap-4", className)}>
-      <div className="relative min-h-[400px] border rounded-md overflow-hidden">
-        <Editor
-          defaultLanguage={defaultLanguage}
-          defaultValue={defaultValue}
-          onMount={handleEditorDidMount}
-          onValidate={handleEditorValidation}
-          options={editorOptions}
-          theme="vs-dark"
-          loading={
-            <div className="flex items-center justify-center w-full h-full text-sm text-muted-foreground">
-              Loading editor...
-            </div>
-          }
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        {error && (
-          <p className="text-sm text-destructive">{error}</p>
-        )}
-        <div className="flex justify-end">
-          <Button
-            onClick={handleRunTests}
-            disabled={isSubmitting}
-            className="min-w-[100px]"
-          >
-            {isSubmitting ? "Running..." : "Run Tests"}
-          </Button>
+    <div className={cn("space-y-4", className)}>
+      <Card className="flex flex-col">
+        <div className="relative min-h-[400px] overflow-hidden">
+          <Editor
+            defaultLanguage={defaultLanguage}
+            defaultValue={defaultValue}
+            onMount={handleEditorDidMount}
+            onValidate={handleEditorValidation}
+            options={editorOptions}
+            theme="vs-dark"
+            loading={
+              <div className="flex items-center justify-center w-full h-full bg-muted/50">
+                <div className="flex flex-col items-center gap-2">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                  <span className="text-sm text-muted-foreground">Loading editor...</span>
+                </div>
+              </div>
+            }
+          />
         </div>
-      </div>
+        <Separator className="my-4" />
+        <div className="flex flex-col gap-2 px-4 pb-4">
+          {error && (
+            <Badge variant="destructive" className="self-start">
+              {error}
+            </Badge>
+          )}
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              {isSubmitting && (
+                <Badge variant="secondary" className="animate-pulse">
+                  Running tests...
+                </Badge>
+              )}
+            </div>
+            <Button
+              onClick={handleRunTests}
+              disabled={isSubmitting}
+              className="min-w-[100px]"
+            >
+              {isSubmitting ? "Running..." : "Run Tests"}
+            </Button>
+          </div>
+        </div>
+      </Card>
+      {testResults.length > 0 && (
+        <TestResults results={testResults} />
+      )}
     </div>
   );
 } 
