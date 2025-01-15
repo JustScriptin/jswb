@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default async function ExercisePage({ params }: Props) {
-  const { slug } = params;
+  const { slug } = await params;
   const exercise = EXERCISES.find((ex) => ex.slug === slug);
 
   if (!exercise) {

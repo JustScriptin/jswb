@@ -26,8 +26,9 @@ export async function POST(
   let isolate: ivm.Isolate | undefined;
 
   try {
+    const { slug } = await params;
     // 1. Get the exercise and submitted code
-    const exercise = EXERCISES.find((ex) => ex.slug === params.slug);
+    const exercise = EXERCISES.find((ex) => ex.slug === slug);
     if (!exercise) {
       return NextResponse.json(
         { error: "Exercise not found" },
