@@ -68,7 +68,7 @@ export function CodeEditor({
         throw new Error("Failed to run tests");
       }
 
-      const { testResults: newResults } = await response.json();
+      const { results: newResults } = await response.json();
       setTestResults(newResults);
       onTestResults?.(newResults);
     } catch (err) {
