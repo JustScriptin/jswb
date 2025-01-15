@@ -53,9 +53,9 @@ export function CodeEditor({
       setIsSubmitting(true);
       setError(null);
       setTestResults([]);
-      
+
       const code = editorRef.current.getValue();
-      
+
       const response = await fetch(`/api/exercises/${slug}/run-tests`, {
         method: "POST",
         headers: {
@@ -72,7 +72,9 @@ export function CodeEditor({
       setTestResults(newResults);
       onTestResults?.(newResults);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
+      setError(
+        err instanceof Error ? err.message : "An unexpected error occurred"
+      );
       console.error("Failed to run tests:", err);
     } finally {
       setIsSubmitting(false);
@@ -94,54 +96,60 @@ export function CodeEditor({
   };
 
   return (
-    <div className={cn("space-y-4", className)}>
-      <Card className="flex flex-col">
-        <div className="relative min-h-[400px] overflow-hidden">
-          <Editor
-            defaultLanguage={defaultLanguage}
-            defaultValue={defaultValue}
-            onMount={handleEditorDidMount}
-            onValidate={handleEditorValidation}
-            options={editorOptions}
-            theme="vs-dark"
-            loading={
-              <div className="flex items-center justify-center w-full h-full bg-muted/50">
-                <div className="flex flex-col items-center gap-2">
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                  <span className="text-sm text-muted-foreground">Loading editor...</span>
-                </div>
+    <Card
+      // These classes are crucial for letting the Editor fill the card
+      className={cn("flex flex-col flex-grow min-h-0 overflow-hidden", className)}
+    >
+      <div className="flex-grow relative min-h-0">
+        <Editor
+          height="100%"
+          width="100%"
+          defaultLanguage={defaultLanguage}
+          defaultValue={defaultValue}
+          onMount={handleEditorDidMount}
+          onValidate={handleEditorValidation}
+          options={editorOptions}
+          theme="vs-dark"
+          loading={
+            <div className="flex items-center justify-center w-full h-full bg-muted/50">
+              <div className="flex flex-col items-center gap-2">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                <span className="text-sm text-muted-foreground">
+                  Loading editor...
+                </span>
               </div>
-            }
-          />
-        </div>
-        <Separator className="my-4" />
-        <div className="flex flex-col gap-2 px-4 pb-4">
-          {error && (
-            <Badge variant="destructive" className="self-start">
-              {error}
-            </Badge>
-          )}
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              {isSubmitting && (
-                <Badge variant="secondary" className="animate-pulse">
-                  Running tests...
-                </Badge>
-              )}
             </div>
-            <Button
-              onClick={handleRunTests}
-              disabled={isSubmitting}
-              className="min-w-[100px]"
-            >
-              {isSubmitting ? "Running..." : "Run Tests"}
-            </Button>
+          }
+        />
+      </div>
+
+      <Separator className="my-4" />
+
+      <div className="flex flex-col gap-2 px-4 pb-4">
+        {error && (
+          <Badge variant="destructive" className="self-start">
+            {error}
+          </Badge>
+        )}
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            {isSubmitting && (
+              <Badge variant="secondary" className="animate-pulse">
+                Running tests...
+              </Badge>
+            )}
           </div>
+          <Button
+            onClick={handleRunTests}
+            disabled={isSubmitting}
+            className="min-w-[100px]"
+          >
+            {isSubmitting ? "Running..." : "Run Tests"}
+          </Button>
         </div>
-      </Card>
-      {testResults.length > 0 && (
-        <TestResults results={testResults} />
-      )}
-    </div>
+      </div>
+
+      {testResults.length > 0 && <TestResults results={testResults} />}
+    </Card>
   );
-} 
+}
