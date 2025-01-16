@@ -2,8 +2,6 @@ import { notFound } from "next/navigation";
 import { Metadata, ResolvingMetadata } from "next";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
 import { ExerciseClient } from "@/app/exercises/[slug]/ExerciseClient";
-import { Suspense } from "react";
-import { ExercisePageSkeleton } from "@/features/codingChallenges/components/ExercisePageSkeleton";
 
 type Props = {
   params: {
@@ -44,10 +42,6 @@ export default async function ExercisePage({ params }: Props) {
     notFound();
   }
 
-  return (
-    <Suspense fallback={<ExercisePageSkeleton />}>
-      <ExerciseClient exercise={exercise} />
-    </Suspense>
-  );
+  return <ExerciseClient exercise={exercise} />;
 }
 
