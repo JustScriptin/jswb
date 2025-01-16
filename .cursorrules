@@ -11,7 +11,8 @@ You’re working with:
 - **Next.js 15 App Router**  
 - **Tailwind CSS (with CSS variables)**  
 - **Shadcn UI**  
-- **Zod**  
+- **Zod**
+- **Framer Motion**
 - **Eslint & eslint-plugin-boundaries** (for layered import boundaries)
 
 ---
