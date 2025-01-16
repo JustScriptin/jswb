@@ -11,10 +11,11 @@ import { Badge } from "@/components/ui/badge";
 import { CodeEditor, type TestResult } from "@/features/codingChallenges/components/CodeEditor";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, BookOpen, Code, Beaker, CheckCircle2, XCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, BookOpen, Code, Beaker, CheckCircle2, XCircle, ChevronLeft } from 'lucide-react';
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type Exercise = {
   slug: string;
@@ -47,8 +48,15 @@ export function ExerciseClient({ exercise }: Props) {
       {/* Header Section */}
       <div className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 max-w-screen-2xl items-center">
-          <div className="mr-4 hidden md:flex">
-            <a className="mr-6 flex items-center space-x-2" href="/">
+          <div className="mr-4 flex items-center gap-4">
+            <Link href="/exercises">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <ChevronLeft className="h-4 w-4" />
+                Back to Challenges
+              </Button>
+            </Link>
+            <Separator orientation="vertical" className="h-6" />
+            <a className="flex items-center space-x-2" href="/">
               <span className="hidden font-bold sm:inline-block">
                 Method To The Madness
               </span>
