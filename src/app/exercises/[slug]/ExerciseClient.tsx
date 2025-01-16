@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Card,
   CardContent,
@@ -11,11 +13,27 @@ import { Badge } from "@/components/ui/badge";
 import { CodeEditor, type TestResult } from "@/features/codingChallenges/components/CodeEditor";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, BookOpen, Code, Beaker, CheckCircle2, XCircle, ChevronLeft } from 'lucide-react';
-import { useState } from "react";
+import { 
+  ChevronDown, 
+  ChevronUp, 
+  BookOpen, 
+  Code, 
+  Beaker, 
+  CheckCircle2, 
+  XCircle, 
+  ChevronLeft,
+  Maximize2,
+  Minimize2
+} from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Exercise = {
   slug: string;
@@ -40,6 +58,8 @@ type Props = {
 export function ExerciseClient({ exercise }: Props) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [language, setLanguage] = useState<"typescript" | "javascript">("javascript");
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [activeTab, setActiveTab] = useState("instructions");
   const passedTests = testResults.filter(r => r.passed).length;
   const totalTests = exercise.testCases.length;
   const hasRun = testResults.length > 0;
@@ -48,8 +68,8 @@ export function ExerciseClient({ exercise }: Props) {
     <div className="min-h-screen bg-background">
       {/* Header Section */}
       <div className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 max-w-screen-2xl items-center">
-          <div className="mr-4 flex items-center gap-4">
+        <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
+          <div className="flex items-center gap-4">
             <Link href="/exercises">
               <Button variant="ghost" size="sm" className="gap-2">
                 <ChevronLeft className="h-4 w-4" />
@@ -63,10 +83,25 @@ export function ExerciseClient({ exercise }: Props) {
               </span>
             </a>
           </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="sm" onClick={() => setIsFullscreen(prev => !prev)}>
+                  {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Toggle fullscreen</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-6 md:py-8 lg:py-12">
+      <div className={cn(
+        "container mx-auto px-4 py-6 md:py-8 lg:py-12",
+        isFullscreen && "max-w-none p-0"
+      )}>
         {/* Title Section */}
         <div className="mb-8 text-center">
           <div className="flex justify-center space-x-2 mb-4">
@@ -86,10 +121,13 @@ export function ExerciseClient({ exercise }: Props) {
         </div>
 
         {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className={cn(
+          "grid gap-6",
+          isFullscreen ? "grid-cols-[1fr_2fr]" : "lg:grid-cols-2"
+        )}>
           {/* Left Column - Instructions & Tests */}
           <div className="space-y-6">
-            <Tabs defaultValue="instructions" className="w-full">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="w-full">
                 <TabsTrigger value="instructions" className="flex-1">
                   <BookOpen className="mr-2 h-4 w-4" />
@@ -121,9 +159,9 @@ export function ExerciseClient({ exercise }: Props) {
                   </CardHeader>
                   <CardContent>
                     <div className="prose prose-sm dark:prose-invert max-w-none">
-                      <pre className="whitespace-pre-wrap text-sm font-sans bg-muted p-4 rounded-md">
+                      <div className="whitespace-pre-wrap text-sm font-sans bg-muted p-4 rounded-md">
                         {exercise.description}
-                      </pre>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -131,21 +169,55 @@ export function ExerciseClient({ exercise }: Props) {
               <TabsContent value="tests">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Test Cases</CardTitle>
+                    <CardTitle className="flex items-center justify-between">
+                      <span>Test Cases</span>
+                      {hasRun && (
+                        <motion.div 
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className={cn(
+                            "text-sm px-3 py-1 rounded-full",
+                            passedTests === totalTests 
+                              ? "bg-green-500/20 text-green-500"
+                              : "bg-red-500/20 text-red-500"
+                          )}
+                        >
+                          {passedTests === totalTests ? (
+                            <span className="flex items-center gap-2">
+                              <CheckCircle2 className="h-4 w-4" />
+                              All Tests Passed
+                            </span>
+                          ) : (
+                            <span className="flex items-center gap-2">
+                              <XCircle className="h-4 w-4" />
+                              {totalTests - passedTests} Failed
+                            </span>
+                          )}
+                        </motion.div>
+                      )}
+                    </CardTitle>
                     <CardDescription>
                       Your solution will be tested against these cases
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {exercise.testCases.map((test, index) => (
-                        <TestCaseAccordion 
-                          key={index} 
-                          test={test} 
-                          index={index}
-                          result={testResults[index]} 
-                        />
-                      ))}
+                      <AnimatePresence>
+                        {exercise.testCases.map((test, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                          >
+                            <TestCaseAccordion 
+                              test={test} 
+                              index={index}
+                              result={testResults[index]} 
+                            />
+                          </motion.div>
+                        ))}
+                      </AnimatePresence>
                     </div>
                   </CardContent>
                 </Card>
