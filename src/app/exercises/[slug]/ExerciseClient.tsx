@@ -39,6 +39,7 @@ type Props = {
 
 export function ExerciseClient({ exercise }: Props) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
+  const [language, setLanguage] = useState<"typescript" | "javascript">("javascript");
   const passedTests = testResults.filter(r => r.passed).length;
   const totalTests = exercise.testCases.length;
   const hasRun = testResults.length > 0;
@@ -165,7 +166,7 @@ export function ExerciseClient({ exercise }: Props) {
                 <div className="flex items-center space-x-2">
                   <Badge variant="secondary">
                     <Code className="mr-1 h-3 w-3" />
-                    JavaScript
+                    {language === "javascript" ? "JavaScript" : "TypeScript"}
                   </Badge>
                 </div>
               </CardHeader>
@@ -176,6 +177,7 @@ export function ExerciseClient({ exercise }: Props) {
                   slug={exercise.slug}
                   className="flex-grow min-h-0"
                   onTestResults={setTestResults}
+                  onLanguageChange={setLanguage}
                 />
               </CardContent>
             </Card>

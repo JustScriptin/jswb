@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import Editor, { type EditorProps, type OnMount } from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -27,6 +27,7 @@ export type CodeEditorProps = {
   className?: string;
   slug: string;
   onTestResults?: (results: TestResult[]) => void;
+  onLanguageChange?: (language: "typescript" | "javascript") => void;
 };
 
 export function CodeEditor({
@@ -35,12 +36,18 @@ export function CodeEditor({
   className,
   slug,
   onTestResults,
+  onLanguageChange,
 }: CodeEditorProps) {
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [language, setLanguage] = useState<"typescript" | "javascript">(defaultLanguage);
+
+  // Update parent component when language changes
+  useEffect(() => {
+    onLanguageChange?.(language);
+  }, [language, onLanguageChange]);
 
   const handleEditorDidMount: OnMount = useCallback((editor) => {
     editorRef.current = editor;
