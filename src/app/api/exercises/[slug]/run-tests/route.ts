@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
 import ivm from "isolated-vm";
+import ts from "typescript";
 
-type RequestBody = { code: string };
+type RequestBody = { 
+  code: string;
+  language: "typescript" | "javascript";
+};
+
 type TestResult = { passed: boolean; message: string; error?: string };
 
 export async function POST(
@@ -13,25 +18,55 @@ export async function POST(
 
   try {
     // 1) Identify the exercise
-    const { slug } = await params;
+    const { slug } = params;
     const exercise = EXERCISES.find((ex) => ex.slug === slug);
     if (!exercise) {
       return NextResponse.json({ error: "Exercise not found" }, { status: 404 });
     }
 
-    // 2) Parse user code
-    const { code } = (await request.json()) as RequestBody;
+    // 2) Parse user code and language
+    const { code, language } = (await request.json()) as RequestBody;
     if (!code) {
       return NextResponse.json({ error: "No code submitted" }, { status: 400 });
     }
 
-    // 3) Create an isolate + context
+    // 3) If TypeScript, transpile to JavaScript
+    let finalCode = code;
+    if (language === "typescript") {
+      const result = ts.transpileModule(code, {
+        compilerOptions: {
+          module: ts.ModuleKind.ESNext,
+          target: ts.ScriptTarget.ESNext,
+          strict: true,
+        },
+        reportDiagnostics: true,
+      });
+
+      // Check for TypeScript compilation errors
+      if (result.diagnostics?.length) {
+        const messages = result.diagnostics.map((d) => {
+          const msg = ts.flattenDiagnosticMessageText(d.messageText, "\n");
+          const pos = d.file?.getLineAndCharacterOfPosition(d.start ?? 0);
+          const line = (pos?.line ?? 0) + 1;
+          const col = (pos?.character ?? 0) + 1;
+          return `TS Error at ${line}:${col} - ${msg}`;
+        });
+        return NextResponse.json(
+          { error: messages.join("\n") },
+          { status: 400 }
+        );
+      }
+
+      finalCode = result.outputText;
+    }
+
+    // 4) Create an isolate + context
     isolate = new ivm.Isolate({ memoryLimit: 8 });
     const context = isolate.createContextSync();
     const jail = context.global;
     jail.setSync("global", jail.derefInto());
 
-    // 4) Provide a snippet logger (sync callback) in the isolate
+    // 5) Provide a snippet logger (sync callback) in the isolate
     jail.setSync(
       "myLog",
       new ivm.Callback(
@@ -40,11 +75,11 @@ export async function POST(
       )
     );
 
-    // 5) Build snippet which:
+    // 6) Build snippet which:
     //    - loads user code (attaches solve => globalThis.solve)
     //    - runs tests
     //    - stores final { success, results } in globalThis.__myResult__
-    const codeWithGlobal = `${code}\nif (typeof solve === 'function') globalThis.solve = solve;\n`;
+    const codeWithGlobal = `${finalCode}\nif (typeof solve === 'function') globalThis.solve = solve;\n`;
     const userCodeLiteral = JSON.stringify(codeWithGlobal);
     const testCasesLiteral = JSON.stringify(exercise.testCases);
 
@@ -108,11 +143,11 @@ try {
 }
 `;
 
-    // 6) Compile + run snippet
+    // 7) Compile + run snippet
     const script = isolate.compileScriptSync(snippet);
     script.runSync(context); // returns undefined (by design)
 
-    // 7) Extract final object from globalThis.__myResult__
+    // 8) Extract final object from globalThis.__myResult__
     const resultRef = jail.getSync("__myResult__");
     if (!resultRef) {
       return NextResponse.json(
@@ -143,7 +178,7 @@ try {
     console.error("[api/exercises/run-tests] Outer catch error:", err);
     return NextResponse.json({ error: "Failed to run tests" }, { status: 500 });
   } finally {
-    // 8) Dispose isolate
+    // 9) Dispose isolate
     isolate?.dispose();
   }
 }

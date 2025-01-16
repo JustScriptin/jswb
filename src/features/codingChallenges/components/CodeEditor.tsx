@@ -8,6 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { TestResults } from "./TestResults";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export type TestResult = {
   passed: boolean;
@@ -34,6 +41,7 @@ export function CodeEditor({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [testResults, setTestResults] = useState<TestResult[]>([]);
+  const [language, setLanguage] = useState<"typescript" | "javascript">(defaultLanguage);
 
   const handleEditorDidMount: OnMount = useCallback((editor) => {
     editorRef.current = editor;
@@ -61,11 +69,14 @@ export function CodeEditor({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, language }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to run tests");
+        const text = await response.text();
+        throw new Error(
+          `Failed to run tests. Server responded with ${response.status}: ${text}`
+        );
       }
 
       const { results: newResults } = await response.json();
@@ -79,7 +90,7 @@ export function CodeEditor({
     } finally {
       setIsSubmitting(false);
     }
-  }, [slug, onTestResults]);
+  }, [slug, onTestResults, language]);
 
   const editorOptions: EditorProps["options"] = {
     minimap: { enabled: false },
@@ -97,14 +108,30 @@ export function CodeEditor({
 
   return (
     <Card
-      // These classes are crucial for letting the Editor fill the card
       className={cn("flex flex-col flex-grow min-h-0 overflow-hidden", className)}
     >
+      <div className="p-4 flex items-center justify-between">
+        <Select
+          value={language}
+          onValueChange={(val) => setLanguage(val as "typescript" | "javascript")}
+        >
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="Select language" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="javascript">JavaScript</SelectItem>
+            <SelectItem value="typescript">TypeScript</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <Separator />
+
       <div className="flex-grow relative min-h-0">
         <Editor
           height="100%"
           width="100%"
-          defaultLanguage={defaultLanguage}
+          language={language}
           defaultValue={defaultValue}
           onMount={handleEditorDidMount}
           onValidate={handleEditorValidation}
