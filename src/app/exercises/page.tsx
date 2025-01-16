@@ -89,7 +89,7 @@ export default function ExercisesPage() {
             variants={itemVariants}
             className="max-w-3xl mx-auto text-center space-y-6"
           >
-            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent leading-relaxed py-1">
               JavaScript Coding Challenges
             </h1>
             <p className="text-xl text-muted-foreground">
