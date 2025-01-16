@@ -258,15 +258,49 @@ export default function ExercisesPage() {
                 </motion.div>
               ) : (
                 <motion.div 
-                  variants={itemVariants}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   className="col-span-full text-center py-12"
                 >
-                  <div className="max-w-md mx-auto space-y-4">
-                    <div className="text-4xl">🔍</div>
-                    <h3 className="text-lg font-semibold">No exercises found</h3>
-                    <p className="text-muted-foreground">
-                      Try adjusting your search or filters to find what you're looking for.
-                    </p>
+                  <div className="max-w-md mx-auto space-y-6">
+                    <div className="flex flex-col items-center gap-4">
+                      <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
+                        <Search className="h-6 w-6 text-muted-foreground" />
+                      </div>
+                      <div className="space-y-2">
+                        <h3 className="text-xl font-semibold">No exercises found</h3>
+                        <p className="text-muted-foreground max-w-[350px] mx-auto">
+                          {searchQuery ? (
+                            <>No exercises match your search "{searchQuery}". Try different keywords or clear your search.</>
+                          ) : selectedCategory !== "all" || selectedMethod !== "all" ? (
+                            <>No exercises found with the selected filters. Try adjusting your category or method selection.</>
+                          ) : (
+                            <>No exercises are currently available. Please check back later.</>
+                          )}
+                        </p>
+                      </div>
+                      <div className="flex gap-2 mt-4">
+                        {searchQuery && (
+                          <button
+                            onClick={() => setSearchQuery("")}
+                            className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline"
+                          >
+                            Clear search
+                          </button>
+                        )}
+                        {(selectedCategory !== "all" || selectedMethod !== "all") && (
+                          <button
+                            onClick={() => {
+                              setSelectedCategory("all");
+                              setSelectedMethod("all");
+                            }}
+                            className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline"
+                          >
+                            Reset filters
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               )}
