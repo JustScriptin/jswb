@@ -110,18 +110,32 @@ export function CodeEditor({
       className={cn("flex flex-col flex-grow min-h-0 overflow-hidden", className)}
     >
       <div className="p-4 flex items-center justify-between">
-        <Select
-          value={language}
-          onValueChange={(val) => setLanguage(val as "typescript" | "javascript")}
-        >
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Select language" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="javascript">JavaScript</SelectItem>
-            <SelectItem value="typescript">TypeScript</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex items-center justify-between w-full">
+          <Select
+            value={language}
+            onValueChange={(val) => setLanguage(val as "typescript" | "javascript")}
+          >
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Select language" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="javascript">JavaScript</SelectItem>
+              <SelectItem value="typescript">TypeScript</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button
+            onClick={handleRunTests}
+            disabled={isSubmitting}
+            className="min-w-[100px]"
+          >
+            {isSubmitting ? "Running..." : "Run Tests"}
+          </Button>
+        </div>
+        {isSubmitting && (
+          <Badge variant="secondary" className="animate-pulse">
+            Running tests...
+          </Badge>
+        )}
       </div>
 
       <Separator />
@@ -157,22 +171,6 @@ export function CodeEditor({
             {error}
           </Badge>
         )}
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            {isSubmitting && (
-              <Badge variant="secondary" className="animate-pulse">
-                Running tests...
-              </Badge>
-            )}
-          </div>
-          <Button
-            onClick={handleRunTests}
-            disabled={isSubmitting}
-            className="min-w-[100px]"
-          >
-            {isSubmitting ? "Running..." : "Run Tests"}
-          </Button>
-        </div>
       </div>
     </Card>
   );
