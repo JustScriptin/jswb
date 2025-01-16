@@ -18,7 +18,7 @@ export async function POST(
 
   try {
     // 1) Identify the exercise
-    const { slug } = params;
+    const { slug } = await params;
     const exercise = EXERCISES.find((ex) => ex.slug === slug);
     if (!exercise) {
       return NextResponse.json({ error: "Exercise not found" }, { status: 404 });
