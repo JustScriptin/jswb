@@ -2,111 +2,148 @@ import { NextResponse } from "next/server";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
 import ivm from "isolated-vm";
 
-// Type for the expected request body
-type RequestBody = {
-  code: string;
-};
+type RequestBody = { code: string };
+type TestResult = { passed: boolean; message: string; error?: string };
 
-// Type for test results
-type TestResult = {
-  passed: boolean;
-  message: string;
-  error?: string;
-};
-
-/**
- * POST /api/exercises/[slug]/run-tests
- * Runs submitted code against exercise test cases in an isolated VM
- */
 export async function POST(
   request: Request,
   { params }: { params: { slug: string } }
 ) {
-  // Initialize isolate outside try block so it's accessible in finally
   let isolate: ivm.Isolate | undefined;
 
   try {
+    // 1) Identify the exercise
     const { slug } = await params;
-    // 1. Get the exercise and submitted code
     const exercise = EXERCISES.find((ex) => ex.slug === slug);
     if (!exercise) {
-      return NextResponse.json(
-        { error: "Exercise not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Exercise not found" }, { status: 404 });
     }
 
-    const body = await request.json() as RequestBody;
-    if (!body.code) {
-      return NextResponse.json(
-        { error: "No code submitted" },
-        { status: 400 }
-      );
+    // 2) Parse user code
+    const { code } = (await request.json()) as RequestBody;
+    if (!code) {
+      return NextResponse.json({ error: "No code submitted" }, { status: 400 });
     }
 
-    // 2. Create an isolated environment
+    // 3) Create an isolate + context
     isolate = new ivm.Isolate({ memoryLimit: 8 });
-    const context = await isolate.createContext();
+    const context = isolate.createContextSync();
+    const jail = context.global;
+    jail.setSync("global", jail.derefInto());
 
-    // 3. Run each test case in isolation
-    const results: TestResult[] = [];
-    
-    for (const test of exercise.testCases) {
-      try {
-        // Create a new context for each test to avoid state leakage
-        const jail = context.global;
-        await jail.set("global", jail.derefInto());
+    // 4) Provide a snippet logger (sync callback) in the isolate
+    jail.setSync(
+      "myLog",
+      new ivm.Callback(
+        (...args: any[]) => console.log("[Isolate log]", ...args),
+        { sync: true }
+      )
+    );
 
-        // Prepare the test script that includes the user's code and test case
-        const testScript = `
-          ${body.code}
-          
-          // Run the test
-          const result = solve(...${JSON.stringify(test.input)});
-          const expected = ${JSON.stringify(test.expected)};
-          
-          // Compare using strict equality
-          const passed = JSON.stringify(result) === JSON.stringify(expected);
-          
-          // Return the result
-          ({ passed, actual: result });
-        `;
+    // 5) Build snippet which:
+    //    - loads user code (attaches solve => globalThis.solve)
+    //    - runs tests
+    //    - stores final { success, results } in globalThis.__myResult__
+    const codeWithGlobal = `${code}\nif (typeof solve === 'function') globalThis.solve = solve;\n`;
+    const userCodeLiteral = JSON.stringify(codeWithGlobal);
+    const testCasesLiteral = JSON.stringify(exercise.testCases);
 
-        // Compile and run the test with a timeout
-        const script = await isolate.compileScript(testScript);
-        const result = await script.run(context, { timeout: 1000 });
-        
-        // Get the result and add it to our results array
-        const { passed, actual } = result;
-        results.push({
-          passed,
-          message: test.message,
-          ...(passed ? {} : { 
-            error: `Expected ${JSON.stringify(test.expected)}, but got ${JSON.stringify(actual)}`
-          })
-        });
-      } catch (error) {
-        // Handle any errors that occurred during test execution
-        results.push({
-          passed: false,
-          message: test.message,
-          error: error instanceof Error ? error.message : "Unknown error occurred"
-        });
-      }
+    const snippet = `
+myLog("[snippet] Starting snippet...");
+
+try {
+  // Evaluate user code
+  const userCodeString = ${userCodeLiteral};
+  myLog("[snippet] userCodeString length:", userCodeString.length);
+  new Function("globalThis", userCodeString)(globalThis);
+
+  // Check for solve
+  if (typeof globalThis.solve !== "function") {
+    throw new Error("No solve() function found in user code.");
+  }
+
+  // Parse test cases
+  const testCases = JSON.parse(\`${testCasesLiteral}\`);
+  const results = [];
+
+  myLog("[snippet] testCases length:", testCases.length);
+
+  for (const [index, test] of testCases.entries()) {
+    myLog("[snippet] Running test #", index + 1, "with input:", test.input);
+    let output;
+    try {
+      output = globalThis.solve(...test.input);
+    } catch (err) {
+      results.push({ passed: false, message: test.message, error: String(err) });
+      continue;
     }
 
-    // 4. Return the results
-    return NextResponse.json({ results }, { status: 200 });
-  } catch (error) {
-    // Log the error internally but don't expose details to client
-    console.error("[api/exercises/run-tests] Error:", error);
-    
-    return NextResponse.json(
-      { error: "Failed to run tests" },
-      { status: 500 }
-    );
+    if (output === undefined) {
+      results.push({
+        passed: false,
+        message: test.message,
+        error: "Function returned undefined. Make sure you're returning a value."
+      });
+      continue;
+    }
+
+    // Compare JSON for objects/arrays
+    const passed = JSON.stringify(output) === JSON.stringify(test.expected);
+    results.push({
+      passed,
+      message: test.message,
+      ...(passed
+        ? {}
+        : {
+            error: \`Expected \${JSON.stringify(test.expected)}, but got \${JSON.stringify(output)}\`
+          })
+    });
+  }
+
+  myLog("[snippet] All tests completed. Storing final object in __myResult__");
+  globalThis.__myResult__ = { success: true, results };
+} catch (allErr) {
+  myLog("[snippet] Snippet-level error:", String(allErr));
+  globalThis.__myResult__ = { success: false, error: String(allErr) };
+}
+`;
+
+    // 6) Compile + run snippet
+    const script = isolate.compileScriptSync(snippet);
+    script.runSync(context); // returns undefined (by design)
+
+    // 7) Extract final object from globalThis.__myResult__
+    const resultRef = jail.getSync("__myResult__");
+    if (!resultRef) {
+      return NextResponse.json(
+        { error: "Snippet did not set final result" },
+        { status: 500 }
+      );
+    }
+
+    // copySync() to get a plain JS object in Node
+    const rawResult = resultRef.copySync() as { success: boolean; results?: any; error?: string };
+
+    if (!rawResult.success) {
+      return NextResponse.json(
+        { error: rawResult.error || "Unknown error occurred" },
+        { status: 500 }
+      );
+    }
+    if (!Array.isArray(rawResult.results)) {
+      return NextResponse.json(
+        { error: "Invalid results format" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ results: rawResult.results }, { status: 200 });
+  } catch (err) {
+    // Outer catch
+    console.error("[api/exercises/run-tests] Outer catch error:", err);
+    return NextResponse.json({ error: "Failed to run tests" }, { status: 500 });
   } finally {
-    // Ensure we dispose of the isolate to prevent memory leaks
+    // 8) Dispose isolate
     isolate?.dispose();
   }
-} 
+}

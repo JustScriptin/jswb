@@ -70,7 +70,7 @@ export const CATEGORY_METHODS = {
         name: "array",
         method: "reduce",
       },
-      starterCode: `const solve = (numbers: number[]): number => {
+      starterCode: `const solve = (numbers) => {
     // Your code here
     return 0;
   }`,
@@ -115,7 +115,7 @@ export const CATEGORY_METHODS = {
         name: "array",
         method: "reduce",
       },
-      starterCode: `const solve = (words: string[]): string => {
+      starterCode: `const solve = (words) => {
     // Your code here
     return "";
   }`,
