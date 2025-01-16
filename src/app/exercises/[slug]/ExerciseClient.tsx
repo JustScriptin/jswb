@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CodeEditor, type TestResult } from "@/features/codingChallenges/components/CodeEditor";
+import { CodeEditor, type TestResult, type CodeEditorHandle } from "@/features/codingChallenges/components/CodeEditor";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { 
@@ -23,7 +23,8 @@ import {
   XCircle, 
   ChevronLeft,
   Maximize2,
-  Minimize2
+  Minimize2,
+  Keyboard
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -34,6 +35,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type Exercise = {
   slug: string;
@@ -55,19 +64,95 @@ type Props = {
   exercise: Exercise;
 };
 
+const KEYBOARD_SHORTCUTS = [
+  { key: "⌘/Ctrl + Enter", description: "Run Tests" },
+  { key: "⌘/Ctrl + F", description: "Toggle Fullscreen" },
+  { key: "⌘/Ctrl + 1", description: "Switch to Instructions" },
+  { key: "⌘/Ctrl + 2", description: "Switch to Test Cases" },
+  { key: "Esc", description: "Exit Fullscreen" },
+];
+
+const getStorageValue = (key: string, defaultValue: any) => {
+  if (typeof window === "undefined") return defaultValue;
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? saved : defaultValue;
+  } catch (err) {
+    return defaultValue;
+  }
+};
+
 export function ExerciseClient({ exercise }: Props) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [language, setLanguage] = useState<"typescript" | "javascript">("javascript");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [activeTab, setActiveTab] = useState("instructions");
+  const editorRef = useRef<CodeEditorHandle>(null);
   const passedTests = testResults.filter(r => r.passed).length;
   const totalTests = exercise.testCases.length;
   const hasRun = testResults.length > 0;
 
+  // Load saved language preference after mount
+  useEffect(() => {
+    const savedLanguage = getStorageValue(`${exercise.slug}-language`, "javascript") as "typescript" | "javascript";
+    setLanguage(savedLanguage);
+  }, [exercise.slug]);
+
+  const runTests = useCallback(async () => {
+    if (editorRef.current) {
+      await editorRef.current.runTests();
+      setActiveTab("tests");
+    }
+  }, []);
+
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const cmdOrCtrl = e.metaKey || e.ctrlKey;
+      
+      if (cmdOrCtrl && e.key === "Enter") {
+        // Run tests
+        e.preventDefault();
+        runTests();
+      } else if (cmdOrCtrl && e.key === "f") {
+        // Toggle fullscreen
+        e.preventDefault();
+        setIsFullscreen(prev => !prev);
+      } else if (cmdOrCtrl && e.key === "1") {
+        // Switch to Instructions
+        e.preventDefault();
+        setActiveTab("instructions");
+      } else if (cmdOrCtrl && e.key === "2") {
+        // Switch to Test Cases
+        e.preventDefault();
+        setActiveTab("tests");
+      } else if (e.key === "Escape" && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isFullscreen, runTests]);
+
+  const toggleFullscreen = useCallback(() => {
+    setIsFullscreen(prev => !prev);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="min-h-screen bg-background"
+    >
       {/* Header Section */}
-      <div className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <motion.div 
+        className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
         <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/exercises">
@@ -83,27 +168,67 @@ export function ExerciseClient({ exercise }: Props) {
               </span>
             </a>
           </div>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="sm" onClick={() => setIsFullscreen(prev => !prev)}>
-                  {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+          <div className="flex items-center gap-2">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Keyboard className="h-4 w-4 mr-2" />
+                  Shortcuts
                 </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Toggle fullscreen</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Keyboard Shortcuts</DialogTitle>
+                  <DialogDescription>
+                    Master these shortcuts to boost your productivity
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  {KEYBOARD_SHORTCUTS.map((shortcut, index) => (
+                    <div key={index} className="flex items-center justify-between">
+                      <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+                        {shortcut.key}
+                      </code>
+                      <span className="text-sm text-muted-foreground">
+                        {shortcut.description}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="sm" onClick={toggleFullscreen}>
+                    {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Toggle fullscreen (⌘/Ctrl + F)</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
-      </div>
+      </motion.div>
 
-      <div className={cn(
-        "container mx-auto px-4 py-6 md:py-8 lg:py-12",
-        isFullscreen && "max-w-none p-0"
-      )}>
+      <motion.div 
+        className={cn(
+          "container mx-auto px-4 py-6 md:py-8 lg:py-12",
+          isFullscreen && "max-w-none p-0"
+        )}
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
         {/* Title Section */}
-        <div className="mb-8 text-center">
+        <motion.div 
+          className="mb-8 text-center"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
           <div className="flex justify-center space-x-2 mb-4">
             <Badge variant="secondary" className="text-sm font-medium">
               {exercise.category.name}
@@ -118,13 +243,18 @@ export function ExerciseClient({ exercise }: Props) {
           <p className="text-xl text-muted-foreground">
             Master JavaScript array methods through practical exercises
           </p>
-        </div>
+        </motion.div>
 
         {/* Main Content */}
-        <div className={cn(
-          "grid gap-6",
-          isFullscreen ? "grid-cols-[1fr_2fr]" : "lg:grid-cols-2"
-        )}>
+        <motion.div 
+          className={cn(
+            "grid gap-6",
+            isFullscreen ? "grid-cols-[1fr_2fr]" : "lg:grid-cols-2"
+          )}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
           {/* Left Column - Instructions & Tests */}
           <div className="space-y-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -244,7 +374,8 @@ export function ExerciseClient({ exercise }: Props) {
               </CardHeader>
               <CardContent className="p-0 flex-grow flex flex-col min-h-0">
                 <CodeEditor
-                  defaultLanguage="javascript"
+                  ref={editorRef}
+                  defaultLanguage={language}
                   defaultValue={exercise.starterCode}
                   slug={exercise.slug}
                   className="flex-grow min-h-0"
@@ -254,9 +385,9 @@ export function ExerciseClient({ exercise }: Props) {
               </CardContent>
             </Card>
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState, useEffect } from "react";
+import { useCallback, useRef, useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import Editor, { type EditorProps, type OnMount } from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -30,35 +30,71 @@ export type CodeEditorProps = {
   onLanguageChange?: (language: "typescript" | "javascript") => void;
 };
 
-export function CodeEditor({
+export type CodeEditorHandle = {
+  runTests: () => Promise<void>;
+};
+
+const getStorageValue = (key: string, defaultValue: any) => {
+  if (typeof window === "undefined") return defaultValue;
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? saved : defaultValue;
+  } catch (err) {
+    return defaultValue;
+  }
+};
+
+export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function CodeEditor({
   defaultLanguage = "typescript",
   defaultValue = "const solve = () => {\n  // Write your solution here\n}",
   className,
   slug,
   onTestResults,
   onLanguageChange,
-}: CodeEditorProps) {
+}, ref) {
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [language, setLanguage] = useState<"typescript" | "javascript">(defaultLanguage);
+  const isInitialMount = useRef(true);
+
+  // Initialize state from localStorage after mount
+  useEffect(() => {
+    const savedLanguage = getStorageValue(`${slug}-language`, defaultLanguage) as "typescript" | "javascript";
+    setLanguage(savedLanguage);
+    
+    const savedCode = getStorageValue(`${slug}-code`, null);
+    if (savedCode && editorRef.current) {
+      editorRef.current.setValue(savedCode);
+    }
+  }, [slug, defaultLanguage]);
 
   // Update parent component when language changes
   useEffect(() => {
-    onLanguageChange?.(language);
-  }, [language, onLanguageChange]);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
 
-  const handleEditorDidMount: OnMount = useCallback((editor) => {
-    editorRef.current = editor;
-  }, []);
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(`${slug}-language`, language);
+      onLanguageChange?.(language);
+    } catch (err) {
+      console.error("Failed to save language preference:", err);
+    }
+  }, [language, onLanguageChange, slug]);
 
-  const handleEditorValidation = useCallback((markers: any[]) => {
-    // Log validation issues for debugging
-    markers.forEach((marker) => {
-      console.log("onValidate:", marker.message);
-    });
-  }, []);
+  // Auto-save code changes
+  const handleEditorChange = useCallback((value: string | undefined) => {
+    if (typeof window === "undefined" || !value) return;
+    try {
+      localStorage.setItem(`${slug}-code`, value);
+    } catch (err) {
+      console.error("Failed to save code:", err);
+    }
+  }, [slug]);
 
   const handleRunTests = useCallback(async () => {
     if (!editorRef.current) return;
@@ -97,6 +133,42 @@ export function CodeEditor({
       setIsSubmitting(false);
     }
   }, [slug, onTestResults, language]);
+
+  const handleEditorDidMount: OnMount = useCallback((editor, monaco) => {
+    editorRef.current = editor;
+
+    // Load saved code if it exists
+    if (typeof window !== "undefined") {
+      try {
+        const savedCode = localStorage.getItem(`${slug}-code`);
+        if (savedCode) {
+          editor.setValue(savedCode);
+        }
+      } catch (err) {
+        console.error("Failed to load saved code:", err);
+      }
+    }
+
+    // Add custom keybinding for Cmd/Ctrl + Enter
+    editor.addCommand(
+      monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+      () => {
+        handleRunTests();
+      }
+    );
+  }, [handleRunTests, slug]);
+
+  const handleEditorValidation = useCallback((markers: any[]) => {
+    // Log validation issues for debugging
+    markers.forEach((marker) => {
+      console.log("onValidate:", marker.message);
+    });
+  }, []);
+
+  // Expose the runTests function to parent components
+  useImperativeHandle(ref, () => ({
+    runTests: handleRunTests
+  }), [handleRunTests]);
 
   const editorOptions: EditorProps["options"] = {
     minimap: { enabled: false },
@@ -154,6 +226,7 @@ export function CodeEditor({
           language={language}
           defaultValue={defaultValue}
           onMount={handleEditorDidMount}
+          onChange={handleEditorChange}
           onValidate={handleEditorValidation}
           options={editorOptions}
           theme="vs-dark"
@@ -181,4 +254,4 @@ export function CodeEditor({
       </div>
     </Card>
   );
-}
+});
