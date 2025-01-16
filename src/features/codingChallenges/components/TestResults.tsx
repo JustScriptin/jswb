@@ -5,7 +5,8 @@ import { type TestResult } from "./CodeEditor";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, CheckCircle2, XCircle } from 'lucide-react';
+import { motion, AnimatePresence } from "framer-motion";
 
 type TestResultsProps = {
   results: TestResult[];
@@ -20,18 +21,28 @@ export function TestResults({ results, className }: TestResultsProps) {
   const allPassed = passedCount === totalCount;
 
   return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300", className)}>
+    <Card className={cn("mt-6 overflow-hidden", className)}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-2xl font-bold">Test Results</CardTitle>
+        <CardTitle className="text-xl font-semibold flex items-center gap-2">
+          {allPassed ? (
+            <CheckCircle2 className="h-5 w-5 text-green-500" />
+          ) : (
+            <XCircle className="h-5 w-5 text-red-500" />
+          )}
+          Test Results
+        </CardTitle>
         <Badge 
           variant={allPassed ? "default" : "destructive"} 
-          className="text-sm px-3 py-1 transition-colors duration-300"
+          className={cn(
+            "px-3 py-1 text-sm transition-all duration-300",
+            allPassed && "bg-green-500 hover:bg-green-600"
+          )}
         >
           {passedCount}/{totalCount} Passed
         </Badge>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
+      <CardContent className="pb-4">
+        <div className="space-y-3">
           {results.map((result, index) => (
             <TestResultItem key={index} result={result} index={index} />
           ))}
@@ -47,41 +58,66 @@ function TestResultItem({ result, index }: { result: TestResult; index: number }
   return (
     <div
       className={cn(
-        "p-4 rounded-lg text-sm transition-all duration-300",
+        "rounded-lg border transition-all duration-300",
         result.passed 
-          ? "bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800"
-          : "bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800"
+          ? "bg-green-500/5 border-green-500/20 text-green-700 dark:text-green-300"
+          : "bg-red-500/5 border-red-500/20 text-red-700 dark:text-red-300"
       )}
     >
-      <div className="flex items-center justify-between mb-2">
-        <span className="font-medium">Test #{index + 1}</span>
-        <div className="flex items-center space-x-2">
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full px-4 py-3 text-left font-medium flex items-center justify-between"
+        aria-expanded={!!isExpanded}
+      >
+        <div className="flex items-center gap-3">
+          {result.passed ? (
+            <CheckCircle2 className="h-4 w-4 text-green-500" />
+          ) : (
+            <XCircle className="h-4 w-4 text-red-500" />
+          )}
+          <span>Test #{index + 1}</span>
+        </div>
+        <div className="flex items-center gap-3">
           <Badge 
             variant={result.passed ? "default" : "destructive"} 
-            className="text-xs px-2 py-0.5"
+            className={cn(
+              "text-xs",
+              result.passed && "bg-green-500 hover:bg-green-600"
+            )}
           >
             {result.passed ? "Passed" : "Failed"}
           </Badge>
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+          {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </div>
+      </button>
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
           >
-            {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </button>
-        </div>
-      </div>
-      {isExpanded && (
-        <div className="mt-2 space-y-2">
-          {result.message && (
-            <p className="text-sm opacity-90">{result.message}</p>
-          )}
-          {result.error && !result.passed && (
-            <pre className="text-xs font-mono bg-red-100 dark:bg-red-900/50 p-3 rounded overflow-x-auto">
-              {result.error}
-            </pre>
-          )}
-        </div>
-      )}
+            <div className="px-4 pb-4 space-y-3">
+              {result.message && (
+                <div className="space-y-1.5">
+                  <div className="font-medium opacity-80">Message:</div>
+                  <p className="text-sm">{result.message}</p>
+                </div>
+              )}
+              {result.error && !result.passed && (
+                <div className="space-y-1.5">
+                  <div className="font-medium opacity-80">Error Details:</div>
+                  <pre className="text-xs font-mono bg-red-500/10 p-3 rounded overflow-x-auto">
+                    {result.error}
+                  </pre>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
