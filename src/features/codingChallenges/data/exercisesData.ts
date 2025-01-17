@@ -122,10 +122,10 @@ array.reduce((accumulator, currentValue, index, array) => {
 - Built-in error handling
 - Chainable with other array methods`,
         useCases: [
-          "💰 **Shopping Cart Total**: \`cart.reduce((total, item) => total + item.price, 0)\`",
-          "🎮 **Game Scoring**: \`scores.reduce((total, score) => total + score, 0)\`",
-          "📊 **Data Analysis**: \`measurements.reduce((sum, value) => sum + value, 0) / measurements.length\`",
-          "🔢 **Running Totals**: Perfect for calculating progressive sums"
+          "**Shopping Cart Total**: \`cart.reduce((total, item) => total + item.price, 0)\`",
+          "**Game Scoring**: \`scores.reduce((total, score) => total + score, 0)\`",
+          "**Data Analysis**: \`measurements.reduce((sum, value) => sum + value, 0) / measurements.length\`",
+          "**Running Totals**: Perfect for calculating progressive sums"
         ],
         visualExample: `## Step-by-Step Visualization
 
@@ -137,26 +137,26 @@ array.reduce((accumulator, currentValue, index, array) => {
 \`\`\`
 Initial state: sum = 0
 
-1️⃣ First number (1):
+First number (1):
    sum = 0 + 1 = 1
 
-2️⃣ Second number (2):
+Second number (2):
    sum = 1 + 2 = 3
 
-3️⃣ Third number (3):
+Third number (3):
    sum = 3 + 3 = 6
 
 Result: 6
 \`\`\``,
         commonMistakes: [
-          "❌ **No Initial Value**: \`numbers.reduce((sum, num) => sum + num)\` - Can fail on empty arrays",
-          "❌ **Missing Return**: \`numbers.reduce((sum, num) => { sum + num }, 0)\` - Forgot to return!",
-          "❌ **Wrong Method**: Using \`forEach\` or \`map\` when you need a single result"
+          "**No Initial Value**: \`numbers.reduce((sum, num) => sum + num)\` - Can fail on empty arrays",
+          "**Missing Return**: \`numbers.reduce((sum, num) => { sum + num }, 0)\` - Forgot to return!",
+          "**Wrong Method**: Using \`forEach\` or \`map\` when you need a single result"
         ],
         tips: [
-          "✅ **Always Initialize**: Use \`0\` as initialValue for sums",
-          "✅ **Type Safety**: Consider input validation for non-numbers",
-          "✅ **Performance**: \`reduce\` is O(n) - perfect for large datasets"
+          "**Always Initialize**: Use \`0\` as initialValue for sums",
+          "**Type Safety**: Consider input validation for non-numbers",
+          "**Performance**: \`reduce\` is O(n) - perfect for large datasets"
         ]
       },
       starterCode: `const solve = (numbers) => {
@@ -241,10 +241,10 @@ array.reduce((max, current) => {
 - Clean, functional approach
 - Built-in array bounds handling`,
         useCases: [
-          "🏆 **High Scores**: \`scores.reduce((max, score) => Math.max(max, score))\`",
-          "📊 **Peak Values**: Finding highest stock price, temperature, etc.",
-          "📏 **Dimensions**: Finding longest string, largest file, etc.",
-          "💰 **Pricing**: Finding most expensive item in cart"
+          "**High Scores**: \`scores.reduce((max, score) => Math.max(max, score))\`",
+          "**Peak Values**: Finding highest stock price, temperature, etc.",
+          "**Dimensions**: Finding longest string, largest file, etc.",
+          "**Pricing**: Finding most expensive item in cart"
         ],
         visualExample: `## Visual Walkthrough
 
@@ -254,28 +254,28 @@ array.reduce((max, current) => {
 
 ### Process:
 \`\`\`
-1️⃣ Start: max = 5 (first element)
+Start: max = 5 (first element)
 
-2️⃣ Compare with 2:
+Compare with 2:
    max = Math.max(5, 2) = 5
 
-3️⃣ Compare with 9:
+Compare with 9:
    max = Math.max(5, 9) = 9
 
-4️⃣ Compare with 1:
+Compare with 1:
    max = Math.max(9, 1) = 9
 
 Result: 9
 \`\`\``,
         commonMistakes: [
-          "❌ **Wrong Initial**: Using \`0\` as initialValue (fails with negative numbers)",
-          "❌ **Missing Null**: Not handling empty array case properly",
-          "❌ **Complex Logic**: Overthinking the comparison (use \`Math.max\`)"
+          "**Wrong Initial**: Using \`0\` as initialValue (fails with negative numbers)",
+          "**Missing Null**: Not handling empty array case properly",
+          "**Complex Logic**: Overthinking the comparison (use \`Math.max\`)"
         ],
         tips: [
-          "✅ **Use Math.max**: Cleaner than manual comparison",
-          "✅ **Type Check**: Validate input array contains numbers",
-          "✅ **Edge Cases**: Handle empty and single-element arrays first"
+          "**Use Math.max**: Cleaner than manual comparison",
+          "**Type Check**: Validate input array contains numbers",
+          "**Edge Cases**: Handle empty and single-element arrays first"
         ]
       },
       starterCode: `const solve = (numbers) => {
@@ -359,10 +359,10 @@ array.reduce((counts, item) => {
 - Memory efficient
 - Easy to extend logic`,
         useCases: [
-          "📝 **Word Frequency**: \`words.reduce((freq, word) => ({ ...freq, [word]: (freq[word] || 0) + 1 }), {})\`",
-          "🏷️ **Tag Counting**: Analyzing most common categories/tags",
-          "👥 **User Activity**: Tracking action frequencies per user",
-          "📊 **Data Analysis**: Preparing data for charts/graphs"
+          "**Word Frequency**: \`words.reduce((freq, word) => ({ ...freq, [word]: (freq[word] || 0) + 1 }), {})\`",
+          "**Tag Counting**: Analyzing most common categories/tags",
+          "**User Activity**: Tracking action frequencies per user",
+          "**Data Analysis**: Preparing data for charts/graphs"
         ],
         visualExample: `## Visual Process
 
@@ -375,28 +375,28 @@ array.reduce((counts, item) => {
 
 ### Step-by-Step:
 \`\`\`
-1️⃣ Initial state: {}
+Initial state: {}
 
-2️⃣ Process "a":
+Process "a":
    {} → { a: 1 }
 
-3️⃣ Process "b":
+Process "b":
    { a: 1 } → { a: 1, b: 1 }
 
-4️⃣ Process "a":
+Process "a":
    { a: 1, b: 1 } → { a: 2, b: 1 }
 
 Result: { a: 2, b: 1 }
 \`\`\``,
         commonMistakes: [
-          "❌ **Mutating Without Return**: Forgetting to return the accumulator",
-          "❌ **No Initial Value**: Not providing \`{}\` as initialValue",
-          "❌ **Type Issues**: Not handling mixed data types properly"
+          "**Mutating Without Return**: Forgetting to return the accumulator",
+          "**No Initial Value**: Not providing \`{}\` as initialValue",
+          "**Type Issues**: Not handling mixed data types properly"
         ],
         tips: [
-          "✅ **Use Nullish Coalescing**: \`counts[item] ??= 0\` for cleaner initialization",
-          "✅ **Consider Map**: Use \`Map\` for non-string keys",
-          "✅ **Immutable Update**: Use spread operator for immutable updates if needed"
+          "**Use Nullish Coalescing**: \`counts[item] ??= 0\` for cleaner initialization",
+          "**Consider Map**: Use \`Map\` for non-string keys",
+          "**Immutable Update**: Use spread operator for immutable updates if needed"
         ]
       },
       starterCode: `const solve = (items) => {
