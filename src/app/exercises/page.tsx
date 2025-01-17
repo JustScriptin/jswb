@@ -90,10 +90,10 @@ export default function ExercisesPage() {
             className="max-w-3xl mx-auto text-center space-y-6"
           >
             <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent leading-relaxed py-1">
-              JavaScript Coding Challenges
+              Learn JavaScript Methods
             </h1>
             <p className="text-xl text-muted-foreground">
-              Master JavaScript through interactive coding exercises. Practice, learn, and improve your skills with hands-on challenges.
+              Master JavaScript through hands-on learning. Understand and practice essential methods with interactive examples.
             </p>
           </motion.div>
 
@@ -105,22 +105,22 @@ export default function ExercisesPage() {
             <StatsCard
               icon={<Code2 className="w-5 h-5" />}
               value={EXERCISES.length}
-              label="Total Exercises"
+              label="Learning Exercises"
             />
             <StatsCard
               icon={<Layers className="w-5 h-5" />}
               value={Object.keys(CATEGORY_METHODS).length}
-              label="Categories"
+              label="Method Types"
             />
             <StatsCard
               icon={<BookOpen className="w-5 h-5" />}
               value={Array.from(new Set(Object.values(CATEGORY_METHODS).flat())).length}
-              label="Methods"
+              label="Methods to Learn"
             />
             <StatsCard
               icon={<Trophy className="w-5 h-5" />}
               value={completedCount}
-              label="Completed"
+              label="Methods Mastered"
               highlight={true}
             />
           </motion.div>

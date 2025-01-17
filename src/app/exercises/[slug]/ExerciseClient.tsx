@@ -158,13 +158,13 @@ export function ExerciseClient({ exercise }: Props) {
             <Link href="/exercises">
               <Button variant="ghost" size="sm" className="gap-2">
                 <ChevronLeft className="h-4 w-4" />
-                Back to Challenges
+                Back to Methods
               </Button>
             </Link>
             <Separator orientation="vertical" className="h-6" />
             <a className="flex items-center space-x-2" href="/">
               <span className="hidden font-bold sm:inline-block">
-                Method To The Madness
+                JavaScript Methods Learning
               </span>
             </a>
           </div>
@@ -241,7 +241,7 @@ export function ExerciseClient({ exercise }: Props) {
             {exercise.title}
           </h1>
           <p className="text-xl text-muted-foreground">
-            Master JavaScript array methods through practical exercises
+            Learn and understand JavaScript methods through practical examples
           </p>
         </motion.div>
 
@@ -261,11 +261,11 @@ export function ExerciseClient({ exercise }: Props) {
               <TabsList className="w-full">
                 <TabsTrigger value="instructions" className="flex-1">
                   <BookOpen className="mr-2 h-4 w-4" />
-                  Instructions
+                  Learning Instructions
                 </TabsTrigger>
                 <TabsTrigger value="tests" className="flex-1 relative">
                   <Beaker className="mr-2 h-4 w-4" />
-                  Test Cases
+                  Practice Examples
                   {hasRun && (
                     <Badge 
                       variant={passedTests === totalTests ? "default" : "destructive"}
@@ -282,9 +282,9 @@ export function ExerciseClient({ exercise }: Props) {
               <TabsContent value="instructions">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Problem Description</CardTitle>
+                    <CardTitle>Learning Instructions</CardTitle>
                     <CardDescription>
-                      Read the instructions carefully before starting
+                      Follow these steps to understand the method
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -300,7 +300,7 @@ export function ExerciseClient({ exercise }: Props) {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between">
-                      <span>Test Cases</span>
+                      <span>Practice Examples</span>
                       {hasRun && (
                         <motion.div 
                           initial={{ scale: 0 }}
@@ -327,7 +327,7 @@ export function ExerciseClient({ exercise }: Props) {
                       )}
                     </CardTitle>
                     <CardDescription>
-                      Your solution will be tested against these cases
+                      Test your understanding with these examples
                     </CardDescription>
                   </CardHeader>
                   <CardContent>

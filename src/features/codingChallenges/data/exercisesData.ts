@@ -28,7 +28,7 @@ export const CATEGORY_METHODS = {
   
   /**
    * ------------------------------------------------------------------------
-   *  3) Basic Challenge-Related Types
+   *  3) Basic Learning Exercise Types
    * ------------------------------------------------------------------------
    */
   export type TestCase = {
@@ -49,14 +49,14 @@ export const CATEGORY_METHODS = {
   
   /**
    * ------------------------------------------------------------------------
-   *  4) EXERCISES: Using the derived Category & Method
+   *  4) EXERCISES: Learning examples for each method
    * ------------------------------------------------------------------------
    */
   export const EXERCISES: Challenge[] = [
     {
       slug: "reduce-product",
-      title: "Array Product using reduce()",
-      description: `Write a function that takes an array of numbers and returns their product using Array.prototype.reduce().
+      title: "Understanding Array.reduce() with Products",
+      description: `Learn how to use Array.prototype.reduce() to calculate products of numbers.
       
   Example:
   - Input: [2, 3, 4]
@@ -70,10 +70,11 @@ export const CATEGORY_METHODS = {
         name: "array",
         method: "reduce",
       },
-      starterCode: `const solve = (numbers) => {
-    // Your code here
-    return 0;
-  }`,
+      starterCode: `// Try using reduce to multiply all numbers in the array
+const solve = (numbers) => {
+  // Your code here
+  return 0;
+}`,
       testCases: [
         {
           input: [[2, 3, 4]],

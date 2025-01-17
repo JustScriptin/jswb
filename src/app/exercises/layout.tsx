@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Coding Challenges | JSW",
-  description: "Practice your JavaScript array methods with interactive coding challenges.",
+  title: "JavaScript Method Learning | JSW",
+  description: "Learn and practice JavaScript methods through interactive exercises and examples.",
 };
 
 export default function ExercisesLayout({
