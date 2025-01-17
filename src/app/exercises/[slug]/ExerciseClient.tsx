@@ -24,7 +24,11 @@ import {
   ChevronLeft,
   Maximize2,
   Minimize2,
-  Keyboard
+  Keyboard,
+  GraduationCap,
+  Lightbulb,
+  AlertTriangle,
+  Target
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -51,6 +55,14 @@ type Exercise = {
   category: {
     name: string;
     method: string;
+  };
+  education: {
+    concept: string;
+    explanation: string;
+    useCases: string[];
+    visualExample?: string;
+    commonMistakes?: string[];
+    tips?: string[];
   };
   starterCode: string;
   testCases: Array<{
@@ -259,6 +271,10 @@ export function ExerciseClient({ exercise }: Props) {
           <div className="space-y-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="w-full">
+                <TabsTrigger value="learn" className="flex-1">
+                  <GraduationCap className="mr-2 h-4 w-4" />
+                  Learn
+                </TabsTrigger>
                 <TabsTrigger value="instructions" className="flex-1">
                   <BookOpen className="mr-2 h-4 w-4" />
                   Instructions
@@ -279,6 +295,83 @@ export function ExerciseClient({ exercise }: Props) {
                   )}
                 </TabsTrigger>
               </TabsList>
+              <TabsContent value="learn">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Lightbulb className="h-5 w-5" />
+                      {exercise.education.concept}
+                    </CardTitle>
+                    <CardDescription>
+                      Understanding the core concept
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Explanation Section */}
+                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                      <div className="whitespace-pre-wrap text-sm font-sans bg-muted p-4 rounded-md">
+                        {exercise.education.explanation}
+                      </div>
+                    </div>
+
+                    {/* Visual Example Section */}
+                    {exercise.education.visualExample && (
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <Code className="h-4 w-4" />
+                          Visual Example
+                        </h3>
+                        <pre className="font-mono text-sm bg-muted p-4 rounded-md overflow-x-auto">
+                          {exercise.education.visualExample}
+                        </pre>
+                      </div>
+                    )}
+
+                    {/* Use Cases Section */}
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold flex items-center gap-2">
+                        <Target className="h-4 w-4" />
+                        Common Use Cases
+                      </h3>
+                      <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                        {exercise.education.useCases.map((useCase, index) => (
+                          <li key={index}>{useCase}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Common Mistakes Section */}
+                    {exercise.education.commonMistakes && (
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold flex items-center gap-2 text-yellow-500">
+                          <AlertTriangle className="h-4 w-4" />
+                          Common Mistakes to Avoid
+                        </h3>
+                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                          {exercise.education.commonMistakes.map((mistake, index) => (
+                            <li key={index}>{mistake}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Tips Section */}
+                    {exercise.education.tips && (
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold flex items-center gap-2 text-green-500">
+                          <Lightbulb className="h-4 w-4" />
+                          Pro Tips
+                        </h3>
+                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                          {exercise.education.tips.map((tip, index) => (
+                            <li key={index}>{tip}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
               <TabsContent value="instructions">
                 <Card>
                   <CardHeader>
