@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import type { Challenge } from "../data/exercisesData";
+import type { Exercise } from "../data/exercisesData";
 
 type CategoryColors = {
   bg: string;
@@ -11,7 +11,7 @@ type CategoryColors = {
 };
 
 type ExerciseCardProps = {
-  exercise: Challenge;
+  exercise: Exercise;
   categoryColors?: CategoryColors;
 };
 

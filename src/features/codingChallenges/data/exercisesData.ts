@@ -37,7 +37,7 @@ export const CATEGORY_METHODS = {
     message: string;
   };
   
-  export type Challenge<T extends CategoryName = CategoryName> = {
+  export type Exercise<T extends CategoryName = CategoryName> = {
     slug: string;
     title: string;
     description: string;
@@ -52,7 +52,7 @@ export const CATEGORY_METHODS = {
    *  4) EXERCISES: Learning examples for each method
    * ------------------------------------------------------------------------
    */
-  export const EXERCISES: Challenge[] = [
+  export const EXERCISES: Exercise[] = [
     {
       slug: "reduce-product",
       title: "Understanding Array.reduce() with Products",
