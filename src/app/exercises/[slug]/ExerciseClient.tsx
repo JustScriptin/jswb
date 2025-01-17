@@ -47,6 +47,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Markdown } from "@/components/ui/markdown";
 
 type Exercise = {
   slug: string;
@@ -308,48 +309,52 @@ export function ExerciseClient({ exercise }: Props) {
                   </CardHeader>
                   <CardContent className="space-y-6">
                     {/* Explanation Section */}
-                    <div className="prose prose-sm dark:prose-invert max-w-none">
-                      <div className="whitespace-pre-wrap text-sm font-sans bg-muted p-4 rounded-md">
-                        {exercise.education.explanation}
-                      </div>
+                    <div>
+                      <h3 className="font-semibold mb-2 flex items-center gap-2">
+                        <Lightbulb className="h-4 w-4" />
+                        Explanation
+                      </h3>
+                      <Markdown content={exercise.education.explanation} />
                     </div>
 
                     {/* Visual Example Section */}
                     {exercise.education.visualExample && (
-                      <div className="space-y-2">
-                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                      <div>
+                        <h3 className="font-semibold mb-2 flex items-center gap-2">
                           <Code className="h-4 w-4" />
                           Visual Example
                         </h3>
-                        <pre className="font-mono text-sm bg-muted p-4 rounded-md overflow-x-auto">
-                          {exercise.education.visualExample}
-                        </pre>
+                        <Markdown content={exercise.education.visualExample} />
                       </div>
                     )}
 
                     {/* Use Cases Section */}
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <div>
+                      <h3 className="font-semibold mb-2 flex items-center gap-2">
                         <Target className="h-4 w-4" />
                         Common Use Cases
                       </h3>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                      <ul className="list-disc pl-4 space-y-1">
                         {exercise.education.useCases.map((useCase, index) => (
-                          <li key={index}>{useCase}</li>
+                          <li key={index}>
+                            <Markdown content={useCase} />
+                          </li>
                         ))}
                       </ul>
                     </div>
 
                     {/* Common Mistakes Section */}
                     {exercise.education.commonMistakes && (
-                      <div className="space-y-2">
-                        <h3 className="text-lg font-semibold flex items-center gap-2 text-yellow-500">
+                      <div>
+                        <h3 className="font-semibold mb-2 flex items-center gap-2 text-yellow-500">
                           <AlertTriangle className="h-4 w-4" />
                           Common Mistakes to Avoid
                         </h3>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                        <ul className="list-disc pl-4 space-y-1">
                           {exercise.education.commonMistakes.map((mistake, index) => (
-                            <li key={index}>{mistake}</li>
+                            <li key={index}>
+                              <Markdown content={mistake} />
+                            </li>
                           ))}
                         </ul>
                       </div>
@@ -357,14 +362,16 @@ export function ExerciseClient({ exercise }: Props) {
 
                     {/* Tips Section */}
                     {exercise.education.tips && (
-                      <div className="space-y-2">
-                        <h3 className="text-lg font-semibold flex items-center gap-2 text-green-500">
+                      <div>
+                        <h3 className="font-semibold mb-2 flex items-center gap-2 text-green-500">
                           <Lightbulb className="h-4 w-4" />
                           Pro Tips
                         </h3>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                        <ul className="list-disc pl-4 space-y-1">
                           {exercise.education.tips.map((tip, index) => (
-                            <li key={index}>{tip}</li>
+                            <li key={index}>
+                              <Markdown content={tip} />
+                            </li>
                           ))}
                         </ul>
                       </div>
@@ -372,20 +379,16 @@ export function ExerciseClient({ exercise }: Props) {
                   </CardContent>
                 </Card>
               </TabsContent>
-              <TabsContent value="instructions">
+              <TabsContent value="instructions" className="space-y-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Exercise Description</CardTitle>
-                    <CardDescription>
-                      Follow these steps to complete the exercise
-                    </CardDescription>
+                    <CardTitle className="flex items-center gap-2">
+                      <BookOpen className="h-5 w-5" />
+                      Problem Description
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="prose prose-sm dark:prose-invert max-w-none">
-                      <div className="whitespace-pre-wrap text-sm font-sans bg-muted p-4 rounded-md">
-                        {exercise.description}
-                      </div>
-                    </div>
+                    <Markdown content={exercise.description} />
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -492,77 +495,74 @@ type TestCaseAccordionProps = {
 
 function TestCaseAccordion({ test, index, result }: TestCaseAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const hasRun = !!result;
-  const passed = hasRun && result.passed;
+  const isPassed = result?.passed;
+  const hasRun = result !== undefined;
 
   return (
     <div className={cn(
-      "border rounded-lg overflow-hidden transition-colors",
-      hasRun && (passed 
-        ? "border-green-500/20 bg-green-500/5" 
-        : "border-red-500/20 bg-red-500/5"
-      )
+      "rounded-lg border",
+      hasRun && (isPassed ? "bg-green-500/10 border-green-500/20" : "bg-destructive/10 border-destructive/20"),
+      !hasRun && "bg-card"
     )}>
       <button
-        className="w-full px-4 py-3 text-left font-medium flex justify-between items-center hover:bg-muted/10 transition-colors"
+        className="flex w-full items-center justify-between p-4"
         onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={!!isOpen}
       >
-        <span className="flex items-center">
-          <span className={cn(
-            "w-6 h-6 rounded-full flex items-center justify-center text-sm mr-3",
-            !hasRun && "bg-primary/10 text-primary",
-            passed && "bg-green-500/20 text-green-700 dark:text-green-500",
-            hasRun && !passed && "bg-red-500/20 text-red-700 dark:text-red-500"
-          )}>
-            {index + 1}
-          </span>
-          <span className="flex items-center gap-2">
-            Test Case #{index + 1}
-            {hasRun && (
-              <Badge 
-                variant={passed ? "default" : "destructive"}
-                className={cn(
-                  "ml-2 text-xs",
-                  passed && "bg-green-500 hover:bg-green-600"
-                )}
-              >
-                {passed ? "Passed" : "Failed"}
-              </Badge>
-            )}
-          </span>
-        </span>
-        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-      </button>
-      {isOpen && (
-        <div className="p-4 space-y-3 text-sm bg-background">
-          <div className="space-y-1.5">
-            <div className="font-medium text-muted-foreground">Input:</div>
-            <code className="px-2 py-1 rounded bg-muted font-mono text-xs block overflow-x-auto">
-              {JSON.stringify(test.input, null, 2)}
-            </code>
-          </div>
-          <div className="space-y-1.5">
-            <div className="font-medium text-muted-foreground">Expected:</div>
-            <code className="px-2 py-1 rounded bg-muted font-mono text-xs block overflow-x-auto">
-              {JSON.stringify(test.expected, null, 2)}
-            </code>
-          </div>
-          {test.message && (
-            <div className="pt-2 border-t">
-              <p className="text-muted-foreground">{test.message}</p>
-            </div>
+        <div className="flex items-center gap-3">
+          {hasRun && (
+            isPassed ? (
+              <CheckCircle2 className="h-5 w-5 text-green-500" />
+            ) : (
+              <XCircle className="h-5 w-5 text-destructive" />
+            )
           )}
-          {hasRun && !passed && result.error && (
-            <div className="pt-2 border-t space-y-1.5">
-              <div className="font-medium text-red-600 dark:text-red-400">Error Details:</div>
-              <pre className="text-xs font-mono bg-red-500/10 p-3 rounded overflow-x-auto text-red-700 dark:text-red-300">
-                {result.error}
-              </pre>
+          <div className="flex flex-col items-start gap-1">
+            <div className="text-sm font-medium">Test Case {index + 1}</div>
+            <div className="text-xs text-muted-foreground">
+              <Markdown content={test.message} className="inline-block" />
             </div>
-          )}
+          </div>
         </div>
-      )}
+        {isOpen ? (
+          <ChevronUp className="h-4 w-4 shrink-0 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+        )}
+      </button>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="border-t p-4 space-y-3">
+              <div>
+                <div className="text-sm font-medium mb-1">Input</div>
+                <pre className="text-xs bg-muted p-2 rounded-md overflow-x-auto">
+                  {JSON.stringify(test.input, null, 2)}
+                </pre>
+              </div>
+              <div>
+                <div className="text-sm font-medium mb-1">Expected Output</div>
+                <pre className="text-xs bg-muted p-2 rounded-md overflow-x-auto">
+                  {JSON.stringify(test.expected, null, 2)}
+                </pre>
+              </div>
+              {result && !result.passed && result.error && (
+                <div>
+                  <div className="text-sm font-medium mb-1 text-destructive">Error</div>
+                  <pre className="text-xs bg-destructive/10 p-2 rounded-md overflow-x-auto">
+                    {result.error}
+                  </pre>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 } 

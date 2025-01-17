@@ -70,314 +70,360 @@ export const CATEGORY_METHODS = {
     {
       slug: "reduce-sum",
       title: "Sum Numbers with reduce()",
-      description: `
-  Write a function that uses \`reduce\` to sum all numbers in an array.
-  
-  Example:
-  - Input: [1, 2, 3]
-  - Output: 6
-  
-  Requirements:
-  1. Use Array.prototype.reduce()
-  2. Return 0 if the array is empty
-  3. Return the single value if the array has only one element
-  `,
+      description: `# Sum Numbers with reduce()
+
+### Problem
+Write a function that uses \`reduce\` to sum all numbers in an array.
+
+### Example
+\`\`\`js
+Input: [1, 2, 3]
+Output: 6
+\`\`\`
+
+### Requirements
+1. Use Array.prototype.reduce()
+2. Return 0 if the array is empty
+3. Return the single value if the array has only one element`,
       category: {
         name: "array",
         method: "reduce",
       },
       education: {
         concept: "Summation with reduce()",
-        explanation: `
-  **What is \`reduce()\`?**
-  
-  \`reduce()\` is a built-in JavaScript method on arrays. It processes each element of your array in turn, 
-  carrying along an "accumulator" that represents your ongoing result. The method looks like this:
-  
-  \`\`\`js
-  array.reduce(function callback(accumulator, currentValue, currentIndex, array) {
-    // Return the updated accumulator
-  }, initialValue);
-  \`\`\`
-  
-  - **accumulator**: A variable you keep updating with each element.
-  - **currentValue**: The array element \`reduce\` is looking at during the current iteration.
-  - **currentIndex**: The position of \`currentValue\` in the array (not always needed, but sometimes handy).
-  - **array**: The entire array (useful if you need more context).
-  - **initialValue** (optional): If you supply this, \`accumulator\` starts at this value. 
-    If you don't, the first array element becomes your initial \`accumulator\`.
-  
-  **How to Sum with \`reduce()\`:**
-  1. Provide an \`initialValue\` of \`0\`. This tells \`reduce\` to start counting from zero.
-  2. In the callback, add \`currentValue\` to \`accumulator\`.
-  3. Return the \`accumulator\` each time so it can carry that sum forward.
-  4. After the last element, \`reduce\` returns the final total.
-  
-  This is simpler than writing a loop manually and makes it clear you're producing a *single* result from all elements.
-  `,
+        explanation: `# Understanding Array.reduce()
+
+## What is \`reduce()\`?
+\`reduce()\` is a built-in JavaScript method that transforms an array into a single value. Think of it as a way to "reduce" many values into one result.
+
+## Syntax
+\`\`\`js
+array.reduce((accumulator, currentValue, index, array) => {
+  // Return updated accumulator
+}, initialValue);
+\`\`\`
+
+## Parameters Explained
+- **accumulator**: The running result
+- **currentValue**: Current element being processed
+- **index**: Position of currentValue
+- **array**: The array being processed
+- **initialValue**: Starting value (optional)
+
+## How Summation Works
+1. Start with initialValue (0)
+2. For each number:
+   - Add it to accumulator
+   - Pass result to next iteration
+3. Return final sum
+
+## Why Use reduce()?
+- More declarative than loops
+- Built-in error handling
+- Chainable with other array methods`,
         useCases: [
-          "Calculating a total price in a shopping cart",
-          "Adding scores or points in a game",
-          "Summing any array of numbers for a single final value",
-          "Quickly handling edge cases (empty array, single-element array)"
+          "💰 **Shopping Cart Total**: \`cart.reduce((total, item) => total + item.price, 0)\`",
+          "🎮 **Game Scoring**: \`scores.reduce((total, score) => total + score, 0)\`",
+          "📊 **Data Analysis**: \`measurements.reduce((sum, value) => sum + value, 0) / measurements.length\`",
+          "🔢 **Running Totals**: Perfect for calculating progressive sums"
         ],
-        visualExample: `
-  [1, 2, 3].reduce(function(accumulator, currentValue) {
-    return accumulator + currentValue;
-  }, 0)
-  
-  /*
-  Iteration detail:
-  - Start: accumulator = 0
-  - 1st element (1): accumulator = 0 + 1 = 1
-  - 2nd element (2): accumulator = 1 + 2 = 3
-  - 3rd element (3): accumulator = 3 + 3 = 6
-  Final = 6
-  */
-  `,
+        visualExample: `## Step-by-Step Visualization
+
+\`\`\`js
+[1, 2, 3].reduce((sum, num) => sum + num, 0)
+\`\`\`
+
+### Process:
+\`\`\`
+Initial state: sum = 0
+
+1️⃣ First number (1):
+   sum = 0 + 1 = 1
+
+2️⃣ Second number (2):
+   sum = 1 + 2 = 3
+
+3️⃣ Third number (3):
+   sum = 3 + 3 = 6
+
+Result: 6
+\`\`\``,
         commonMistakes: [
-          "Forgetting to provide an initial value of 0 (leads to errors with empty arrays)",
-          "Not returning the accumulator inside the callback, causing undefined behavior",
-          "Trying to use forEach or map when the goal is a single combined result"
+          "❌ **No Initial Value**: \`numbers.reduce((sum, num) => sum + num)\` - Can fail on empty arrays",
+          "❌ **Missing Return**: \`numbers.reduce((sum, num) => { sum + num }, 0)\` - Forgot to return!",
+          "❌ **Wrong Method**: Using \`forEach\` or \`map\` when you need a single result"
         ],
         tips: [
-          "Always supply 0 as the initial value for summation to handle empty arrays gracefully",
-          "Think about how to handle negative numbers or non-numerical data (e.g. parse or filter them out)",
-          "Remember that \`reduce\` will only give you one final value"
+          "✅ **Always Initialize**: Use \`0\` as initialValue for sums",
+          "✅ **Type Safety**: Consider input validation for non-numbers",
+          "✅ **Performance**: \`reduce\` is O(n) - perfect for large datasets"
         ]
       },
       starterCode: `const solve = (numbers) => {
-    // Use array.reduce(...) here.
-    // Provide 0 as initialValue, add each number to the accumulator, and return it.
-    return 0; // Replace with your logic
-  }`,
+  // Use array.reduce(...) here.
+  // Provide 0 as initialValue, add each number to the accumulator, and return it.
+  return 0; // Replace with your logic
+}`,
       testCases: [
         {
           input: [[1, 2, 3]],
           expected: 6,
-          message: "Should add [1, 2, 3] to get 6"
+          message: "Should add `[1, 2, 3]` to get `6`"
         },
         {
           input: [[5, 10, 15, 20]],
           expected: 50,
-          message: "Should add [5, 10, 15, 20] to get 50"
+          message: "Should add `[5, 10, 15, 20]` to get `50`"
         },
         {
           input: [[]],
           expected: 0,
-          message: "Should return 0 for an empty array"
+          message: "Should return `0` for an empty array"
         },
         {
           input: [[42]],
           expected: 42,
-          message: "Should return the single value for a one-element array"
+          message: "Should return `42` for array `[42]`"
         }
       ]
     },
     {
       slug: "reduce-max",
       title: "Find Maximum with reduce()",
-      description: `
-  Write a function that uses \`reduce\` to find the largest number in an array.
-  
-  Example:
-  - Input: [5, 2, 9, 1]
-  - Output: 9
-  
-  Requirements:
-  1. Use Array.prototype.reduce()
-  2. If the array is empty, return null
-  3. If there's only one element, return that element
-  `,
+      description: `# Find Maximum with reduce()
+
+### Problem
+Write a function that uses \`reduce\` to find the largest number in an array.
+
+### Example
+\`\`\`js
+Input: [5, 2, 9, 1]
+Output: 9
+\`\`\`
+
+### Requirements
+1. Use Array.prototype.reduce()
+2. If the array is empty, return null
+3. If there's only one element, return that element`,
       category: {
         name: "array",
         method: "reduce",
       },
       education: {
-        concept: "Finding the Maximum with reduce()",
-        explanation: `
-  **How does \`reduce()\` work in general?**
-  
-  \`reduce\` runs a callback on each array element, updating an \`accumulator\` (some variable) along the way. 
-  You can write the callback like this:
-  
-  \`\`\`js
-  array.reduce(function callback(accumulator, currentValue, currentIndex, entireArray) {
-    // logic to update accumulator
-    return updatedAccumulator;
-  }, initialValue);
-  \`\`\`
-  
-  **Finding the Maximum**:
-  1. If you don't supply an \`initialValue\`, the first array element becomes your accumulator.
-  2. On each iteration, compare \`accumulator\` with \`currentValue\`.
-  3. Keep whichever one is larger—this becomes the new \`accumulator\`.
-  4. By the end, \`accumulator\` is the maximum.
-  
-  **Empty Arrays**: 
-  - If there's no element to start with, you should return \`null\`.
-  
-  **One-Element Arrays**:
-  - That element is the maximum by default.
-  
-  Thus, \`reduce\` can do more than summation; it can track *any* evolving condition, 
-  like "What's the largest so far?" in a single pass.
-  `,
+        concept: "Finding Maximum with reduce()",
+        explanation: `# Finding Maximum with reduce()
+
+## Core Concept
+\`reduce()\` can track and update a "running maximum" as it processes each array element.
+
+## How It Works
+\`\`\`js
+array.reduce((max, current) => {
+  return current > max ? current : max;
+});
+\`\`\`
+
+## Key Points
+1. **No Initial Value Needed**
+   - First element becomes initial maximum
+   - Perfect for number comparisons
+
+2. **Comparison Logic**
+   - Each iteration compares current vs max
+   - Larger value becomes new maximum
+
+3. **Edge Cases**
+   - Empty arrays need special handling
+   - Single element is automatically maximum
+
+## Why reduce() for Maximum?
+- Single pass through array (O(n))
+- Clean, functional approach
+- Built-in array bounds handling`,
         useCases: [
-          "Finding the highest score in a list of game results",
-          "Determining the largest file size from a directory listing",
-          "Choosing the priciest product in an online store",
-          "Adapting logic to find 'longest' string or 'oldest' date, etc."
+          "🏆 **High Scores**: \`scores.reduce((max, score) => Math.max(max, score))\`",
+          "📊 **Peak Values**: Finding highest stock price, temperature, etc.",
+          "📏 **Dimensions**: Finding longest string, largest file, etc.",
+          "💰 **Pricing**: Finding most expensive item in cart"
         ],
-        visualExample: `
-  [5, 2, 9, 1].reduce(function(maxSoFar, currentValue) {
-    return currentValue > maxSoFar ? currentValue : maxSoFar;
-  })
-  
-  // Step by step (no explicit initialValue):
-  // - 1st iteration: maxSoFar = 5 (first element)
-  // - Compare 5 with 2 -> keep 5
-  // - Compare 5 with 9 -> update to 9
-  // - Compare 9 with 1 -> keep 9
-  // Final: 9
-  `,
+        visualExample: `## Visual Walkthrough
+
+\`\`\`js
+[5, 2, 9, 1].reduce((max, current) => Math.max(max, current))
+\`\`\`
+
+### Process:
+\`\`\`
+1️⃣ Start: max = 5 (first element)
+
+2️⃣ Compare with 2:
+   max = Math.max(5, 2) = 5
+
+3️⃣ Compare with 9:
+   max = Math.max(5, 9) = 9
+
+4️⃣ Compare with 1:
+   max = Math.max(9, 1) = 9
+
+Result: 9
+\`\`\``,
         commonMistakes: [
-          "Not accounting for empty arrays, resulting in an error if no initialValue is given",
-          "Using 0 or a positive number as an initial value when the array might have negatives",
-          "Forgetting to return the new max in the callback, leaving the accumulator unchanged"
+          "❌ **Wrong Initial**: Using \`0\` as initialValue (fails with negative numbers)",
+          "❌ **Missing Null**: Not handling empty array case properly",
+          "❌ **Complex Logic**: Overthinking the comparison (use \`Math.max\`)"
         ],
         tips: [
-          "Check if the array is empty first; if so, return null right away",
-          "Consider using -Infinity as the initial value if you want to handle negative numbers robustly",
-          "Reduce can do complex tasks; logic for the callback is entirely up to you"
+          "✅ **Use Math.max**: Cleaner than manual comparison",
+          "✅ **Type Check**: Validate input array contains numbers",
+          "✅ **Edge Cases**: Handle empty and single-element arrays first"
         ]
       },
       starterCode: `const solve = (numbers) => {
-    // 1. If empty, return null
-    // 2. Otherwise, call reduce and keep track of the largest
-    return null; // Replace with your logic
-  }`,
+  // Handle empty array case first
+  if (numbers.length === 0) return null;
+  
+  // Use reduce to find maximum
+  return numbers[0]; // Replace with your logic
+}`,
       testCases: [
         {
           input: [[5, 2, 9, 1]],
           expected: 9,
-          message: "Should find maximum in [5, 2, 9, 1] which is 9"
+          message: "Should find maximum `9` in `[5, 2, 9, 1]`"
         },
         {
           input: [[1, 2, 3, 4, 5]],
           expected: 5,
-          message: "Should find maximum in [1, 2, 3, 4, 5] which is 5"
+          message: "Should find maximum `5` in `[1, 2, 3, 4, 5]`"
         },
         {
           input: [[]],
           expected: null,
-          message: "Should return null for an empty array"
+          message: "Should return `null` for empty array `[]`"
         },
         {
           input: [[42]],
           expected: 42,
-          message: "Should return the single element for a one-element array"
+          message: "Should return `42` for single-element array `[42]`"
         }
       ]
     },
     {
       slug: "reduce-count",
       title: "Count Occurrences with reduce()",
-      description: `
-  Write a function that uses \`reduce\` to count how many times each value appears in an array.
-  
-  Example:
-  - Input: ["a", "b", "a", "c", "b", "a"]
-  - Output: { "a": 3, "b": 2, "c": 1 }
-  
-  Requirements:
-  1. Use Array.prototype.reduce()
-  2. Return an object with the counts
-  3. If the array is empty, return an empty object
-  `,
+      description: `# Count Occurrences with reduce()
+
+### Problem
+Write a function that uses \`reduce\` to count how many times each value appears in an array.
+
+### Example
+\`\`\`js
+Input: ["a", "b", "a", "c", "b", "a"]
+Output: { "a": 3, "b": 2, "c": 1 }
+\`\`\`
+
+### Requirements
+1. Use Array.prototype.reduce()
+2. Return an object with the counts
+3. If the array is empty, return an empty object`,
       category: {
         name: "array",
         method: "reduce",
       },
       education: {
-        concept: "Constructing an Object with reduce()",
-        explanation: `
-  **General \`reduce\` Recap**:
-  \`reduce\` takes a callback function that receives four parameters:
-  \`\`\`js
-  function callback(accumulator, currentValue, currentIndex, array) {
-    // modify accumulator in some way
-    return accumulator;
-  }
-  \`\`\`
-  - \`accumulator\` here can be **anything**—a number, string, object, etc.
-  
-  **Counting Approach**:
-  1. Provide an empty object (\`{}\`) as the \`initialValue\`. Then \`accumulator\` will be that object.
-  2. During each iteration, use \`currentValue\` (the array element) as a key in \`accumulator\`.
-  3. Increment the value stored at that key. If it doesn't exist yet, initialize it to 1.
-  4. At the end, the \`accumulator\` is an object mapping each unique element to the number of occurrences.
-  
-  This lets you transform an array of items into a frequency count in **one single pass**.
-  `,
+        concept: "Building Objects with reduce()",
+        explanation: `# Building Objects with reduce()
+
+## Core Concept
+\`reduce()\` can build complex objects by accumulating data in each iteration.
+
+## Object Counting Pattern
+\`\`\`js
+array.reduce((counts, item) => {
+  counts[item] = (counts[item] || 0) + 1;
+  return counts;
+}, {})
+\`\`\`
+
+## How It Works
+1. **Start Empty**: Begin with \`{}\` as initialValue
+2. **Update Counts**: For each item:
+   - Get current count (or 0 if new)
+   - Increment count by 1
+   - Store back in accumulator
+3. **Return Object**: Final accumulator has all counts
+
+## Why This Pattern?
+- Single pass through data
+- Automatic key creation
+- Memory efficient
+- Easy to extend logic`,
         useCases: [
-          "Tallying word counts in a list of words",
-          "Summarizing categories (e.g. how many 'Fruit', 'Vegetable', etc.)",
-          "Tracking how many times each user logs in (by user ID)",
-          "Preparing data for histograms or pie charts"
+          "📝 **Word Frequency**: \`words.reduce((freq, word) => ({ ...freq, [word]: (freq[word] || 0) + 1 }), {})\`",
+          "🏷️ **Tag Counting**: Analyzing most common categories/tags",
+          "👥 **User Activity**: Tracking action frequencies per user",
+          "📊 **Data Analysis**: Preparing data for charts/graphs"
         ],
-        visualExample: `
-  ["a", "b", "a"].reduce(function(acc, currentValue) {
-    // If acc[currentValue] is undefined, set it to 0
-    acc[currentValue] = (acc[currentValue] || 0) + 1;
-    return acc;
-  }, {})
-  
-  /*
-  - Initial accumulator: {}
-  - For "a": {} -> { a: 1 }
-  - For "b": { a: 1 } -> { a: 1, b: 1 }
-  - For "a": { a: 1, b: 1 } -> { a: 2, b: 1 }
-  Result: { a: 2, b: 1 }
-  */
-  `,
+        visualExample: `## Visual Process
+
+\`\`\`js
+["a", "b", "a"].reduce((acc, curr) => {
+  acc[curr] = (acc[curr] || 0) + 1;
+  return acc;
+}, {})
+\`\`\`
+
+### Step-by-Step:
+\`\`\`
+1️⃣ Initial state: {}
+
+2️⃣ Process "a":
+   {} → { a: 1 }
+
+3️⃣ Process "b":
+   { a: 1 } → { a: 1, b: 1 }
+
+4️⃣ Process "a":
+   { a: 1, b: 1 } → { a: 2, b: 1 }
+
+Result: { a: 2, b: 1 }
+\`\`\``,
         commonMistakes: [
-          "Forgetting to return the accumulator object in the callback, causing it to be undefined",
-          "Not initializing accumulator with {} (can't assign properties to undefined)",
-          "Ignoring data type differences (e.g., string vs. number keys) if the array has mixed types"
+          "❌ **Mutating Without Return**: Forgetting to return the accumulator",
+          "❌ **No Initial Value**: Not providing \`{}\` as initialValue",
+          "❌ **Type Issues**: Not handling mixed data types properly"
         ],
         tips: [
-          "Always return the updated accumulator each iteration so it persists for the next element",
-          "Consider whether or not you need to handle case sensitivity (e.g. 'A' vs 'a')",
-          "You can later use Object.keys/values/entries to iterate over the resulting counts"
+          "✅ **Use Nullish Coalescing**: \`counts[item] ??= 0\` for cleaner initialization",
+          "✅ **Consider Map**: Use \`Map\` for non-string keys",
+          "✅ **Immutable Update**: Use spread operator for immutable updates if needed"
         ]
       },
       starterCode: `const solve = (items) => {
-    // 1. Provide {} as initialValue to reduce.
-    // 2. For each item, increment the related key in the accumulator.
-    // 3. Return the accumulator at the end.
-    return {}; // Replace with your logic
-  }`,
+  // Use reduce to build an object of counts
+  // Start with {} as initialValue
+  return {}; // Replace with your logic
+}`,
       testCases: [
         {
           input: [["a", "b", "a", "c", "b", "a"]],
           expected: { "a": 3, "b": 2, "c": 1 },
-          message: "Should count occurrences correctly"
+          message: "Should count `a: 3`, `b: 2`, `c: 1` correctly"
         },
         {
           input: [["x", "x", "x"]],
           expected: { "x": 3 },
-          message: "Should handle repeated elements"
+          message: "Should count three `x`s as `{ x: 3 }`"
         },
         {
           input: [[]],
           expected: {},
-          message: "Should return empty object for empty array"
+          message: "Should return empty object `{}` for empty array"
         },
         {
           input: [["unique"]],
           expected: { "unique": 1 },
-          message: "Should handle single element correctly"
+          message: "Should count single item as `{ unique: 1 }`"
         }
       ]
     }
