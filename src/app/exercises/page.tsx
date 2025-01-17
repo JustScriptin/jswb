@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { EXERCISES, CATEGORY_METHODS } from "@/features/codingChallenges/data/exercisesData";
 import { ExerciseCard } from "@/features/codingChallenges/components/ExerciseCard";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +10,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Code2, BookOpen, Layers, Trophy, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useDebounce } from "@/hooks/useDebounce";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
 
 // Category color mapping
 const categoryColors: Record<string, { bg: string; text: string; border: string }> = {
@@ -24,6 +33,7 @@ export default function ExercisesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedMethod, setSelectedMethod] = useState<string>("all");
   const [completedCount, setCompletedCount] = useState(0);
+  const [isCommandOpen, setIsCommandOpen] = useState(false);
   
   // Debounce search query to prevent excessive re-renders
   const debouncedSearch = useDebounce(searchQuery, 300);
@@ -134,15 +144,60 @@ export default function ExercisesPage() {
           className="bg-card rounded-lg border shadow-sm p-4"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
-              <Input
+            <Command 
+              className="rounded-lg border"
+              shouldFilter={false}
+            >
+              <CommandInput
                 placeholder="Search exercises..."
-                className="pl-10"
                 value={searchQuery}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                onValueChange={setSearchQuery}
+                onFocus={() => setIsCommandOpen(true)}
+                onBlur={() => {
+                  // Small delay to allow for item selection
+                  setTimeout(() => setIsCommandOpen(false), 200);
+                }}
               />
-            </div>
+              {isCommandOpen && (
+                <CommandList className="animate-in fade-in-0 zoom-in-95">
+                  <CommandEmpty>No exercises found.</CommandEmpty>
+                  {Object.keys(CATEGORY_METHODS).map(category => {
+                    const categoryExercises = filteredExercises.filter(
+                      exercise => exercise.category.name === category
+                    );
+                    
+                    if (categoryExercises.length === 0) return null;
+                    
+                    return (
+                      <React.Fragment key={category}>
+                        <CommandGroup heading={category.charAt(0).toUpperCase() + category.slice(1)}>
+                          {categoryExercises.map((exercise) => (
+                            <CommandItem
+                              key={exercise.slug}
+                              value={exercise.title}
+                              className="flex items-center gap-2 cursor-pointer"
+                              onSelect={() => {
+                                window.location.href = `/exercises/${exercise.slug}`;
+                                setIsCommandOpen(false);
+                              }}
+                            >
+                              <div 
+                                className={cn(
+                                  "w-2 h-2 rounded-full",
+                                  categoryColors[exercise.category.name]?.bg || "bg-gray-100"
+                                )} 
+                              />
+                              <span>{exercise.title}</span>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                        <CommandSeparator />
+                      </React.Fragment>
+                    );
+                  })}
+                </CommandList>
+              )}
+            </Command>
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
               <SelectTrigger>
                 <SelectValue placeholder="Select Category" />
