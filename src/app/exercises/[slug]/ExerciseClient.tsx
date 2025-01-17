@@ -261,11 +261,11 @@ export function ExerciseClient({ exercise }: Props) {
               <TabsList className="w-full">
                 <TabsTrigger value="instructions" className="flex-1">
                   <BookOpen className="mr-2 h-4 w-4" />
-                  Learning Instructions
+                  Instructions
                 </TabsTrigger>
                 <TabsTrigger value="tests" className="flex-1 relative">
                   <Beaker className="mr-2 h-4 w-4" />
-                  Practice Examples
+                  Test Cases
                   {hasRun && (
                     <Badge 
                       variant={passedTests === totalTests ? "default" : "destructive"}
@@ -282,9 +282,9 @@ export function ExerciseClient({ exercise }: Props) {
               <TabsContent value="instructions">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Learning Instructions</CardTitle>
+                    <CardTitle>Exercise Description</CardTitle>
                     <CardDescription>
-                      Follow these steps to understand the method
+                      Follow these steps to complete the exercise
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
