@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState, ChangeEvent, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { EXERCISES, CATEGORY_METHODS } from "@/features/codingChallenges/data/exercisesData";
 import { ExerciseCard } from "@/features/codingChallenges/components/ExerciseCard";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Code2, BookOpen, Layers, Trophy, ChevronDown } from "lucide-react";
+import { Search, Code2, BookOpen, Layers, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useDebounce } from "@/hooks/useDebounce";
 import {
@@ -64,7 +63,7 @@ export default function ExercisesPage() {
   const methodsWithCategories = selectedCategory === "all"
     ? Array.from(new Set(Object.values(CATEGORY_METHODS).flat())).map(method => {
         const categories = Object.entries(CATEGORY_METHODS)
-          .filter(([_, methods]) => (methods as readonly string[]).includes(method as string))
+          .filter(([, methods]) => (methods as readonly string[]).includes(method as string))
           .map(([category]) => category);
         return { method, categories };
       })
@@ -326,7 +325,7 @@ export default function ExercisesPage() {
                         <h3 className="text-xl font-semibold">No exercises found</h3>
                         <p className="text-muted-foreground max-w-[350px] mx-auto">
                           {searchQuery ? (
-                            <>No exercises match your search "{searchQuery}". Try different keywords or clear your search.</>
+                            <>No exercises match your search &quot;{searchQuery}&quot;. Try different keywords or clear your search.</>
                           ) : selectedCategory !== "all" || selectedMethod !== "all" ? (
                             <>No exercises found with the selected filters. Try adjusting your category or method selection.</>
                           ) : (

@@ -48,30 +48,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Markdown } from "@/components/ui/markdown";
-
-type Exercise = {
-  slug: string;
-  title: string;
-  description: string;
-  category: {
-    name: string;
-    method: string;
-  };
-  education: {
-    concept: string;
-    explanation: string;
-    useCases: string[];
-    visualExample?: string;
-    commonMistakes?: string[];
-    tips?: string[];
-  };
-  starterCode: string;
-  testCases: Array<{
-    input: any;
-    expected: any;
-    message: string;
-  }>;
-};
+import type {
+  Exercise,
+  TestCase,
+} from "@/features/codingChallenges/data/exercisesData";
 
 type Props = {
   exercise: Exercise;
@@ -85,12 +65,12 @@ const KEYBOARD_SHORTCUTS = [
   { key: "Esc", description: "Exit Fullscreen" },
 ];
 
-const getStorageValue = (key: string, defaultValue: any) => {
+const getStorageValue = <T,>(key: string, defaultValue: T): T => {
   if (typeof window === "undefined") return defaultValue;
   try {
     const saved = localStorage.getItem(key);
-    return saved ? saved : defaultValue;
-  } catch (err) {
+    return (saved as unknown as T) ?? defaultValue;
+  } catch {
     return defaultValue;
   }
 };
@@ -175,11 +155,11 @@ export function ExerciseClient({ exercise }: Props) {
               </Button>
             </Link>
             <Separator orientation="vertical" className="h-6" />
-            <a className="flex items-center space-x-2" href="/">
+            <Link href="/" className="flex items-center space-x-2">
               <span className="hidden font-bold sm:inline-block">
                 JavaScript Methods Learning
               </span>
-            </a>
+            </Link>
           </div>
           <div className="flex items-center gap-2">
             <Dialog>
@@ -488,7 +468,7 @@ export function ExerciseClient({ exercise }: Props) {
 }
 
 type TestCaseAccordionProps = {
-  test: any;
+  test: TestCase;
   index: number;
   result?: TestResult;
 };

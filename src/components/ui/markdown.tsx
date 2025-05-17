@@ -17,11 +17,10 @@ export function Markdown({ content, className, sanitize = true, ...props }: Mark
   return (
     <div className={cn("prose prose-sm dark:prose-invert max-w-none", className)} {...props}>
       <ReactMarkdown
-        children={content}
         remarkPlugins={[remarkGfm]}
         rehypePlugins={sanitize ? [rehypeSanitize] : []}
         components={{
-          code({ node, inline, className, children, ...props }) {
+          code({ inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || "");
             return !inline && match ? (
               <SyntaxHighlighter
@@ -81,7 +80,9 @@ export function Markdown({ content, className, sanitize = true, ...props }: Mark
             return <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">{children}</h4>;
           },
         }}
-      />
+      >
+        {content}
+      </ReactMarkdown>
     </div>
   );
 } 

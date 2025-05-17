@@ -9,7 +9,7 @@ export default function NotFound() {
           <CardTitle>Exercise Not Found</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="mb-4">Sorry, the exercise you're looking for doesn't exist.</p>
+          <p className="mb-4">Sorry, the exercise you&apos;re looking for doesn&apos;t exist.</p>
           <Link 
             href="/exercises" 
             className="text-primary hover:underline"

@@ -70,7 +70,7 @@ export async function POST(
     jail.setSync(
       "myLog",
       new ivm.Callback(
-        (...args: any[]) => console.log("[Isolate log]", ...args),
+        (...args: unknown[]) => console.log("[Isolate log]", ...args),
         { sync: true }
       )
     );
@@ -157,7 +157,11 @@ try {
     }
 
     // copySync() to get a plain JS object in Node
-    const rawResult = resultRef.copySync() as { success: boolean; results?: any; error?: string };
+    const rawResult = resultRef.copySync() as {
+      success: boolean;
+      results?: TestResult[];
+      error?: string;
+    };
 
     if (!rawResult.success) {
       return NextResponse.json(
