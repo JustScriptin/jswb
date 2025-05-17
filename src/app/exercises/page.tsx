@@ -80,7 +80,8 @@ export default function ExercisesPage() {
   };
 
   return (
-    <motion.div 
+    <motion.div
+      data-component="ExercisesPage"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -392,7 +393,8 @@ function StatsCard({ icon, value, label, highlight = false }: {
   highlight?: boolean;
 }) {
   return (
-    <motion.div 
+    <motion.div
+      data-component="StatsCard"
       whileHover={{ scale: 1.05 }}
       className={cn(
         "rounded-lg p-4 text-center space-y-2 bg-card border shadow-sm",

@@ -133,7 +133,8 @@ export function ExerciseClient({ exercise }: Props) {
   }, []);
 
   return (
-    <motion.div 
+    <motion.div
+      data-component="ExerciseClient"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -480,11 +481,14 @@ function TestCaseAccordion({ test, index, result }: TestCaseAccordionProps) {
   const hasRun = result !== undefined;
 
   return (
-    <div className={cn(
-      "rounded-lg border",
-      hasRun && (isPassed ? "bg-green-500/10 border-green-500/20" : "bg-destructive/10 border-destructive/20"),
-      !hasRun && "bg-card"
-    )}>
+    <div
+      data-component="TestCaseAccordion"
+      className={cn(
+        "rounded-lg border",
+        hasRun && (isPassed ? "bg-green-500/10 border-green-500/20" : "bg-destructive/10 border-destructive/20"),
+        !hasRun && "bg-card"
+      )}
+    >
       <button
         className="flex w-full items-center justify-between p-4"
         onClick={() => setIsOpen(!isOpen)}

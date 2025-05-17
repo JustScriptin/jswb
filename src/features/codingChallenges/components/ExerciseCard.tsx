@@ -20,7 +20,8 @@ export function ExerciseCard({ exercise, categoryColors }: ExerciseCardProps) {
   const previewDescription = exercise.description.split('\n')[0];
 
   return (
-    <Link 
+    <Link
+      data-component="ExerciseCard"
       href={`/exercises/${exercise.slug}`}
       className="block transition-colors hover:bg-muted/50"
     >

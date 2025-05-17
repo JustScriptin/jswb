@@ -11,7 +11,7 @@ export default function ExercisesLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen bg-background">
+    <div data-component="ExercisesLayout" className="min-h-screen bg-background">
       <main className="container mx-auto py-8 px-4">
         {children}
       </main>

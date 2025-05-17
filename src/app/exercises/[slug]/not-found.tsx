@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function NotFound() {
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div data-component="ExerciseNotFound" className="container mx-auto py-8 px-4">
       <Card>
         <CardHeader>
           <CardTitle>Exercise Not Found</CardTitle>

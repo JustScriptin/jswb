@@ -184,6 +184,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
 
   return (
     <Card
+      data-component="CodeEditor"
       className={cn("flex flex-col flex-grow min-h-0 overflow-hidden", className)}
     >
       <div className="p-4 flex items-center justify-between">
