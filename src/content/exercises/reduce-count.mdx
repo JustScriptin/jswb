@@ -1,0 +1,70 @@
+"use client"
+
+export const metadata = {
+  slug: "reduce-count",
+  title: "Count Occurrences with reduce()",
+  category: { name: "array", method: "reduce" } as const,
+  starterCode: `const solve = (items) => {
+  // Use reduce to build an object of counts
+  // Start with {} as initialValue
+  return {}; // Replace with your logic
+}`,
+  testCases: [
+    { input: [["a", "b", "a", "c", "b", "a"]], expected: { a: 3, b: 2, c: 1 }, message: "Should count `a: 3`, `b: 2`, `c: 1` correctly" },
+    { input: [["x", "x", "x"]], expected: { x: 3 }, message: "Should count three `x`s as `{ x: 3 }`" },
+    { input: [[]], expected: {}, message: "Should return empty object `{}` for empty array" },
+    { input: [["unique"]], expected: { unique: 1 }, message: "Should count single item as `{ unique: 1 }`" },
+  ],
+  excerpt: "Count how many times each value appears in an array using `reduce`.",
+};
+
+# Count Occurrences with reduce()
+
+### Problem
+Write a function that uses `reduce` to count how many times each value appears in an array.
+
+### Example
+```js
+Input: ["a", "b", "a", "c", "b", "a"]
+```
+
+### Requirements
+1. Use Array.prototype.reduce()
+2. Return an empty object if the array is empty
+3. Return the correct counts for each value
+
+## Counting Occurrences with reduce()
+
+### Approach
+```js
+items.reduce((acc, item) => {
+  acc[item] = (acc[item] || 0) + 1;
+  return acc;
+}, {})
+```
+
+### Step-by-Step:
+```
+Initial state: {}
+
+Process "a":
+   {} → { a: 1 }
+
+Process "b":
+   { a: 1 } → { a: 1, b: 1 }
+
+Process "a":
+   { a: 1, b: 1 } → { a: 2, b: 1 }
+
+Result: { a: 2, b: 1 }
+```
+
+### Common Mistakes
+- **Mutating Without Return**: Forgetting to return the accumulator
+- **No Initial Value**: Not providing `{}` as initialValue
+- **Type Issues**: Not handling mixed data types properly
+
+### Tips
+- **Use Nullish Coalescing**: `counts[item] ??= 0` for cleaner initialization
+- **Consider Map**: Use `Map` for non-string keys
+- **Immutable Update**: Use spread operator for immutable updates if needed
