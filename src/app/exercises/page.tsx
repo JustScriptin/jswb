@@ -197,7 +197,24 @@ export default function ExercisesPage() {
                 </CommandList>
               )}
             </Command>
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <Select
+              value={selectedCategory}
+              onValueChange={(value) => {
+                setSelectedCategory(value);
+                const validMethods: readonly string[] =
+                  value === "all"
+                    ? Array.from(
+                        new Set(Object.values(CATEGORY_METHODS).flat())
+                      )
+                    :
+                      CATEGORY_METHODS[
+                        value as keyof typeof CATEGORY_METHODS
+                      ] ?? [];
+                if (!validMethods.includes(selectedMethod)) {
+                  setSelectedMethod("all");
+                }
+              }}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select Category" />
               </SelectTrigger>
