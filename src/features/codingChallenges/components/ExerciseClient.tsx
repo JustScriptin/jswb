@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { getLocalStorageValue } from "@/lib/storage";
 import Link from "next/link";
 import {
   Tooltip,
@@ -65,15 +66,6 @@ const KEYBOARD_SHORTCUTS = [
   { key: "Esc", description: "Exit Fullscreen" },
 ];
 
-const getStorageValue = <T,>(key: string, defaultValue: T): T => {
-  if (typeof window === "undefined") return defaultValue;
-  try {
-    const saved = localStorage.getItem(key);
-    return (saved as unknown as T) ?? defaultValue;
-  } catch {
-    return defaultValue;
-  }
-};
 
 export function ExerciseClient({ exercise }: Props) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
@@ -87,7 +79,10 @@ export function ExerciseClient({ exercise }: Props) {
 
   // Load saved language preference after mount
   useEffect(() => {
-    const savedLanguage = getStorageValue(`${exercise.slug}-language`, "javascript") as "typescript" | "javascript";
+    const savedLanguage = getLocalStorageValue(
+      `${exercise.slug}-language`,
+      "javascript"
+    ) as "typescript" | "javascript";
     setLanguage(savedLanguage);
   }, [exercise.slug]);
 
