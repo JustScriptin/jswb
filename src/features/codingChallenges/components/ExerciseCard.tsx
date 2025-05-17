@@ -16,8 +16,7 @@ type ExerciseCardProps = {
 };
 
 export function ExerciseCard({ exercise, categoryColors }: ExerciseCardProps) {
-  // Get first line of description for the card preview
-  const previewDescription = exercise.description.split('\n')[0];
+  const previewDescription = exercise.description;
 
   return (
     <Link

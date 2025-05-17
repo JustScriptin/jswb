@@ -19,16 +19,12 @@ import {
   BookOpen, 
   Code, 
   Beaker, 
-  CheckCircle2, 
-  XCircle, 
+  CheckCircle2,
+  XCircle,
   ChevronLeft,
   Maximize2,
   Minimize2,
-  Keyboard,
-  GraduationCap,
-  Lightbulb,
-  AlertTriangle,
-  Target
+  Keyboard
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -47,7 +43,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Markdown } from "@/components/ui/markdown";
 import type {
   Exercise,
   TestCase,
@@ -80,6 +75,7 @@ export function ExerciseClient({ exercise }: Props) {
   const [language, setLanguage] = useState<"typescript" | "javascript">("javascript");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [activeTab, setActiveTab] = useState("instructions");
+  const MDXContent = exercise.Component;
   const editorRef = useRef<CodeEditorHandle>(null);
   const passedTests = testResults.filter(r => r.passed).length;
   const totalTests = exercise.testCases.length;
@@ -253,10 +249,6 @@ export function ExerciseClient({ exercise }: Props) {
           <div className="space-y-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="w-full">
-                <TabsTrigger value="learn" className="flex-1">
-                  <GraduationCap className="mr-2 h-4 w-4" />
-                  Learn
-                </TabsTrigger>
                 <TabsTrigger value="instructions" className="flex-1">
                   <BookOpen className="mr-2 h-4 w-4" />
                   Instructions
@@ -277,89 +269,6 @@ export function ExerciseClient({ exercise }: Props) {
                   )}
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="learn">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Lightbulb className="h-5 w-5" />
-                      {exercise.education.concept}
-                    </CardTitle>
-                    <CardDescription>
-                      Understanding the core concept
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    {/* Explanation Section */}
-                    <div>
-                      <h3 className="font-semibold mb-2 flex items-center gap-2">
-                        <Lightbulb className="h-4 w-4" />
-                        Explanation
-                      </h3>
-                      <Markdown content={exercise.education.explanation} />
-                    </div>
-
-                    {/* Visual Example Section */}
-                    {exercise.education.visualExample && (
-                      <div>
-                        <h3 className="font-semibold mb-2 flex items-center gap-2">
-                          <Code className="h-4 w-4" />
-                          Visual Example
-                        </h3>
-                        <Markdown content={exercise.education.visualExample} />
-                      </div>
-                    )}
-
-                    {/* Use Cases Section */}
-                    <div>
-                      <h3 className="font-semibold mb-2 flex items-center gap-2">
-                        <Target className="h-4 w-4" />
-                        Common Use Cases
-                      </h3>
-                      <ul className="list-disc pl-4 space-y-1">
-                        {exercise.education.useCases.map((useCase, index) => (
-                          <li key={index}>
-                            <Markdown content={useCase} />
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Common Mistakes Section */}
-                    {exercise.education.commonMistakes && (
-                      <div>
-                        <h3 className="font-semibold mb-2 flex items-center gap-2 text-yellow-500">
-                          <AlertTriangle className="h-4 w-4" />
-                          Common Mistakes to Avoid
-                        </h3>
-                        <ul className="list-disc pl-4 space-y-1">
-                          {exercise.education.commonMistakes.map((mistake, index) => (
-                            <li key={index}>
-                              <Markdown content={mistake} />
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Tips Section */}
-                    {exercise.education.tips && (
-                      <div>
-                        <h3 className="font-semibold mb-2 flex items-center gap-2 text-green-500">
-                          <Lightbulb className="h-4 w-4" />
-                          Pro Tips
-                        </h3>
-                        <ul className="list-disc pl-4 space-y-1">
-                          {exercise.education.tips.map((tip, index) => (
-                            <li key={index}>
-                              <Markdown content={tip} />
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
               <TabsContent value="instructions" className="space-y-4">
                 <Card>
                   <CardHeader>
@@ -369,7 +278,7 @@ export function ExerciseClient({ exercise }: Props) {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <Markdown content={exercise.description} />
+                    <MDXContent />
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -503,9 +412,7 @@ function TestCaseAccordion({ test, index, result }: TestCaseAccordionProps) {
           )}
           <div className="flex flex-col items-start gap-1">
             <div className="text-sm font-medium">Test Case {index + 1}</div>
-            <div className="text-xs text-muted-foreground">
-              <Markdown content={test.message} className="inline-block" />
-            </div>
+            <div className="text-xs text-muted-foreground">{test.message}</div>
           </div>
         </div>
         {isOpen ? (
