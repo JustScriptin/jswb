@@ -1,6 +1,7 @@
+import type { ReactElement } from "react";
 import Image from "next/image";
 
-export default function Home() {
+export default function Home(): ReactElement {
   return (
     <div
       data-component="HomePage"

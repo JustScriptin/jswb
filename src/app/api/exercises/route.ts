@@ -5,7 +5,7 @@ import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
  * GET /api/exercises
  * Returns a list of all available coding exercises
  */
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     // Return exercises with 200 status
     return NextResponse.json(

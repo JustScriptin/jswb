@@ -47,9 +47,14 @@ export function Markdown({ content, className, sanitize = true, ...props }: Mark
             children,
             ...props
           }: React.HTMLAttributes<HTMLElement> & { inline?: boolean }) {
-            const match = /language-(\w+)/.exec(className || "");
-            return !inline && match
-              ? renderCodeBlock(String(children).replace(/\n$/, ""), match[1], props)
+            const match = /language-(\w+)/.exec(className ?? "");
+            const language = match?.[1];
+            return !inline && language
+              ? renderCodeBlock(
+                  String(children).replace(/\n$/, ""),
+                  language,
+                  props
+                )
               : (
                   <code
                     className={cn("bg-muted px-1.5 py-0.5 rounded-sm", className)}
