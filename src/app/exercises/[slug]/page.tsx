@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
@@ -33,7 +34,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function ExercisePage({ params }: Props) {
+export default async function ExercisePage({ params }: Props): Promise<ReactElement> {
   const { slug } = await params;
   const exercise = EXERCISES.find((ex) => ex.slug === slug);
 

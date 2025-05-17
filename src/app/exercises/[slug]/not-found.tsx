@@ -1,7 +1,8 @@
+import type { ReactElement } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function NotFound() {
+export default function NotFound(): ReactElement {
   return (
     <div data-component="ExerciseNotFound" className="container mx-auto py-8 px-4">
       <Card>
