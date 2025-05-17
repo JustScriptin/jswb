@@ -24,10 +24,10 @@ export async function generateMetadata(
 
   return {
     title: `${exercise.title} - Coding Exercise`,
-    description: exercise.description,
+    description: exercise.excerpt,
     openGraph: {
       title: `${exercise.title} - Coding Exercise`,
-      description: exercise.description,
+      description: exercise.excerpt,
       type: "article",
     },
   };

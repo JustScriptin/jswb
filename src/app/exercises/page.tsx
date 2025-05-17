@@ -48,7 +48,7 @@ export default function ExercisesPage() {
   // Filter exercises based on search and filters
   const filteredExercises = EXERCISES.filter(exercise => {
     const matchesSearch = exercise.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-                         exercise.description.toLowerCase().includes(debouncedSearch.toLowerCase());
+                         exercise.excerpt.toLowerCase().includes(debouncedSearch.toLowerCase());
     const matchesCategory = selectedCategory === "all" || exercise.category.name === selectedCategory;
     const matchesMethod = selectedMethod === "all" || exercise.category.method === selectedMethod;
     return matchesSearch && matchesCategory && matchesMethod;
