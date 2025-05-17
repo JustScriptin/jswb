@@ -10,7 +10,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CodeEditor, type TestResult, type CodeEditorHandle } from "@/features/codingChallenges/components/CodeEditor";
+import { CodeEditor, type CodeEditorHandle } from "@/features/codingChallenges/components/CodeEditor";
+import type { Language, TestResult } from "../types";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { 
@@ -49,10 +50,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Markdown } from "@/components/ui/markdown";
-import type {
-  Exercise,
-  TestCase,
-} from "@/features/codingChallenges/data/exercisesData";
+import type { Exercise, TestCase } from "../types";
 
 type Props = {
   exercise: Exercise;
@@ -69,7 +67,7 @@ const KEYBOARD_SHORTCUTS = [
 
 export function ExerciseClient({ exercise }: Props) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
-  const [language, setLanguage] = useState<"typescript" | "javascript">("javascript");
+  const [language, setLanguage] = useState<Language>("javascript");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [activeTab, setActiveTab] = useState("instructions");
   const editorRef = useRef<CodeEditorHandle>(null);
@@ -82,7 +80,7 @@ export function ExerciseClient({ exercise }: Props) {
     const savedLanguage = getLocalStorageValue(
       `${exercise.slug}-language`,
       "javascript"
-    ) as "typescript" | "javascript";
+    ) as Language;
     setLanguage(savedLanguage);
   }, [exercise.slug]);
 
