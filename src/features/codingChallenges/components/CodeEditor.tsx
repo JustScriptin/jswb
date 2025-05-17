@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { getLocalStorageValue, setLocalStorageValue } from "@/lib/storage";
 import {
   Select,
   SelectContent,
@@ -35,15 +36,6 @@ export type CodeEditorHandle = {
   runTests: () => Promise<void>;
 };
 
-const getStorageValue = <T,>(key: string, defaultValue: T): T => {
-  if (typeof window === "undefined") return defaultValue;
-  try {
-    const saved = localStorage.getItem(key);
-    return (saved as unknown as T) ?? defaultValue;
-  } catch {
-    return defaultValue;
-  }
-};
 
 export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function CodeEditor({
   defaultLanguage = "typescript",
@@ -61,10 +53,13 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
 
   // Initialize state from localStorage after mount
   useEffect(() => {
-    const savedLanguage = getStorageValue(`${slug}-language`, defaultLanguage) as "typescript" | "javascript";
+    const savedLanguage = getLocalStorageValue(
+      `${slug}-language`,
+      defaultLanguage
+    ) as "typescript" | "javascript";
     setLanguage(savedLanguage);
-    
-    const savedCode = getStorageValue(`${slug}-code`, null);
+
+    const savedCode = getLocalStorageValue(`${slug}-code`, null);
     if (savedCode && editorRef.current) {
       editorRef.current.setValue(savedCode);
     }
@@ -78,23 +73,18 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
     }
 
     if (typeof window === "undefined") return;
-    try {
-      localStorage.setItem(`${slug}-language`, language);
-      onLanguageChange?.(language);
-    } catch (err) {
-      console.error("Failed to save language preference:", err);
-    }
+    setLocalStorageValue(`${slug}-language`, language);
+    onLanguageChange?.(language);
   }, [language, onLanguageChange, slug]);
 
   // Auto-save code changes
-  const handleEditorChange = useCallback((value: string | undefined) => {
-    if (typeof window === "undefined" || !value) return;
-    try {
-      localStorage.setItem(`${slug}-code`, value);
-    } catch (err) {
-      console.error("Failed to save code:", err);
-    }
-  }, [slug]);
+  const handleEditorChange = useCallback(
+    (value: string | undefined) => {
+      if (typeof window === "undefined" || !value) return;
+      setLocalStorageValue(`${slug}-code`, value);
+    },
+    [slug]
+  );
 
   const handleRunTests = useCallback(async () => {
     if (!editorRef.current) return;
@@ -135,17 +125,17 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
   const handleEditorDidMount: OnMount = useCallback((editor, monaco) => {
     editorRef.current = editor;
 
-    // Load saved code if it exists
-    if (typeof window !== "undefined") {
-      try {
-        const savedCode = localStorage.getItem(`${slug}-code`);
-        if (savedCode) {
-          editor.setValue(savedCode);
-        }
-      } catch (err) {
-        console.error("Failed to load saved code:", err);
-      }
+// Load saved code if it exists
+if (typeof window !== "undefined") {
+  try {
+   const savedCode = getLocalStorageValue(`${slug}-code`, null);
+    if (savedCode) {
+      editor.setValue(savedCode);
     }
+  } catch (err) {
+    console.error("Failed to load saved code:", err);
+  }
+}
 
     // Add custom keybinding for Cmd/Ctrl + Enter
     editor.addCommand(
