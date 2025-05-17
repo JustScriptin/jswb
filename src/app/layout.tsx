@@ -32,3 +32,4 @@ export default function RootLayout({
     </html>
   );
 }
+RootLayout.displayName = "RootLayout";

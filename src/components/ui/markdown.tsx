@@ -101,4 +101,5 @@ export function Markdown({ content, className, sanitize = true, ...props }: Mark
       </ReactMarkdown>
     </div>
   );
-} 
+}
+Markdown.displayName = "Markdown";

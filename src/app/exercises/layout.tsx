@@ -17,4 +17,5 @@ export default function ExercisesLayout({
       </main>
     </div>
   );
-} 
+}
+ExercisesLayout.displayName = "ExercisesLayout";

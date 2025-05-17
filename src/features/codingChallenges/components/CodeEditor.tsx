@@ -253,3 +253,4 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
     </Card>
   );
 });
+CodeEditor.displayName = "CodeEditor";

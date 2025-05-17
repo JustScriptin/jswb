@@ -55,4 +55,5 @@ export function ExerciseCard({ exercise, categoryColors }: ExerciseCardProps) {
       </Card>
     </Link>
   );
-} 
+}
+ExerciseCard.displayName = "ExerciseCard";

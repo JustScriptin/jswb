@@ -20,4 +20,5 @@ export default function NotFound() {
       </Card>
     </div>
   );
-} 
+}
+NotFound.displayName = "ExerciseNotFound";

@@ -2,4 +2,5 @@ import { ExercisePageSkeleton } from "@/features/codingChallenges/components/Exe
 
 export default function Loading() {
   return <ExercisePageSkeleton />;
-} 
+}
+Loading.displayName = "ExerciseLoading";
