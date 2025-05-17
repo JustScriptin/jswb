@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import type { Language, TestResult } from "../types";
 import { getLocalStorageValue, setLocalStorageValue } from "@/lib/storage";
 import {
   Select,
@@ -17,19 +18,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export type TestResult = {
-  passed: boolean;
-  message: string;
-  error?: string;
-};
 
 export type CodeEditorProps = {
-  defaultLanguage?: "typescript" | "javascript";
+  defaultLanguage?: Language;
   defaultValue?: string;
   className?: string;
   slug: string;
   onTestResults?: (results: TestResult[]) => void;
-  onLanguageChange?: (language: "typescript" | "javascript") => void;
+  onLanguageChange?: (language: Language) => void;
 };
 
 export type CodeEditorHandle = {
@@ -38,7 +34,7 @@ export type CodeEditorHandle = {
 
 
 export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function CodeEditor({
-  defaultLanguage = "typescript",
+  defaultLanguage = "typescript" as Language,
   defaultValue = "const solve = () => {\n  // Write your solution here\n}",
   className,
   slug,
@@ -48,7 +44,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [language, setLanguage] = useState<"typescript" | "javascript">(defaultLanguage);
+  const [language, setLanguage] = useState<Language>(defaultLanguage);
   const isInitialMount = useRef(true);
 
   // Initialize state from localStorage after mount
@@ -56,7 +52,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
     const savedLanguage = getLocalStorageValue(
       `${slug}-language`,
       defaultLanguage
-    ) as "typescript" | "javascript";
+    ) as Language;
     setLanguage(savedLanguage);
 
     const savedCode = getLocalStorageValue(`${slug}-code`, null);
@@ -181,7 +177,7 @@ if (typeof window !== "undefined") {
         <div className="flex items-center justify-between w-full">
           <Select
             value={language}
-            onValueChange={(val) => setLanguage(val as "typescript" | "javascript")}
+            onValueChange={(val) => setLanguage(val as Language)}
           >
             <SelectTrigger className="w-[150px]">
               <SelectValue placeholder="Select language" />

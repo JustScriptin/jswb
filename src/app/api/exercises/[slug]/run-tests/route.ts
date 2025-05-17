@@ -1,14 +1,18 @@
 import { NextResponse } from "next/server";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import {
+  LanguageSchema,
+  TestResultSchema,
+  type TestResult,
+} from "@/features/codingChallenges/types";
+import { z } from "zod";
 import ivm from "isolated-vm";
 import ts from "typescript";
 
-type RequestBody = { 
-  code: string;
-  language: "typescript" | "javascript";
-};
-
-type TestResult = { passed: boolean; message: string; error?: string };
+const RequestBodySchema = z.object({
+  code: z.string(),
+  language: LanguageSchema,
+});
 
 export async function POST(
   request: Request,
@@ -25,10 +29,15 @@ export async function POST(
     }
 
     // 2) Parse user code and language
-    const { code, language } = (await request.json()) as RequestBody;
-    if (!code) {
-      return NextResponse.json({ error: "No code submitted" }, { status: 400 });
+    const body = await request.json();
+    const parsed = RequestBodySchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid request", issues: parsed.error.format() },
+        { status: 400 }
+      );
     }
+    const { code, language } = parsed.data;
 
     // 3) If TypeScript, transpile to JavaScript
     let finalCode = code;
@@ -160,7 +169,7 @@ try {
     // copySync() to get a plain JS object in Node
     const rawResult = resultRef.copySync() as {
       success: boolean;
-      results?: TestResult[];
+      results?: unknown;
       error?: string;
     };
 
@@ -170,14 +179,18 @@ try {
         { status: 500 }
       );
     }
-    if (!Array.isArray(rawResult.results)) {
+
+    let results: TestResult[];
+    try {
+      results = TestResultSchema.array().parse(rawResult.results);
+    } catch {
       return NextResponse.json(
         { error: "Invalid results format" },
         { status: 500 }
       );
     }
 
-    return NextResponse.json({ results: rawResult.results }, { status: 200 });
+    return NextResponse.json({ results }, { status: 200 });
   } catch (err) {
     // Outer catch
     console.error("[api/exercises/run-tests] Outer catch error:", err);

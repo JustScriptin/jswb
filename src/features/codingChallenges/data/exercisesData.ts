@@ -1,63 +1,5 @@
-/**
- * ------------------------------------------------------------------------
- *  1) CATEGORY_METHODS: One place to define valid categories and methods
- * ------------------------------------------------------------------------
- */
-export const CATEGORY_METHODS = {
-    array: ["reduce", "map", "filter", "forEach"] as const,
-    map: ["set", "get", "has"] as const,
-    object: ["keys", "values", "entries"] as const,
-    set: ["add", "has", "delete"] as const
-  } as const;
-  
-  /**
-   * ------------------------------------------------------------------------
-   *  2) Derived Types from CATEGORY_METHODS
-   * ------------------------------------------------------------------------
-   */
-  export type CategoryName = keyof typeof CATEGORY_METHODS;
-  
-  export type MethodName<T extends CategoryName> = typeof CATEGORY_METHODS[T][number];
-  
-  export type Category<T extends CategoryName = CategoryName> = {
-    name: T;
-    method: MethodName<T>;
-  };
-  
-  /**
-   * ------------------------------------------------------------------------
-   *  3) Educational Content Type (as defined)
-   * ------------------------------------------------------------------------
-   */
-  export type Education = {
-    concept: string;
-    explanation: string;
-    useCases: string[];
-    visualExample?: string;
-    commonMistakes?: string[];
-    tips?: string[];
-  };
-  
-  /**
-   * ------------------------------------------------------------------------
-   *  4) Basic Learning Exercise Types
-   * ------------------------------------------------------------------------
-   */
-  export type TestCase = {
-    input: unknown[];
-    expected: unknown;
-    message: string;
-  };
-  
-  export type Exercise<T extends CategoryName = CategoryName> = {
-    slug: string;
-    title: string;
-    description: string;
-    category: Category<T>;
-    education: Education;
-    starterCode: string;
-    testCases: TestCase[];
-  };
+import { z } from "zod";
+import { ExerciseSchema, type Exercise } from "../types";
   
   /**
    * ------------------------------------------------------------------------
@@ -66,7 +8,7 @@ export const CATEGORY_METHODS = {
    *     Education -> thorough, beginner-friendly explanation of `reduce`.
    * ------------------------------------------------------------------------
    */
-  export const EXERCISES: Exercise[] = [
+export const EXERCISES: Exercise[] = z.array(ExerciseSchema).parse([
     {
       slug: "reduce-sum",
       title: "Sum Numbers with reduce()",
@@ -427,5 +369,4 @@ Result: { a: 2, b: 1 }
         }
       ]
     }
-  ];
-  
+]);

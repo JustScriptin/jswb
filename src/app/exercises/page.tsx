@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { EXERCISES, CATEGORY_METHODS } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { CATEGORY_METHODS } from "@/features/codingChallenges/types";
 import { ExerciseCard } from "@/features/codingChallenges/components/ExerciseCard";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
