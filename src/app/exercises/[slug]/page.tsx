@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
-import { ExerciseClient } from "@/app/exercises/[slug]/ExerciseClient";
+import { ExerciseClient } from "@/features/codingChallenges/components/ExerciseClient";
 
 type Props = {
   params: {
@@ -11,8 +11,7 @@ type Props = {
 
 // Generate metadata for each exercise page
 export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
+  { params }: Props
 ): Promise<Metadata> {
   const { slug } = await params;
   const exercise = EXERCISES.find((ex) => ex.slug === slug);

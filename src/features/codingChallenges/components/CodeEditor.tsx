@@ -34,12 +34,12 @@ export type CodeEditorHandle = {
   runTests: () => Promise<void>;
 };
 
-const getStorageValue = (key: string, defaultValue: any) => {
+const getStorageValue = <T,>(key: string, defaultValue: T): T => {
   if (typeof window === "undefined") return defaultValue;
   try {
     const saved = localStorage.getItem(key);
-    return saved ? saved : defaultValue;
-  } catch (err) {
+    return (saved as unknown as T) ?? defaultValue;
+  } catch {
     return defaultValue;
   }
 };
@@ -55,7 +55,6 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [language, setLanguage] = useState<"typescript" | "javascript">(defaultLanguage);
   const isInitialMount = useRef(true);
 
@@ -102,7 +101,6 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
     try {
       setIsSubmitting(true);
       setError(null);
-      setTestResults([]);
 
       const code = editorRef.current.getValue();
 
@@ -122,7 +120,6 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
       }
 
       const { results: newResults } = await response.json();
-      setTestResults(newResults);
       onTestResults?.(newResults);
     } catch (err) {
       setError(
@@ -158,7 +155,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
     );
   }, [handleRunTests, slug]);
 
-  const handleEditorValidation = useCallback((markers: any[]) => {
+  const handleEditorValidation = useCallback((markers: unknown[]) => {
     // Log validation issues for debugging
     markers.forEach((marker) => {
       console.log("onValidate:", marker.message);
