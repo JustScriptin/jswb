@@ -8,10 +8,27 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { cn } from "@/lib/utils";
 
-interface MarkdownProps extends React.HTMLAttributes<HTMLDivElement> {
+type MarkdownProps = React.HTMLAttributes<HTMLDivElement> & {
   content: string;
   sanitize?: boolean;
-}
+};
+
+const renderCodeBlock = (
+  code: string,
+  language: string,
+  props: React.HTMLAttributes<HTMLElement>
+) => (
+  <SyntaxHighlighter
+    // @ts-expect-error library types incompatible
+    style={oneDark}
+    language={language}
+    PreTag="div"
+    className="rounded-md"
+    {...props}
+  >
+    {code}
+  </SyntaxHighlighter>
+);
 
 export function Markdown({ content, className, sanitize = true, ...props }: MarkdownProps) {
   return (
@@ -20,25 +37,24 @@ export function Markdown({ content, className, sanitize = true, ...props }: Mark
         remarkPlugins={[remarkGfm]}
         rehypePlugins={sanitize ? [rehypeSanitize] : []}
         components={{
-          code({ inline, className, children, ...props }) {
+          code({
+            inline,
+            className,
+            children,
+            ...props
+          }: React.HTMLAttributes<HTMLElement> & { inline?: boolean }) {
             const match = /language-(\w+)/.exec(className || "");
-            return !inline && match ? (
-              <SyntaxHighlighter
-                style={oneDark}
-                language={match[1]}
-                PreTag="div"
-                className="rounded-md"
-                {...props}
-              >
-                {String(children).replace(/\n$/, "")}
-              </SyntaxHighlighter>
-            ) : (
-              <code className={cn("bg-muted px-1.5 py-0.5 rounded-sm", className)} {...props}>
-                {children}
-              </code>
-            );
+            return !inline && match
+              ? renderCodeBlock(String(children).replace(/\n$/, ""), match[1], props)
+              : (
+                  <code
+                    className={cn("bg-muted px-1.5 py-0.5 rounded-sm", className)}
+                    {...props}
+                  >
+                    {children}
+                  </code>
+                );
           },
-          // Override other elements to match your design system
           p({ children }) {
             return <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>;
           },

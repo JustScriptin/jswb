@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import Editor, { type EditorProps, type OnMount } from "@monaco-editor/react";
+import type { editor } from "monaco-editor";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -155,7 +156,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
     );
   }, [handleRunTests, slug]);
 
-  const handleEditorValidation = useCallback((markers: unknown[]) => {
+  const handleEditorValidation = useCallback((markers: editor.IMarker[]) => {
     // Log validation issues for debugging
     markers.forEach((marker) => {
       console.log("onValidate:", marker.message);
