@@ -43,4 +43,5 @@ export function ExercisePageSkeleton() {
       </div>
     </div>
   );
-} 
+}
+ExercisePageSkeleton.displayName = "ExercisePageSkeleton";

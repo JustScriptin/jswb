@@ -466,6 +466,7 @@ export function ExerciseClient({ exercise }: Props) {
     </motion.div>
   );
 }
+ExerciseClient.displayName = "ExerciseClient";
 
 type TestCaseAccordionProps = {
   test: TestCase;
@@ -545,4 +546,5 @@ function TestCaseAccordion({ test, index, result }: TestCaseAccordionProps) {
       </AnimatePresence>
     </div>
   );
-} 
+}
+TestCaseAccordion.displayName = "TestCaseAccordion";

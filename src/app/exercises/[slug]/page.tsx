@@ -43,4 +43,5 @@ export default async function ExercisePage({ params }: Props) {
 
   return <ExerciseClient exercise={exercise} />;
 }
+ExercisePage.displayName = "ExercisePage";
 

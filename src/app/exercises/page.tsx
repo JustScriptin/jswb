@@ -365,6 +365,7 @@ export default function ExercisesPage() {
     </motion.div>
   );
 }
+ExercisesPage.displayName = "ExercisesPage";
 
 // Stats Card Component
 function StatsCard({ icon, value, label, highlight = false }: {
@@ -388,4 +389,5 @@ function StatsCard({ icon, value, label, highlight = false }: {
       <div className="text-sm text-muted-foreground">{label}</div>
     </motion.div>
   );
-} 
+}
+StatsCard.displayName = "StatsCard";
