@@ -81,7 +81,8 @@ export async function POST(
     //    - stores final { success, results } in globalThis.__myResult__
     const codeWithGlobal = `${finalCode}\nif (typeof solve === 'function') globalThis.solve = solve;\n`;
     const userCodeLiteral = JSON.stringify(codeWithGlobal);
-    const testCasesLiteral = JSON.stringify(exercise.testCases);
+    // Escape backticks to avoid breaking the template literal
+    const testCasesLiteral = JSON.stringify(exercise.testCases).replace(/`/g, "\\`");
 
     const snippet = `
 myLog("[snippet] Starting snippet...");
