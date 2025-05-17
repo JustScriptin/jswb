@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import type { Exercise } from "../data/exercisesData";
+import type { Exercise } from "../data/exercises";
 
 type CategoryColors = {
   bg: string;
@@ -16,8 +16,7 @@ type ExerciseCardProps = {
 };
 
 export function ExerciseCard({ exercise, categoryColors }: ExerciseCardProps) {
-  // Get first line of description for the card preview
-  const previewDescription = exercise.description.split('\n')[0];
+  const previewDescription = exercise.excerpt;
 
   return (
     <Link

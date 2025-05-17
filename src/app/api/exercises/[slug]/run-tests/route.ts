@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISES } from "@/features/codingChallenges/data/exercises";
 import ivm from "isolated-vm";
 import ts from "typescript";
 

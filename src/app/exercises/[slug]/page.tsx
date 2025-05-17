@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISES } from "@/features/codingChallenges/data/exercises";
 import { ExerciseClient } from "@/features/codingChallenges/components/ExerciseClient";
 
 type Props = {
@@ -24,10 +24,10 @@ export async function generateMetadata(
 
   return {
     title: `${exercise.title} - Coding Exercise`,
-    description: exercise.description,
+    description: exercise.excerpt,
     openGraph: {
       title: `${exercise.title} - Coding Exercise`,
-      description: exercise.description,
+      description: exercise.excerpt,
       type: "article",
     },
   };

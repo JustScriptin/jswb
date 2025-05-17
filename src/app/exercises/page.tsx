@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { EXERCISES, CATEGORY_METHODS } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISES, CATEGORY_METHODS } from "@/features/codingChallenges/data/exercises";
 import { ExerciseCard } from "@/features/codingChallenges/components/ExerciseCard";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -47,8 +47,9 @@ export default function ExercisesPage() {
 
   // Filter exercises based on search and filters
   const filteredExercises = EXERCISES.filter(exercise => {
-    const matchesSearch = exercise.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-                         exercise.description.toLowerCase().includes(debouncedSearch.toLowerCase());
+    const matchesSearch =
+      exercise.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      exercise.excerpt.toLowerCase().includes(debouncedSearch.toLowerCase());
     const matchesCategory = selectedCategory === "all" || exercise.category.name === selectedCategory;
     const matchesMethod = selectedMethod === "all" || exercise.category.method === selectedMethod;
     return matchesSearch && matchesCategory && matchesMethod;

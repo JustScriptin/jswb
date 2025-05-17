@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISES } from "@/features/codingChallenges/data/exercises";
 
 /**
  * GET /api/exercises
