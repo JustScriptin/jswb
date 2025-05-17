@@ -32,7 +32,11 @@ const renderCodeBlock = (
 
 export function Markdown({ content, className, sanitize = true, ...props }: MarkdownProps) {
   return (
-    <div className={cn("prose prose-sm dark:prose-invert max-w-none", className)} {...props}>
+    <div
+      data-component="Markdown"
+      className={cn("prose prose-sm dark:prose-invert max-w-none", className)}
+      {...props}
+    >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={sanitize ? [rehypeSanitize] : []}

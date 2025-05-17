@@ -14,6 +14,7 @@ const Separator = React.forwardRef<
     ref
   ) => (
     <SeparatorPrimitive.Root
+      data-component="Separator"
       ref={ref}
       decorative={decorative}
       orientation={orientation}

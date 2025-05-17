@@ -16,6 +16,7 @@ const TooltipContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
 >(({ className, sideOffset = 4, ...props }, ref) => (
   <TooltipPrimitive.Content
+    data-component="TooltipContent"
     ref={ref}
     sideOffset={sideOffset}
     className={cn(
