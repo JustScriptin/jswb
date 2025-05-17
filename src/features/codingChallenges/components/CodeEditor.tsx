@@ -125,17 +125,17 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
   const handleEditorDidMount: OnMount = useCallback((editor, monaco) => {
     editorRef.current = editor;
 
-    // Load saved code if it exists
-    if (typeof window !== "undefined") {
-      try {
-        const savedCode = localStorage.getItem(`${slug}-code`);
-        if (savedCode) {
-          editor.setValue(savedCode);
-        }
-      } catch (err) {
-        console.error("Failed to load saved code:", err);
-      }
+// Load saved code if it exists
+if (typeof window !== "undefined") {
+  try {
+   const savedCode = getLocalStorageValue(`${slug}-code`, null);
+    if (savedCode) {
+      editor.setValue(savedCode);
     }
+  } catch (err) {
+    console.error("Failed to load saved code:", err);
+  }
+}
 
     // Add custom keybinding for Cmd/Ctrl + Enter
     editor.addCommand(
