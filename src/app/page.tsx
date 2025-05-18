@@ -3,9 +3,8 @@ import {
   HeroSection,
   FinalBanner,
   MicroNav,
-  StatsSection,
-  FeaturesSection,
-  HowItWorksSection,
+  HighlightsSection,
+  WorkflowSection,
   PopularChallengesSection,
 } from "@/features/home/components";
 import { Separator } from "@/components/ui/separator";
@@ -16,11 +15,9 @@ export default function Home(): ReactElement {
       <MicroNav />
       <HeroSection />
       <Separator className="my-12" />
-      <StatsSection />
+      <HighlightsSection />
       <Separator className="my-12" />
-      <FeaturesSection />
-      <Separator className="my-12" />
-      <HowItWorksSection />
+      <WorkflowSection />
       <Separator className="my-12" />
       <PopularChallengesSection />
       <Separator className="my-12" />
