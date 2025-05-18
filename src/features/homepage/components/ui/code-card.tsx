@@ -47,13 +47,15 @@ console.log(result) // [2, 4, 6]`;
   // Typing animation - optimized
   useEffect(() => {
     if (!isTyping) return;
+    let testInterval: NodeJS.Timeout | undefined;
+    let startTestsTimeout: NodeJS.Timeout | undefined;
 
     function runTests() {
       let currentTest = 0;
 
-      const testInterval = setInterval(() => {
+      testInterval = setInterval(() => {
         if (currentTest >= testsPassed.length) {
-          clearInterval(testInterval);
+          if (testInterval) clearInterval(testInterval);
           return;
         }
 
@@ -67,20 +69,24 @@ console.log(result) // [2, 4, 6]`;
       }, 400);
     }
 
-    const timeout = setTimeout(() => {
+    const typingTimeout = setTimeout(() => {
       if (typedCode.length < codeSnippet.length) {
         setTypedCode(codeSnippet.slice(0, typedCode.length + 1));
       } else {
         setIsTyping(false);
         // Start test animation after typing is complete
-        setTimeout(() => {
+        startTestsTimeout = setTimeout(() => {
           setTestsRun(true);
           runTests();
         }, 1000);
       }
     }, 30);
 
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(typingTimeout);
+      if (startTestsTimeout) clearTimeout(startTestsTimeout);
+      if (testInterval) clearInterval(testInterval);
+    };
   }, [typedCode, isTyping, codeSnippet, testsPassed.length]);
 
   return (
@@ -104,10 +110,7 @@ console.log(result) // [2, 4, 6]`;
           {isTyping && (
             <motion.div
               className="absolute w-[2px] h-[14px] bg-white/70"
-              style={{
-                left: `${cursorPosition.x}px`,
-                top: `${cursorPosition.y}px`,
-              }}
+              style={{ left: cursorPosition.x, top: cursorPosition.y }}
               animate={{ opacity: [1, 0, 1] }}
               transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY }}
             />
@@ -173,7 +176,7 @@ function SyntaxHighlighter({ code }: { code: string }) {
     <>
       {code.split("\n").map((line, lineIndex) => {
         // Create an array of spans with appropriate styling
-        const tokens = [];
+        const tokens: { text: string; className: string; index: number }[] = [];
         let currentIndex = 0;
 
         // Process keywords
@@ -191,6 +194,7 @@ function SyntaxHighlighter({ code }: { code: string }) {
                 tokens.push({
                   text: line.substring(currentIndex, start),
                   className: "text-white/90",
+                  index: currentIndex,
                 });
               }
 
@@ -198,6 +202,7 @@ function SyntaxHighlighter({ code }: { code: string }) {
               tokens.push({
                 text: keyword,
                 className,
+                index: start,
               });
 
               currentIndex = end;
@@ -227,6 +232,7 @@ function SyntaxHighlighter({ code }: { code: string }) {
               tokens.push({
                 text: line.substring(currentIndex, commentStart),
                 className: "text-white/90",
+                index: currentIndex,
               });
             }
 
@@ -234,6 +240,7 @@ function SyntaxHighlighter({ code }: { code: string }) {
             tokens.push({
               text: line.substring(commentStart),
               className: "text-[#6a9955]",
+              index: commentStart,
             });
 
             currentIndex = line.length;
@@ -254,6 +261,7 @@ function SyntaxHighlighter({ code }: { code: string }) {
               tokens.push({
                 text: line.substring(currentIndex, start),
                 className: "text-white/90",
+                index: currentIndex,
               });
             }
 
@@ -261,6 +269,7 @@ function SyntaxHighlighter({ code }: { code: string }) {
             tokens.push({
               text: match[0],
               className: "text-[#b5cea8]",
+              index: start,
             });
 
             currentIndex = end;
@@ -294,6 +303,7 @@ function SyntaxHighlighter({ code }: { code: string }) {
                 tokens.push({
                   text: line.substring(currentIndex, start),
                   className: "text-white/90",
+                  index: currentIndex,
                 });
               }
 
@@ -301,6 +311,7 @@ function SyntaxHighlighter({ code }: { code: string }) {
               tokens.push({
                 text: symbol,
                 className,
+                index: start,
               });
 
               currentIndex = end;
@@ -313,15 +324,12 @@ function SyntaxHighlighter({ code }: { code: string }) {
           tokens.push({
             text: line.substring(currentIndex),
             className: "text-white/90",
+            index: currentIndex,
           });
         }
 
         // Sort tokens by their position in the line
-        tokens.sort((a, b) => {
-          const aIndex = line.indexOf(a.text);
-          const bIndex = line.indexOf(b.text);
-          return aIndex - bIndex;
-        });
+        tokens.sort((a, b) => a.index - b.index);
 
         // Render the line with its tokens
         return (
