@@ -8,6 +8,7 @@ import {
 import { z } from "zod";
 import ivm from "isolated-vm";
 import ts from "typescript";
+import { logger } from "@/lib/logger";
 
 const RequestBodySchema = z.object({
   code: z.string(),
@@ -73,7 +74,8 @@ export async function POST(
     }
 
     // 4) Create an isolate + context
-    isolate = new ivm.Isolate({ memoryLimit: 8 });
+    const memoryMb = Number(process.env.ISOLATE_MEMORY_MB ?? 8);
+    isolate = new ivm.Isolate({ memoryLimit: memoryMb });
     const context = isolate.createContextSync();
     const jail = context.global;
     jail.setSync("global", jail.derefInto());
@@ -82,7 +84,7 @@ export async function POST(
     jail.setSync(
       "myLog",
       new ivm.Callback(
-        (...args: unknown[]) => console.log("[Isolate log]", ...args),
+        (...args: unknown[]) => logger.info("[Isolate log]", ...args),
         { sync: true },
       ),
     );
@@ -199,7 +201,7 @@ try {
     return NextResponse.json({ results }, { status: 200 });
   } catch (err) {
     // Outer catch
-    console.error("[api/exercises/run-tests] Outer catch error:", err);
+    logger.error("[api/exercises/run-tests] Outer catch error:", err);
     return NextResponse.json({ error: "Failed to run tests" }, { status: 500 });
   } finally {
     // 9) Dispose isolate
