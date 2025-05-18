@@ -33,6 +33,7 @@ npm run lint        # eslint
 npm run type-check  # TypeScript validation
 npm test            # run tests
 npm run format:write # fix formatting
+npm run fix         # fix formatting and lint errors
 ```
 
 ### Environment Variables

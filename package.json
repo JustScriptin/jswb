@@ -12,6 +12,7 @@
     "format": "prettier \"**/*.{js,jsx,ts,tsx,css,md,json}\" --check",
     "format:write": "prettier \"**/*.{js,jsx,ts,tsx,css,md,json}\" --write",
     "lint:fix": "next lint --fix",
+    "fix": "npm run format:write && npm run lint:fix",
     "check": "npm run lint && npm run type-check && npm test",
     "prepare": "husky install"
   },
