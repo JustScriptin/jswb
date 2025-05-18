@@ -1,18 +1,21 @@
-"use client"
+"use client";
 
-import { memo } from "react"
+import { memo } from "react";
 
 type ParticleBackgroundProps = {
-  count?: number
-  opacity?: number
-}
+  count?: number;
+  opacity?: number;
+};
 
 /**
  * Particle Background component
  *
  * Creates a starry background effect
  */
-export const ParticleBackground = memo(function ParticleBackground({ count = 50, opacity = 0.02 }: ParticleBackgroundProps) {
+export const ParticleBackground = memo(function ParticleBackground({
+  count = 50,
+  opacity = 0.02,
+}: ParticleBackgroundProps) {
   return (
     <div className="absolute inset-0" style={{ opacity }}>
       {Array.from({ length: count }).map((_, i) => (
@@ -27,6 +30,6 @@ export const ParticleBackground = memo(function ParticleBackground({ count = 50,
         />
       ))}
     </div>
-  )
-})
-ParticleBackground.displayName = "ParticleBackground"
+  );
+});
+ParticleBackground.displayName = "ParticleBackground";

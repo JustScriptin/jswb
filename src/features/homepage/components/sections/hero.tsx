@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { CodeCard } from "@/features/homepage/components/ui/code-card"
-import { ParticleBackground } from "@/features/homepage/components/ui/particle-background"
-import { fadeInUp } from "@/lib/animations"
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CodeCard } from "@/features/homepage/components/ui/code-card";
+import { ParticleBackground } from "@/features/homepage/components/ui/particle-background";
+import { fadeInUp } from "@/lib/animations";
 
 /**
  * Hero section component
@@ -15,15 +15,15 @@ import { fadeInUp } from "@/lib/animations"
  * and interactive code card
  */
 export function Hero() {
-  const heroRef = useRef<HTMLElement>(null)
+  const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
-  })
+  });
 
   // Parallax effects - subtle and performant
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, -50])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
     <section ref={heroRef} className="relative min-h-screen overflow-hidden">
@@ -39,12 +39,18 @@ export function Hero() {
 
       <div className="container relative grid items-center h-screen max-w-7xl grid-cols-1 px-4 mx-auto lg:grid-cols-12 gap-y-12">
         <div className="lg:col-span-7 z-10">
-          <motion.h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight" {...fadeInUp(0)}>
+          <motion.h1
+            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight"
+            {...fadeInUp(0)}
+          >
             Master Arrays in JavaScript
           </motion.h1>
-          <motion.p className="max-w-xl mt-6 text-lg text-white/80 leading-relaxed" {...fadeInUp(0.1)}>
-            Interactive challenges to build your skills through practice. Learn array methods through hands-on coding
-            exercises.
+          <motion.p
+            className="max-w-xl mt-6 text-lg text-white/80 leading-relaxed"
+            {...fadeInUp(0.1)}
+          >
+            Interactive challenges to build your skills through practice. Learn
+            array methods through hands-on coding exercises.
           </motion.p>
           <motion.div className="mt-10" {...fadeInUp(0.2)}>
             <Button
@@ -65,9 +71,9 @@ export function Hero() {
 
       <ScrollIndicator />
     </section>
-  )
+  );
 }
-Hero.displayName = "Hero"
+Hero.displayName = "Hero";
 
 /**
  * Scroll indicator component
@@ -85,14 +91,22 @@ function ScrollIndicator() {
       <motion.div
         className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
         animate={{ y: [0, 5, 0] }}
-        transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
+        transition={{
+          repeat: Number.POSITIVE_INFINITY,
+          duration: 1.5,
+          ease: "easeInOut",
+        }}
       >
         <motion.div
           className="w-1 h-2 bg-white/60 rounded-full mt-2"
           animate={{ opacity: [0, 1, 0], y: [0, 5, 0] }}
-          transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
+          transition={{
+            repeat: Number.POSITIVE_INFINITY,
+            duration: 1.5,
+            ease: "easeInOut",
+          }}
         />
       </motion.div>
     </motion.div>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { HowItWorksCard } from "@/features/homepage/components/how-it-works-card"
-import { fadeInUp } from "@/lib/animations"
+import { motion } from "framer-motion";
+import { HowItWorksCard } from "@/features/homepage/components/how-it-works-card";
+import { fadeInUp } from "@/lib/animations";
 
 /**
  * How It Works section component
@@ -25,8 +25,8 @@ export function HowItWorks() {
           {...fadeInUp(0.1)}
           viewport={{ once: true, margin: "-100px" }}
         >
-          Our platform makes learning JavaScript array methods intuitive and engaging through a simple three-step
-          process.
+          Our platform makes learning JavaScript array methods intuitive and
+          engaging through a simple three-step process.
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 relative">
           <HowItWorksCard
@@ -53,6 +53,6 @@ export function HowItWorks() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-HowItWorks.displayName = "HowItWorks"
+HowItWorks.displayName = "HowItWorks";

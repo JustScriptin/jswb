@@ -1,34 +1,40 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { MousePointer, Code, Trophy } from "lucide-react"
+import { motion } from "framer-motion";
+import { MousePointer, Code, Trophy } from "lucide-react";
 
 type HowItWorksCardProps = {
-  step: number
-  title: string
-  description: string
-  color: "violet" | "cyan" | "lime"
-  delay: number
-}
+  step: number;
+  title: string;
+  description: string;
+  color: "violet" | "cyan" | "lime";
+  delay: number;
+};
 
-export function HowItWorksCard({ step, title, description, color, delay }: HowItWorksCardProps) {
+export function HowItWorksCard({
+  step,
+  title,
+  description,
+  color,
+  delay,
+}: HowItWorksCardProps) {
   const icons = {
     1: <MousePointer className="w-5 h-5 text-white" />,
     2: <Code className="w-5 h-5 text-white" />,
     3: <Trophy className="w-5 h-5 text-white" />,
-  }
+  };
 
   const borderColors = {
     violet: "border-violet-500",
     cyan: "border-cyan-500",
     lime: "border-lime-500",
-  }
+  };
 
   const gradientColors = {
     violet: "from-violet-500/5 to-transparent",
     cyan: "from-cyan-500/5 to-transparent",
     lime: "from-lime-500/5 to-transparent",
-  }
+  };
 
   return (
     <motion.div
@@ -43,7 +49,9 @@ export function HowItWorksCard({ step, title, description, color, delay }: HowIt
       whileHover={{ y: -5 }}
     >
       {/* Background gradient - subtle */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${gradientColors[color]} opacity-50 rounded-lg`}></div>
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${gradientColors[color]} opacity-50 rounded-lg`}
+      ></div>
 
       <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center border border-gray-700 text-white font-bold z-10">
         {step}
@@ -53,10 +61,14 @@ export function HowItWorksCard({ step, title, description, color, delay }: HowIt
         {icons[step as keyof typeof icons]}
       </div>
 
-      <h3 className="text-xl font-bold text-white mb-3 relative z-10">{title}</h3>
+      <h3 className="text-xl font-bold text-white mb-3 relative z-10">
+        {title}
+      </h3>
 
-      <p className="text-gray-300 relative z-10 leading-relaxed">{description}</p>
+      <p className="text-gray-300 relative z-10 leading-relaxed">
+        {description}
+      </p>
     </motion.div>
-  )
+  );
 }
-HowItWorksCard.displayName = "HowItWorksCard"
+HowItWorksCard.displayName = "HowItWorksCard";

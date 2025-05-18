@@ -1,20 +1,22 @@
-"use client"
+"use client";
 
-import { memo } from "react"
-import { motion } from "framer-motion"
-import { Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { memo } from "react";
+import { motion } from "framer-motion";
+import { Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type NavigationBarProps = {
-  scrollProgress: number
-}
+  scrollProgress: number;
+};
 
 /**
  * Navigation Bar component
  *
  * Sticky navigation that appears after scrolling
  */
-export const NavigationBar = memo(function NavigationBar({ scrollProgress }: NavigationBarProps) {
+export const NavigationBar = memo(function NavigationBar({
+  scrollProgress,
+}: NavigationBarProps) {
   return (
     <motion.div
       className="fixed top-0 left-0 right-0 z-40 h-16 backdrop-blur-md bg-black/30 border-b border-white/5"
@@ -32,13 +34,20 @@ export const NavigationBar = memo(function NavigationBar({ scrollProgress }: Nav
           <Button variant="ghost" className="text-white hover:bg-white/10">
             Log in
           </Button>
-          <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/10"
+          >
             <Menu className="w-5 h-5" />
           </Button>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 h-0.5 bg-primary" style={{ width: `${scrollProgress * 100}%` }} />
+      <div
+        className="absolute bottom-0 left-0 h-0.5 bg-primary"
+        style={{ width: `${scrollProgress * 100}%` }}
+      />
     </motion.div>
-  )
-})
-NavigationBar.displayName = "NavigationBar"
+  );
+});
+NavigationBar.displayName = "NavigationBar";

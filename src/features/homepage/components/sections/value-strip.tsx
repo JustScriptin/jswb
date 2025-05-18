@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { StatPebble } from "@/features/homepage/components/stat-pebble"
-import { fadeInUp } from "@/lib/animations"
+import { motion } from "framer-motion";
+import { StatPebble } from "@/features/homepage/components/stat-pebble";
+import { fadeInUp } from "@/lib/animations";
 
 /**
  * Value Strip section component
@@ -19,11 +19,16 @@ export function ValueStrip() {
       >
         <div className="flex flex-wrap justify-center gap-8 md:gap-16">
           <StatPebble icon="code" value="50+" label="Challenges" delay={0} />
-          <StatPebble icon="users" value="10k+" label="Developers" delay={0.1} />
+          <StatPebble
+            icon="users"
+            value="10k+"
+            label="Developers"
+            delay={0.1}
+          />
           <StatPebble icon="zap" value="24/7" label="Support" delay={0.2} />
         </div>
       </motion.div>
     </section>
-  )
+  );
 }
-ValueStrip.displayName = "ValueStrip"
+ValueStrip.displayName = "ValueStrip";

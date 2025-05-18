@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Rocket } from "lucide-react"
+import { motion } from "framer-motion";
+import { Rocket } from "lucide-react";
 
 /**
  * Floating CTA component
@@ -19,6 +19,6 @@ export function FloatingCta() {
         <Rocket className="w-5 h-5 text-white" />
       </motion.div>
     </div>
-  )
+  );
 }
-FloatingCta.displayName = "FloatingCta"
+FloatingCta.displayName = "FloatingCta";

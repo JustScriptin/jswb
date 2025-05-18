@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useEffect, useState, memo } from "react"
-import { motion } from "framer-motion"
-import { Check } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { useEffect, useState, memo } from "react";
+import { motion } from "framer-motion";
+import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 /**
  * Code Card component
@@ -11,11 +11,11 @@ import { cn } from "@/lib/utils"
  * Displays an interactive code editor with typing animation and test results
  */
 export const CodeCard = memo(function CodeCard() {
-  const [testsRun, setTestsRun] = useState(false)
-  const [testsPassed, setTestsPassed] = useState([false, false, false])
-  const [isTyping, setIsTyping] = useState(true)
-  const [typedCode, setTypedCode] = useState("")
-  const [cursorPosition, setCursorPosition] = useState({ x: 4, y: 36 })
+  const [testsRun, setTestsRun] = useState(false);
+  const [testsPassed, setTestsPassed] = useState([false, false, false]);
+  const [isTyping, setIsTyping] = useState(true);
+  const [typedCode, setTypedCode] = useState("");
+  const [cursorPosition, setCursorPosition] = useState({ x: 4, y: 36 });
 
   const codeSnippet = `function filterEvenNumbers(numbers) {
   return numbers.filter(num => num % 2 === 0)
@@ -23,65 +23,65 @@ export const CodeCard = memo(function CodeCard() {
 
 // Test with sample array
 const result = filterEvenNumbers([1, 2, 3, 4, 5, 6])
-console.log(result) // [2, 4, 6]`
+console.log(result) // [2, 4, 6]`;
 
   // Calculate cursor position based on typed code
   useEffect(() => {
     // Calculate position based on the current line and character
-    const lines = typedCode.split("\n")
-    const currentLineIndex = lines.length - 1
-    const currentLineLength = lines[currentLineIndex]?.length || 0
+    const lines = typedCode.split("\n");
+    const currentLineIndex = lines.length - 1;
+    const currentLineLength = lines[currentLineIndex]?.length || 0;
 
     // Adjust these values based on your font and spacing
-    const charWidth = 8 // Width of each character in pixels
-    const lineHeight = 20 // Height of each line in pixels
-    const baseX = 4 // Base X position
-    const baseY = 36 // Base Y position
+    const charWidth = 8; // Width of each character in pixels
+    const lineHeight = 20; // Height of each line in pixels
+    const baseX = 4; // Base X position
+    const baseY = 36; // Base Y position
 
     setCursorPosition({
       x: baseX + currentLineLength * charWidth,
       y: baseY + currentLineIndex * lineHeight,
-    })
-  }, [typedCode])
+    });
+  }, [typedCode]);
 
   // Typing animation - optimized
   useEffect(() => {
-    if (!isTyping) return
+    if (!isTyping) return;
 
     function runTests() {
-      let currentTest = 0
+      let currentTest = 0;
 
       const testInterval = setInterval(() => {
         if (currentTest >= testsPassed.length) {
-          clearInterval(testInterval)
-          return
+          clearInterval(testInterval);
+          return;
         }
 
         setTestsPassed((prev) => {
-          const newState = [...prev]
-          newState[currentTest] = true
-          return newState
-        })
+          const newState = [...prev];
+          newState[currentTest] = true;
+          return newState;
+        });
 
-        currentTest++
-      }, 400)
+        currentTest++;
+      }, 400);
     }
 
     const timeout = setTimeout(() => {
       if (typedCode.length < codeSnippet.length) {
-        setTypedCode(codeSnippet.slice(0, typedCode.length + 1))
+        setTypedCode(codeSnippet.slice(0, typedCode.length + 1));
       } else {
-        setIsTyping(false)
+        setIsTyping(false);
         // Start test animation after typing is complete
         setTimeout(() => {
-          setTestsRun(true)
-          runTests()
-        }, 1000)
+          setTestsRun(true);
+          runTests();
+        }, 1000);
       }
-    }, 30)
+    }, 30);
 
-    return () => clearTimeout(timeout)
-  }, [typedCode, isTyping, codeSnippet, testsPassed.length])
+    return () => clearTimeout(timeout);
+  }, [typedCode, isTyping, codeSnippet, testsPassed.length]);
 
   return (
     <motion.div
@@ -127,15 +127,21 @@ console.log(result) // [2, 4, 6]`
         </div>
       </div>
     </motion.div>
-  )
-})
+  );
+});
 
 /**
  * Test Indicator component
  *
  * Shows the status of a test (passed/not run)
  */
-function TestIndicator({ passed, isRunning }: { passed: boolean; isRunning: boolean }) {
+function TestIndicator({
+  passed,
+  isRunning,
+}: {
+  passed: boolean;
+  isRunning: boolean;
+}) {
   return (
     <motion.div
       className={cn(
@@ -153,7 +159,7 @@ function TestIndicator({ passed, isRunning }: { passed: boolean; isRunning: bool
     >
       {passed && <Check className="w-3 h-3 text-white" />}
     </motion.div>
-  )
+  );
 }
 
 /**
@@ -167,17 +173,17 @@ function SyntaxHighlighter({ code }: { code: string }) {
     <>
       {code.split("\n").map((line, lineIndex) => {
         // Create an array of spans with appropriate styling
-        const tokens = []
-        let currentIndex = 0
+        const tokens = [];
+        let currentIndex = 0;
 
         // Process keywords
         const processKeyword = (keyword: string, className: string) => {
-          const regex = new RegExp(`\\b${keyword}\\b`, "g")
-          let match
+          const regex = new RegExp(`\\b${keyword}\\b`, "g");
+          let match;
 
           while ((match = regex.exec(line)) !== null) {
-            const start = match.index
-            const end = start + keyword.length
+            const start = match.index;
+            const end = start + keyword.length;
 
             if (start >= currentIndex) {
               // Add text before the keyword
@@ -185,35 +191,35 @@ function SyntaxHighlighter({ code }: { code: string }) {
                 tokens.push({
                   text: line.substring(currentIndex, start),
                   className: "text-white/90",
-                })
+                });
               }
 
               // Add the keyword with its class
               tokens.push({
                 text: keyword,
                 className,
-              })
+              });
 
-              currentIndex = end
+              currentIndex = end;
             }
           }
-        }
+        };
 
         // Process different syntax elements
-        processKeyword("function", "text-[#569cd6]")
-        processKeyword("return", "text-[#c586c0]")
-        processKeyword("const", "text-[#569cd6]")
-        processKeyword("filter", "text-[#dcdcaa]")
-        processKeyword("filterEvenNumbers", "text-[#dcdcaa]")
-        processKeyword("numbers", "text-[#9cdcfe]")
-        processKeyword("num", "text-[#9cdcfe]")
-        processKeyword("result", "text-[#4fc1ff]")
-        processKeyword("console", "text-[#9cdcfe]")
-        processKeyword("log", "text-[#dcdcaa]")
+        processKeyword("function", "text-[#569cd6]");
+        processKeyword("return", "text-[#c586c0]");
+        processKeyword("const", "text-[#569cd6]");
+        processKeyword("filter", "text-[#dcdcaa]");
+        processKeyword("filterEvenNumbers", "text-[#dcdcaa]");
+        processKeyword("numbers", "text-[#9cdcfe]");
+        processKeyword("num", "text-[#9cdcfe]");
+        processKeyword("result", "text-[#4fc1ff]");
+        processKeyword("console", "text-[#9cdcfe]");
+        processKeyword("log", "text-[#dcdcaa]");
 
         // Process comments
         if (line.includes("//")) {
-          const commentStart = line.indexOf("//")
+          const commentStart = line.indexOf("//");
 
           if (commentStart >= currentIndex) {
             // Add text before the comment
@@ -221,26 +227,26 @@ function SyntaxHighlighter({ code }: { code: string }) {
               tokens.push({
                 text: line.substring(currentIndex, commentStart),
                 className: "text-white/90",
-              })
+              });
             }
 
             // Add the comment
             tokens.push({
               text: line.substring(commentStart),
               className: "text-[#6a9955]",
-            })
+            });
 
-            currentIndex = line.length
+            currentIndex = line.length;
           }
         }
 
         // Process numbers
-        const numberRegex = /\b\d+\b/g
-        let match
+        const numberRegex = /\b\d+\b/g;
+        let match;
 
         while ((match = numberRegex.exec(line)) !== null) {
-          const start = match.index
-          const end = start + match[0].length
+          const start = match.index;
+          const end = start + match[0].length;
 
           if (start >= currentIndex) {
             // Add text before the number
@@ -248,16 +254,16 @@ function SyntaxHighlighter({ code }: { code: string }) {
               tokens.push({
                 text: line.substring(currentIndex, start),
                 className: "text-white/90",
-              })
+              });
             }
 
             // Add the number
             tokens.push({
               text: match[0],
               className: "text-[#b5cea8]",
-            })
+            });
 
-            currentIndex = end
+            currentIndex = end;
           }
         }
 
@@ -270,14 +276,17 @@ function SyntaxHighlighter({ code }: { code: string }) {
           "[": "text-white",
           "]": "text-white",
           "=>": "text-white",
-        }
+        };
 
         for (const [symbol, className] of Object.entries(symbolMap)) {
-          const symbolRegex = new RegExp(symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")
+          const symbolRegex = new RegExp(
+            symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+            "g",
+          );
 
           while ((match = symbolRegex.exec(line)) !== null) {
-            const start = match.index
-            const end = start + symbol.length
+            const start = match.index;
+            const end = start + symbol.length;
 
             if (start >= currentIndex) {
               // Add text before the symbol
@@ -285,16 +294,16 @@ function SyntaxHighlighter({ code }: { code: string }) {
                 tokens.push({
                   text: line.substring(currentIndex, start),
                   className: "text-white/90",
-                })
+                });
               }
 
               // Add the symbol
               tokens.push({
                 text: symbol,
                 className,
-              })
+              });
 
-              currentIndex = end
+              currentIndex = end;
             }
           }
         }
@@ -304,15 +313,15 @@ function SyntaxHighlighter({ code }: { code: string }) {
           tokens.push({
             text: line.substring(currentIndex),
             className: "text-white/90",
-          })
+          });
         }
 
         // Sort tokens by their position in the line
         tokens.sort((a, b) => {
-          const aIndex = line.indexOf(a.text)
-          const bIndex = line.indexOf(b.text)
-          return aIndex - bIndex
-        })
+          const aIndex = line.indexOf(a.text);
+          const bIndex = line.indexOf(b.text);
+          return aIndex - bIndex;
+        });
 
         // Render the line with its tokens
         return (
@@ -323,10 +332,10 @@ function SyntaxHighlighter({ code }: { code: string }) {
               </span>
             ))}
           </div>
-        )
+        );
       })}
     </>
-  )
+  );
 }
 
-CodeCard.displayName = "CodeCard"
+CodeCard.displayName = "CodeCard";

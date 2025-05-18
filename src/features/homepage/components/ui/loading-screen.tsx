@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 /**
  * Loading Screen component
@@ -22,6 +22,6 @@ export function LoadingScreen() {
         className="h-0.5 bg-primary"
       />
     </motion.div>
-  )
+  );
 }
-LoadingScreen.displayName = "LoadingScreen"
+LoadingScreen.displayName = "LoadingScreen";

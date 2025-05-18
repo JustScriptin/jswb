@@ -1,22 +1,27 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 type ChallengeTileProps = {
-  title: string
-  difficulty: "beginner" | "intermediate" | "advanced" | "expert"
-  tag: string
-  delay: number
-}
+  title: string;
+  difficulty: "beginner" | "intermediate" | "advanced" | "expert";
+  tag: string;
+  delay: number;
+};
 
-export function ChallengeTile({ title, difficulty, tag, delay }: ChallengeTileProps) {
+export function ChallengeTile({
+  title,
+  difficulty,
+  tag,
+  delay,
+}: ChallengeTileProps) {
   const difficultyColors = {
     beginner: "bg-green-500",
     intermediate: "bg-blue-500",
     advanced: "bg-purple-500",
     expert: "bg-red-500",
-  }
+  };
 
   return (
     <motion.div
@@ -35,7 +40,9 @@ export function ChallengeTile({ title, difficulty, tag, delay }: ChallengeTilePr
       {/* Content */}
       <div className="p-6 h-full flex flex-col relative z-10">
         <div className="mb-4">
-          <span className="inline-block px-3 py-1 rounded-full text-xs bg-gray-800 text-white">{tag}</span>
+          <span className="inline-block px-3 py-1 rounded-full text-xs bg-gray-800 text-white">
+            {tag}
+          </span>
         </div>
 
         <div className="mt-auto">
@@ -56,6 +63,6 @@ export function ChallengeTile({ title, difficulty, tag, delay }: ChallengeTilePr
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
-ChallengeTile.displayName = "ChallengeTile"
+ChallengeTile.displayName = "ChallengeTile";

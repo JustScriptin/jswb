@@ -1,19 +1,23 @@
-"use client"
+"use client";
 
-import { memo } from "react"
+import { memo } from "react";
 
 type TestimonialBubbleProps = {
-  name: string
-  role: string
-  text: string
-}
+  name: string;
+  role: string;
+  text: string;
+};
 
 /**
  * Testimonial Bubble component
  *
  * Displays a user testimonial with avatar and role
  */
-export const TestimonialBubble = memo(function TestimonialBubble({ name, role, text }: TestimonialBubbleProps) {
+export const TestimonialBubble = memo(function TestimonialBubble({
+  name,
+  role,
+  text,
+}: TestimonialBubbleProps) {
   return (
     <div className="bg-white/10 p-6 rounded-lg max-w-xs">
       <p className="text-white/90 text-sm leading-relaxed">{text}</p>
@@ -27,6 +31,6 @@ export const TestimonialBubble = memo(function TestimonialBubble({ name, role, t
         </div>
       </div>
     </div>
-  )
-})
-TestimonialBubble.displayName = "TestimonialBubble"
+  );
+});
+TestimonialBubble.displayName = "TestimonialBubble";

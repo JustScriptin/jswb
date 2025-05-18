@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { TestimonialBubble } from "@/features/homepage/components/ui/testimonial-bubble"
-import { fadeInUp } from "@/lib/animations"
+import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TestimonialBubble } from "@/features/homepage/components/ui/testimonial-bubble";
+import { fadeInUp } from "@/lib/animations";
 
 /**
  * Final CTA section component
@@ -15,7 +15,11 @@ export function FinalCta() {
   return (
     <section className="py-24 bg-gradient-to-r from-cyan-600 to-blue-700 flex items-center justify-center relative">
       <div className="container max-w-7xl mx-auto px-4 text-center relative z-10">
-        <motion.h2 className="text-4xl font-semibold text-white mb-6" {...fadeInUp(0)} viewport={{ once: true }}>
+        <motion.h2
+          className="text-4xl font-semibold text-white mb-6"
+          {...fadeInUp(0)}
+          viewport={{ once: true }}
+        >
           Ready to build muscle memory?
         </motion.h2>
         <motion.div
@@ -23,7 +27,8 @@ export function FinalCta() {
           {...fadeInUp(0.1)}
           viewport={{ once: true }}
         >
-          Join thousands of developers who have mastered JavaScript arrays through our interactive challenges.
+          Join thousands of developers who have mastered JavaScript arrays
+          through our interactive challenges.
         </motion.div>
         <motion.div {...fadeInUp(0.2)} viewport={{ once: true }}>
           <Button
@@ -35,7 +40,11 @@ export function FinalCta() {
           </Button>
         </motion.div>
 
-        <motion.div className="mt-16 flex flex-wrap justify-center gap-6" {...fadeInUp(0.3)} viewport={{ once: true }}>
+        <motion.div
+          className="mt-16 flex flex-wrap justify-center gap-6"
+          {...fadeInUp(0.3)}
+          viewport={{ once: true }}
+        >
           <TestimonialBubble
             name="Sarah L."
             role="Frontend Developer"
@@ -54,6 +63,6 @@ export function FinalCta() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
-FinalCta.displayName = "FinalCta"
+FinalCta.displayName = "FinalCta";
