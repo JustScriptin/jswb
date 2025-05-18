@@ -10,18 +10,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CodeEditor, type CodeEditorHandle } from "@/features/codingChallenges/components/CodeEditor";
-import type { Language, TestResult } from "../types";
+import {
+  CodeEditor,
+  type CodeEditorHandle,
+} from "@/features/codingChallenges/components/CodeEditor";
+import type { Language, TestResult } from "@/features/codingChallenges/types";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { 
-  ChevronDown, 
-  ChevronUp, 
-  BookOpen, 
-  Code, 
-  Beaker, 
-  CheckCircle2, 
-  XCircle, 
+import {
+  ChevronDown,
+  ChevronUp,
+  BookOpen,
+  Code,
+  Beaker,
+  CheckCircle2,
+  XCircle,
   ChevronLeft,
   Maximize2,
   Minimize2,
@@ -29,8 +32,8 @@ import {
   GraduationCap,
   Lightbulb,
   AlertTriangle,
-  Target
-} from 'lucide-react';
+  Target,
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { getLocalStorageValue } from "@/lib/storage";
@@ -50,7 +53,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Markdown } from "@/components/ui/markdown";
-import type { Exercise, TestCase } from "../types";
+import type { Exercise, TestCase } from "@/features/codingChallenges/types";
 
 type Props = {
   exercise: Exercise;
@@ -64,14 +67,13 @@ const KEYBOARD_SHORTCUTS = [
   { key: "Esc", description: "Exit Fullscreen" },
 ];
 
-
 export function ExerciseClient({ exercise }: Props) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [language, setLanguage] = useState<Language>("javascript");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [activeTab, setActiveTab] = useState("instructions");
   const editorRef = useRef<CodeEditorHandle>(null);
-  const passedTests = testResults.filter(r => r.passed).length;
+  const passedTests = testResults.filter((r) => r.passed).length;
   const totalTests = exercise.testCases.length;
   const hasRun = testResults.length > 0;
 
@@ -79,7 +81,7 @@ export function ExerciseClient({ exercise }: Props) {
   useEffect(() => {
     const savedLanguage = getLocalStorageValue(
       `${exercise.slug}-language`,
-      "javascript"
+      "javascript",
     ) as Language;
     setLanguage(savedLanguage);
   }, [exercise.slug]);
@@ -95,7 +97,7 @@ export function ExerciseClient({ exercise }: Props) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const cmdOrCtrl = e.metaKey || e.ctrlKey;
-      
+
       if (cmdOrCtrl && e.key === "Enter") {
         // Run tests
         e.preventDefault();
@@ -103,7 +105,7 @@ export function ExerciseClient({ exercise }: Props) {
       } else if (cmdOrCtrl && e.key === "f") {
         // Toggle fullscreen
         e.preventDefault();
-        setIsFullscreen(prev => !prev);
+        setIsFullscreen((prev) => !prev);
       } else if (cmdOrCtrl && e.key === "1") {
         // Switch to Instructions
         e.preventDefault();
@@ -122,7 +124,7 @@ export function ExerciseClient({ exercise }: Props) {
   }, [isFullscreen, runTests]);
 
   const toggleFullscreen = useCallback(() => {
-    setIsFullscreen(prev => !prev);
+    setIsFullscreen((prev) => !prev);
   }, []);
 
   return (
@@ -134,7 +136,7 @@ export function ExerciseClient({ exercise }: Props) {
       className="min-h-screen bg-background"
     >
       {/* Header Section */}
-      <motion.div 
+      <motion.div
         className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -172,7 +174,10 @@ export function ExerciseClient({ exercise }: Props) {
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   {KEYBOARD_SHORTCUTS.map((shortcut, index) => (
-                    <div key={index} className="flex items-center justify-between">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between"
+                    >
                       <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
                         {shortcut.key}
                       </code>
@@ -187,8 +192,16 @@ export function ExerciseClient({ exercise }: Props) {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="sm" onClick={toggleFullscreen}>
-                    {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleFullscreen}
+                  >
+                    {isFullscreen ? (
+                      <Minimize2 className="h-4 w-4" />
+                    ) : (
+                      <Maximize2 className="h-4 w-4" />
+                    )}
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -200,17 +213,17 @@ export function ExerciseClient({ exercise }: Props) {
         </div>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className={cn(
           "container mx-auto px-4 py-6 md:py-8 lg:py-12",
-          isFullscreen && "max-w-none p-0"
+          isFullscreen && "max-w-none p-0",
         )}
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
         {/* Title Section */}
-        <motion.div 
+        <motion.div
           className="mb-8 text-center"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -233,10 +246,10 @@ export function ExerciseClient({ exercise }: Props) {
         </motion.div>
 
         {/* Main Content */}
-        <motion.div 
+        <motion.div
           className={cn(
             "grid gap-6",
-            isFullscreen ? "grid-cols-[1fr_2fr]" : "lg:grid-cols-2"
+            isFullscreen ? "grid-cols-[1fr_2fr]" : "lg:grid-cols-2",
           )}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -244,7 +257,11 @@ export function ExerciseClient({ exercise }: Props) {
         >
           {/* Left Column - Instructions & Tests */}
           <div className="space-y-6">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="w-full"
+            >
               <TabsList className="w-full">
                 <TabsTrigger value="learn" className="flex-1">
                   <GraduationCap className="mr-2 h-4 w-4" />
@@ -258,11 +275,14 @@ export function ExerciseClient({ exercise }: Props) {
                   <Beaker className="mr-2 h-4 w-4" />
                   Test Cases
                   {hasRun && (
-                    <Badge 
-                      variant={passedTests === totalTests ? "default" : "destructive"}
+                    <Badge
+                      variant={
+                        passedTests === totalTests ? "default" : "destructive"
+                      }
                       className={cn(
                         "ml-2 text-xs",
-                        passedTests === totalTests && "bg-green-500 hover:bg-green-600"
+                        passedTests === totalTests &&
+                          "bg-green-500 hover:bg-green-600",
                       )}
                     >
                       {passedTests}/{totalTests}
@@ -325,11 +345,13 @@ export function ExerciseClient({ exercise }: Props) {
                           Common Mistakes to Avoid
                         </h3>
                         <ul className="list-disc pl-4 space-y-1">
-                          {exercise.education.commonMistakes.map((mistake, index) => (
-                            <li key={index}>
-                              <Markdown content={mistake} />
-                            </li>
-                          ))}
+                          {exercise.education.commonMistakes.map(
+                            (mistake, index) => (
+                              <li key={index}>
+                                <Markdown content={mistake} />
+                              </li>
+                            ),
+                          )}
                         </ul>
                       </div>
                     )}
@@ -372,14 +394,14 @@ export function ExerciseClient({ exercise }: Props) {
                     <CardTitle className="flex items-center justify-between">
                       <span>Practice Examples</span>
                       {hasRun && (
-                        <motion.div 
+                        <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           className={cn(
                             "text-sm px-3 py-1 rounded-full",
-                            passedTests === totalTests 
+                            passedTests === totalTests
                               ? "bg-green-500/20 text-green-500"
-                              : "bg-red-500/20 text-red-500"
+                              : "bg-red-500/20 text-red-500",
                           )}
                         >
                           {passedTests === totalTests ? (
@@ -410,10 +432,10 @@ export function ExerciseClient({ exercise }: Props) {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                           >
-                            <TestCaseAccordion 
-                              test={test} 
+                            <TestCaseAccordion
+                              test={test}
                               index={index}
-                              result={testResults[index]} 
+                              result={testResults[index]}
                             />
                           </motion.div>
                         ))}
@@ -478,8 +500,11 @@ function TestCaseAccordion({ test, index, result }: TestCaseAccordionProps) {
       data-component="TestCaseAccordion"
       className={cn(
         "rounded-lg border",
-        hasRun && (isPassed ? "bg-green-500/10 border-green-500/20" : "bg-destructive/10 border-destructive/20"),
-        !hasRun && "bg-card"
+        hasRun &&
+          (isPassed
+            ? "bg-green-500/10 border-green-500/20"
+            : "bg-destructive/10 border-destructive/20"),
+        !hasRun && "bg-card",
       )}
     >
       <button
@@ -487,13 +512,12 @@ function TestCaseAccordion({ test, index, result }: TestCaseAccordionProps) {
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-3">
-          {hasRun && (
-            isPassed ? (
+          {hasRun &&
+            (isPassed ? (
               <CheckCircle2 className="h-5 w-5 text-green-500" />
             ) : (
               <XCircle className="h-5 w-5 text-destructive" />
-            )
-          )}
+            ))}
           <div className="flex flex-col items-start gap-1">
             <div className="text-sm font-medium">Test Case {index + 1}</div>
             <div className="text-xs text-muted-foreground">
@@ -531,7 +555,9 @@ function TestCaseAccordion({ test, index, result }: TestCaseAccordionProps) {
               </div>
               {result && !result.passed && result.error && (
                 <div>
-                  <div className="text-sm font-medium mb-1 text-destructive">Error</div>
+                  <div className="text-sm font-medium mb-1 text-destructive">
+                    Error
+                  </div>
                   <pre className="text-xs bg-destructive/10 p-2 rounded-md overflow-x-auto">
                     {result.error}
                   </pre>
