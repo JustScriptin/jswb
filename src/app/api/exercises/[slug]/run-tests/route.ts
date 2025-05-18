@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
 import {
   LanguageSchema,
@@ -15,9 +15,9 @@ const RequestBodySchema = z.object({
 });
 
 export async function POST(
-  request: Request,
-  { params }: { params: { slug: string } }
-) : Promise<NextResponse> {
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
+): Promise<NextResponse> {
   let isolate: ivm.Isolate | undefined;
 
   try {
@@ -25,7 +25,10 @@ export async function POST(
     const { slug } = await params;
     const exercise = EXERCISES.find((ex) => ex.slug === slug);
     if (!exercise) {
-      return NextResponse.json({ error: "Exercise not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Exercise not found" },
+        { status: 404 },
+      );
     }
 
     // 2) Parse user code and language
@@ -34,7 +37,7 @@ export async function POST(
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Invalid request", issues: parsed.error.format() },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const { code, language } = parsed.data;
@@ -62,7 +65,7 @@ export async function POST(
         });
         return NextResponse.json(
           { error: messages.join("\n") },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -80,8 +83,8 @@ export async function POST(
       "myLog",
       new ivm.Callback(
         (...args: unknown[]) => console.log("[Isolate log]", ...args),
-        { sync: true }
-      )
+        { sync: true },
+      ),
     );
 
     // 6) Build snippet which:
@@ -91,7 +94,10 @@ export async function POST(
     const codeWithGlobal = `${finalCode}\nif (typeof solve === 'function') globalThis.solve = solve;\n`;
     const userCodeLiteral = JSON.stringify(codeWithGlobal);
     // Escape backticks to avoid breaking the template literal
-    const testCasesLiteral = JSON.stringify(exercise.testCases).replace(/`/g, "\\`");
+    const testCasesLiteral = JSON.stringify(exercise.testCases).replace(
+      /`/g,
+      "\\`",
+    );
 
     const snippet = `
 myLog("[snippet] Starting snippet...");
@@ -162,7 +168,7 @@ try {
     if (!resultRef) {
       return NextResponse.json(
         { error: "Snippet did not set final result" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -176,7 +182,7 @@ try {
     if (!rawResult.success) {
       return NextResponse.json(
         { error: rawResult.error || "Unknown error occurred" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -186,7 +192,7 @@ try {
     } catch {
       return NextResponse.json(
         { error: "Invalid results format" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
