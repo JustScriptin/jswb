@@ -8,7 +8,12 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier \"**/*.{js,jsx,ts,tsx,css,md,json}\" --check",
+    "format:write": "prettier \"**/*.{js,jsx,ts,tsx,css,md,json}\" --write",
+    "lint:fix": "next lint --fix",
+    "check": "npm run lint && npm run type-check && npm test",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0-rc.0",
