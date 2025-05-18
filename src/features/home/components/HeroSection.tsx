@@ -7,16 +7,16 @@ import { cn } from "@/lib/utils";
 
 const codeSnippet = `const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);`;
 
-const GRID_COLS = 10;
-const GRID_ROWS = 5;
+const GRID_COLS = 12;
+const GRID_ROWS = 6;
 
 function ParticleBackground() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, -80]);
 
   return (
-    <motion.div className="absolute inset-0 opacity-[0.03]" style={{ y }}>
-      <div className="grid h-full w-full grid-cols-10 grid-rows-5">
+    <motion.div className="absolute inset-0 opacity-[0.04]" style={{ y }}>
+      <div className="grid h-full w-full grid-cols-12 grid-rows-6">
         {Array.from({ length: GRID_COLS * GRID_ROWS }).map((_, i) => (
           <div key={i} className="flex items-center justify-center">
             <div className="h-1 w-1 rounded-full bg-white" />
@@ -43,11 +43,12 @@ export function HeroSection() {
             transition={{ duration: 0.6 }}
             className="text-5xl font-bold md:text-6xl lg:text-7xl"
           >
-            Master{" "}
+            The Playground for
             <span className="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
-              JavaScript
-            </span>{" "}
-            Methods
+              {" "}
+              JavaScript{" "}
+            </span>
+            &nbsp;TypeScript
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -55,7 +56,7 @@ export function HeroSection() {
             transition={{ duration: 0.7 }}
             className="text-lg md:text-xl text-muted-foreground"
           >
-            Short, interactive challenges to sharpen your skills.
+            Solve bite-sized challenges and build muscle memory.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

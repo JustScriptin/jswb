@@ -34,7 +34,7 @@ function ChallengeTile({
   return (
     <motion.div
       data-component="ChallengeTile"
-      className="group relative h-[340px] cursor-pointer overflow-hidden rounded-xl bg-background"
+      className="group relative h-[340px] cursor-pointer overflow-hidden rounded-xl border bg-background/70 backdrop-blur"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -71,7 +71,7 @@ export function PopularChallengesSection(): ReactElement {
     >
       <div className="container mx-auto px-4 skew-y-1">
         <h2 className="mb-16 text-center text-3xl font-bold text-foreground">
-          Popular Challenges
+          Trending Challenges
         </h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {CHALLENGES.map((c, i) => (
