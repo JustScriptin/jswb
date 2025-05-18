@@ -43,6 +43,9 @@ const boundariesElements = [
 ];
 
 const eslintConfig = [
+  {
+    ignores: ["tests/**/*"],
+  },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     files: ["src/**/*"],
