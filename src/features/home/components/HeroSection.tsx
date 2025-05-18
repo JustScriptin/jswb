@@ -7,12 +7,33 @@ import { cn } from "@/lib/utils";
 
 const codeSnippet = `const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);`;
 
+const PARTICLES = 50;
+
+function ParticleBackground() {
+  return (
+    <div className="absolute inset-0 opacity-[0.03]">
+      {Array.from({ length: PARTICLES }).map((_, i) => (
+        <div
+          key={i}
+          className="absolute h-1 w-1 rounded-full bg-white"
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            opacity: Math.random() * 0.5 + 0.1,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function HeroSection() {
   return (
     <section
       data-component="HeroSection"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-800 via-purple-900 to-sky-800 text-white"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-radial from-indigo-900 via-blue-900 to-cyan-800 text-white"
     >
+      <ParticleBackground />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.4),transparent)]" />
       <div className="relative z-10 grid max-w-6xl grid-cols-1 items-center gap-12 px-4 md:grid-cols-2">
         <div className="space-y-6 text-center md:text-left">
@@ -22,7 +43,11 @@ export function HeroSection() {
             transition={{ duration: 0.6 }}
             className="text-5xl font-bold md:text-7xl"
           >
-            Master JavaScript Methods
+            Master{" "}
+            <span className="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
+              JavaScript
+            </span>{" "}
+            Methods
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

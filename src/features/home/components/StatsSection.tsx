@@ -5,7 +5,7 @@ import { StatsPebble } from "./StatsPebble";
 export function StatsSection(): ReactElement {
   return (
     <section data-component="StatsSection" className="bg-muted py-12">
-      <div className="container mx-auto flex flex-col items-center gap-6 md:flex-row md:justify-center">
+      <div className="container mx-auto flex flex-wrap items-center justify-center gap-8">
         <StatsPebble
           icon={<Code2 className="h-6 w-6" />}
           value={50}

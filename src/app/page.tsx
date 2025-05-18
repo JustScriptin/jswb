@@ -5,6 +5,8 @@ import {
   MicroNav,
   StatsSection,
   FeaturesSection,
+  HowItWorksSection,
+  PopularChallengesSection,
 } from "@/features/home/components";
 
 export default function Home(): ReactElement {
@@ -14,6 +16,8 @@ export default function Home(): ReactElement {
       <HeroSection />
       <StatsSection />
       <FeaturesSection />
+      <HowItWorksSection />
+      <PopularChallengesSection />
       <FinalBanner />
     </main>
   );

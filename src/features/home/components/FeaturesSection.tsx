@@ -31,7 +31,7 @@ function FeatureItem({ icon, title, description }: Feature): ReactElement {
       whileHover={{ y: -4 }}
       className="text-center"
     >
-      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary shadow">
         {icon}
       </div>
       <h3 className="mb-2 font-semibold">{title}</h3>
