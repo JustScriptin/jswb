@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "JavaScript Method Learning | JSW",
-  description: "Learn and practice JavaScript methods through interactive exercises and examples.",
+  description:
+    "Learn and practice JavaScript methods through interactive exercises and examples.",
 };
 
 export default function ExercisesLayout({
@@ -12,10 +13,11 @@ export default function ExercisesLayout({
   children: React.ReactNode;
 }>): ReactElement {
   return (
-    <div data-component="ExercisesLayout" className="min-h-screen bg-background">
-      <main className="container mx-auto py-8 px-4">
-        {children}
-      </main>
+    <div
+      data-component="ExercisesLayout"
+      className="min-h-screen bg-background"
+    >
+      <main className="container mx-auto py-8 px-4">{children}</main>
     </div>
   );
 }

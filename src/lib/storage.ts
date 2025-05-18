@@ -8,13 +8,13 @@ export const getLocalStorageValue = <T>(key: string, defaultValue: T): T => {
   if (typeof window === "undefined") return defaultValue;
   try {
     const saved = window.localStorage.getItem(key);
-   if (saved === null) return defaultValue;
-   try {
-     return JSON.parse(saved) as T;
-   } catch {
-     // If parsing fails, return the raw string or default
-     return (saved as unknown as T) ?? defaultValue;
-   }
+    if (saved === null) return defaultValue;
+    try {
+      return JSON.parse(saved) as T;
+    } catch {
+      // If parsing fails, return the raw string or default
+      return (saved as unknown as T) ?? defaultValue;
+    }
   } catch {
     return defaultValue;
   }
@@ -27,8 +27,9 @@ export const getLocalStorageValue = <T>(key: string, defaultValue: T): T => {
 export const setLocalStorageValue = <T>(key: string, value: T): void => {
   if (typeof window === "undefined") return;
   try {
-   const valueToStore = typeof value === 'object' ? JSON.stringify(value) : String(value);
-   window.localStorage.setItem(key, valueToStore);
+    const valueToStore =
+      typeof value === "object" ? JSON.stringify(value) : String(value);
+    window.localStorage.setItem(key, valueToStore);
   } catch {
     // ignore write errors
   }
