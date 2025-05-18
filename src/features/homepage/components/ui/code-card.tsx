@@ -18,12 +18,16 @@ console.log(result) // [2, 4, 6]`;
  *
  * Displays an interactive code editor with typing animation and test results
  */
+const TESTS_COUNT = 3;
+
 export const CodeCard = memo(function CodeCard() {
   const [testsRun, setTestsRun] = useState(false);
-  const [testsPassed, setTestsPassed] = useState([false, false, false]);
+  const [testsPassed, setTestsPassed] = useState<boolean[]>(
+    Array(TESTS_COUNT).fill(false),
+  );
   const [isTyping, setIsTyping] = useState(true);
   const [typedCode, setTypedCode] = useState("");
-  const testIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const testIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const lines = typedCode.split("\n");
   const cursorLine = lines.length - 1;
@@ -52,14 +56,18 @@ export const CodeCard = memo(function CodeCard() {
     let currentTest = 0;
     const startTestsTimeout = setTimeout(() => {
       setTestsRun(true);
-      setTestsPassed([false, false, false]);
+      setTestsPassed(Array(TESTS_COUNT).fill(false));
       testIntervalRef.current = setInterval(() => {
-        if (currentTest >= testsPassed.length) {
-          if (testIntervalRef.current) clearInterval(testIntervalRef.current);
+        if (currentTest >= TESTS_COUNT) {
+          if (testIntervalRef.current) {
+            clearInterval(testIntervalRef.current);
+          }
+          setTestsRun(false);
           return;
         }
 
         setTestsPassed((prev) => {
+          if (prev[currentTest]) return prev;
           const next = [...prev];
           next[currentTest] = true;
           return next;
@@ -73,7 +81,7 @@ export const CodeCard = memo(function CodeCard() {
       clearTimeout(startTestsTimeout);
       if (testIntervalRef.current) clearInterval(testIntervalRef.current);
     };
-  }, [isTyping, testsPassed.length]);
+  }, [isTyping]);
 
   return (
     <motion.div
