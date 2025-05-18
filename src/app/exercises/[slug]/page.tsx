@@ -5,15 +5,13 @@ import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
 import { ExerciseClient } from "@/features/codingChallenges/components/ExerciseClient";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 // Generate metadata for each exercise page
-export async function generateMetadata(
-  { params }: Props
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const exercise = EXERCISES.find((ex) => ex.slug === slug);
 
@@ -34,7 +32,9 @@ export async function generateMetadata(
   };
 }
 
-export default async function ExercisePage({ params }: Props): Promise<ReactElement> {
+export default async function ExercisePage({
+  params,
+}: Props): Promise<ReactElement> {
   const { slug } = await params;
   const exercise = EXERCISES.find((ex) => ex.slug === slug);
 
@@ -45,4 +45,3 @@ export default async function ExercisePage({ params }: Props): Promise<ReactElem
   return <ExerciseClient exercise={exercise} />;
 }
 ExercisePage.displayName = "ExercisePage";
-
