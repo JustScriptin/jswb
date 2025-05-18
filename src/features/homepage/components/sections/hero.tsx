@@ -34,7 +34,7 @@ export function Hero() {
           opacity: heroOpacity,
         }}
       >
-        <ParticleBackground count={50} opacity={0.1} />
+        <ParticleBackground count={50} opacity={1} />
       </motion.div>
 
       <div className="container relative grid items-center h-screen max-w-7xl grid-cols-1 px-4 mx-auto lg:grid-cols-12 gap-y-12">
