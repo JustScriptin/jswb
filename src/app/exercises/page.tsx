@@ -8,11 +8,19 @@ import {
 } from "@/features/codingChallenges/types";
 import { ExerciseCard } from "@/features/codingChallenges/components/ExerciseCard";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Code2, BookOpen, Layers, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useDebounce } from "@/hooks/useDebounce";
+import { categoryColors } from "@/features/codingChallenges/constants";
+import { StatsCard } from "@/features/codingChallenges/components/StatsCard";
 import {
   Command,
   CommandEmpty,
@@ -23,22 +31,15 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 
-// Category color mapping
-const categoryColors: Record<CategoryName, { bg: string; text: string; border: string }> = {
-  array: { bg: "bg-green-100", text: "text-green-800", border: "border-green-200" },
-  object: { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-200" },
-  map: { bg: "bg-purple-100", text: "text-purple-800", border: "border-purple-200" },
-  set: { bg: "bg-orange-100", text: "text-orange-800", border: "border-orange-200" },
-};
-
 export default function ExercisesPage(): ReactElement {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] =
-    useState<CategoryName | "all">("all");
+  const [selectedCategory, setSelectedCategory] = useState<
+    CategoryName | "all"
+  >("all");
   const [selectedMethod, setSelectedMethod] = useState<string>("all");
   const [completedCount, setCompletedCount] = useState(0);
   const [isCommandOpen, setIsCommandOpen] = useState(false);
-  
+
   // Debounce search query to prevent excessive re-renders
   const debouncedSearch = useDebounce(searchQuery, 300);
 
@@ -51,32 +52,51 @@ export default function ExercisesPage(): ReactElement {
   }, []);
 
   // Filter exercises based on search and filters
-  const filteredExercises = EXERCISES.filter(exercise => {
-    const matchesSearch = exercise.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-                         exercise.description.toLowerCase().includes(debouncedSearch.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || exercise.category.name === selectedCategory;
-    const matchesMethod = selectedMethod === "all" || exercise.category.method === selectedMethod;
+  const filteredExercises = EXERCISES.filter((exercise) => {
+    const matchesSearch =
+      exercise.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      exercise.description
+        .toLowerCase()
+        .includes(debouncedSearch.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "all" || exercise.category.name === selectedCategory;
+    const matchesMethod =
+      selectedMethod === "all" || exercise.category.method === selectedMethod;
     return matchesSearch && matchesCategory && matchesMethod;
   });
 
   // Get available methods for selected category
-  const availableMethods = selectedCategory === "all" 
-    ? Array.from(new Set(Object.values(CATEGORY_METHODS).flat()))
-    : CATEGORY_METHODS[selectedCategory as keyof typeof CATEGORY_METHODS] || [];
+  const availableMethods =
+    selectedCategory === "all"
+      ? Array.from(new Set(Object.values(CATEGORY_METHODS).flat()))
+      : CATEGORY_METHODS[selectedCategory as keyof typeof CATEGORY_METHODS] ||
+        [];
 
   // Get methods with their categories for "all" view
-  const methodsWithCategories = selectedCategory === "all"
-    ? Array.from(new Set(Object.values(CATEGORY_METHODS).flat())).map(method => {
-        const categories = Object.entries(CATEGORY_METHODS)
-          .filter(([, methods]) => (methods as readonly string[]).includes(method as string))
-          .map(([category]) => category);
-        return { method, categories };
-      })
-    : availableMethods.map(method => ({ method, categories: [selectedCategory] }));
+  const methodsWithCategories =
+    selectedCategory === "all"
+      ? Array.from(new Set(Object.values(CATEGORY_METHODS).flat())).map(
+          (method) => {
+            const categories = Object.entries(CATEGORY_METHODS)
+              .filter(([, methods]) =>
+                (methods as readonly string[]).includes(method as string),
+              )
+              .map(([category]) => category);
+            return { method, categories };
+          },
+        )
+      : availableMethods.map((method) => ({
+          method,
+          categories: [selectedCategory],
+        }));
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, staggerChildren: 0.1 } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, staggerChildren: 0.1 },
+    },
   };
 
   const itemVariants = {
@@ -100,7 +120,7 @@ export default function ExercisesPage(): ReactElement {
           ))}
         </div>
         <div className="container mx-auto py-16 relative">
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="max-w-3xl mx-auto text-center space-y-6"
           >
@@ -108,12 +128,13 @@ export default function ExercisesPage(): ReactElement {
               Learn JavaScript Methods
             </h1>
             <p className="text-xl text-muted-foreground">
-              Master JavaScript through hands-on learning. Understand and practice essential methods with interactive examples.
+              Master JavaScript through hands-on learning. Understand and
+              practice essential methods with interactive examples.
             </p>
           </motion.div>
 
           {/* Stats Section */}
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 max-w-4xl mx-auto"
           >
@@ -129,7 +150,10 @@ export default function ExercisesPage(): ReactElement {
             />
             <StatsCard
               icon={<BookOpen className="w-5 h-5" />}
-              value={Array.from(new Set(Object.values(CATEGORY_METHODS).flat())).length}
+              value={
+                Array.from(new Set(Object.values(CATEGORY_METHODS).flat()))
+                  .length
+              }
               label="Methods to Learn"
             />
             <StatsCard
@@ -144,15 +168,12 @@ export default function ExercisesPage(): ReactElement {
 
       <div className="container mx-auto py-8 space-y-8">
         {/* Filters Section */}
-        <motion.div 
+        <motion.div
           variants={itemVariants}
           className="bg-card rounded-lg border shadow-sm p-4"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Command 
-              className="rounded-lg border"
-              shouldFilter={false}
-            >
+            <Command className="rounded-lg border" shouldFilter={false}>
               <CommandInput
                 placeholder="Search exercises..."
                 value={searchQuery}
@@ -166,16 +187,20 @@ export default function ExercisesPage(): ReactElement {
               {isCommandOpen && (
                 <CommandList className="animate-in fade-in-0 zoom-in-95">
                   <CommandEmpty>No exercises found.</CommandEmpty>
-                  {Object.keys(CATEGORY_METHODS).map(category => {
+                  {Object.keys(CATEGORY_METHODS).map((category) => {
                     const categoryExercises = filteredExercises.filter(
-                      exercise => exercise.category.name === category
+                      (exercise) => exercise.category.name === category,
                     );
-                    
+
                     if (categoryExercises.length === 0) return null;
-                    
+
                     return (
                       <React.Fragment key={category}>
-                        <CommandGroup heading={category.charAt(0).toUpperCase() + category.slice(1)}>
+                        <CommandGroup
+                          heading={
+                            category.charAt(0).toUpperCase() + category.slice(1)
+                          }
+                        >
                           {categoryExercises.map((exercise) => (
                             <CommandItem
                               key={exercise.slug}
@@ -186,11 +211,12 @@ export default function ExercisesPage(): ReactElement {
                                 setIsCommandOpen(false);
                               }}
                             >
-                              <div 
+                              <div
                                 className={cn(
                                   "w-2 h-2 rounded-full",
-                                  categoryColors[exercise.category.name]?.bg || "bg-gray-100"
-                                )} 
+                                  categoryColors[exercise.category.name]?.bg ||
+                                    "bg-gray-100",
+                                )}
                               />
                               <span>{exercise.title}</span>
                             </CommandItem>
@@ -210,12 +236,11 @@ export default function ExercisesPage(): ReactElement {
                 const validMethods: readonly string[] =
                   value === "all"
                     ? Array.from(
-                        new Set(Object.values(CATEGORY_METHODS).flat())
+                        new Set(Object.values(CATEGORY_METHODS).flat()),
                       )
-                    :
-                      CATEGORY_METHODS[
+                    : (CATEGORY_METHODS[
                         value as keyof typeof CATEGORY_METHODS
-                      ] ?? [];
+                      ] ?? []);
                 if (!validMethods.includes(selectedMethod)) {
                   setSelectedMethod("all");
                 }
@@ -226,13 +251,16 @@ export default function ExercisesPage(): ReactElement {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
-                {Object.keys(CATEGORY_METHODS).map(category => (
+                {Object.keys(CATEGORY_METHODS).map((category) => (
                   <SelectItem key={category} value={category}>
                     <div className="flex items-center gap-2">
-                      <div className={cn(
-                        "w-2 h-2 rounded-full",
-                        categoryColors[category as CategoryName]?.bg || "bg-gray-100"
-                      )} />
+                      <div
+                        className={cn(
+                          "w-2 h-2 rounded-full",
+                          categoryColors[category as CategoryName]?.bg ||
+                            "bg-gray-100",
+                        )}
+                      />
                       {category.charAt(0).toUpperCase() + category.slice(1)}
                     </div>
                   </SelectItem>
@@ -264,7 +292,7 @@ export default function ExercisesPage(): ReactElement {
 
         {/* Results Section */}
         <div className="space-y-6">
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="flex items-center justify-between"
           >
@@ -273,28 +301,26 @@ export default function ExercisesPage(): ReactElement {
             </h2>
             <div className="flex gap-2">
               {selectedCategory !== "all" && (
-                <Badge 
-                  variant="secondary" 
+                <Badge
+                  variant="secondary"
                   className={cn(
                     "capitalize",
                     categoryColors[selectedCategory as CategoryName]?.bg,
-                    categoryColors[selectedCategory as CategoryName]?.text
+                    categoryColors[selectedCategory as CategoryName]?.text,
                   )}
                 >
                   {selectedCategory}
                 </Badge>
               )}
               {selectedMethod !== "all" && (
-                <Badge variant="secondary">
-                  {selectedMethod}
-                </Badge>
+                <Badge variant="secondary">{selectedMethod}</Badge>
               )}
             </div>
           </motion.div>
 
           {/* Exercises Grid */}
           <AnimatePresence mode="wait">
-            <motion.div 
+            <motion.div
               key={`${selectedCategory}-${selectedMethod}-${debouncedSearch}`}
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
@@ -326,7 +352,7 @@ export default function ExercisesPage(): ReactElement {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <ExerciseCard 
+                      <ExerciseCard
                         exercise={exercise}
                         categoryColors={categoryColors[exercise.category.name]}
                       />
@@ -334,7 +360,7 @@ export default function ExercisesPage(): ReactElement {
                   ))}
                 </motion.div>
               ) : (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="col-span-full text-center py-12"
@@ -345,14 +371,27 @@ export default function ExercisesPage(): ReactElement {
                         <Search className="h-6 w-6 text-muted-foreground" />
                       </div>
                       <div className="space-y-2">
-                        <h3 className="text-xl font-semibold">No exercises found</h3>
+                        <h3 className="text-xl font-semibold">
+                          No exercises found
+                        </h3>
                         <p className="text-muted-foreground max-w-[350px] mx-auto">
                           {searchQuery ? (
-                            <>No exercises match your search &quot;{searchQuery}&quot;. Try different keywords or clear your search.</>
-                          ) : selectedCategory !== "all" || selectedMethod !== "all" ? (
-                            <>No exercises found with the selected filters. Try adjusting your category or method selection.</>
+                            <>
+                              No exercises match your search &quot;{searchQuery}
+                              &quot;. Try different keywords or clear your
+                              search.
+                            </>
+                          ) : selectedCategory !== "all" ||
+                            selectedMethod !== "all" ? (
+                            <>
+                              No exercises found with the selected filters. Try
+                              adjusting your category or method selection.
+                            </>
                           ) : (
-                            <>No exercises are currently available. Please check back later.</>
+                            <>
+                              No exercises are currently available. Please check
+                              back later.
+                            </>
                           )}
                         </p>
                       </div>
@@ -365,7 +404,8 @@ export default function ExercisesPage(): ReactElement {
                             Clear search
                           </button>
                         )}
-                        {(selectedCategory !== "all" || selectedMethod !== "all") && (
+                        {(selectedCategory !== "all" ||
+                          selectedMethod !== "all") && (
                           <button
                             onClick={() => {
                               setSelectedCategory("all");
@@ -389,29 +429,3 @@ export default function ExercisesPage(): ReactElement {
   );
 }
 ExercisesPage.displayName = "ExercisesPage";
-
-// Stats Card Component
-function StatsCard({ icon, value, label, highlight = false }: {
-  icon: React.ReactNode;
-  value: number;
-  label: string;
-  highlight?: boolean;
-}) {
-  return (
-    <motion.div
-      data-component="StatsCard"
-      whileHover={{ scale: 1.05 }}
-      className={cn(
-        "rounded-lg p-4 text-center space-y-2 bg-card border shadow-sm",
-        highlight && "bg-primary/5 border-primary/20"
-      )}
-    >
-      <div className="mx-auto w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-        {icon}
-      </div>
-      <div className="text-2xl font-bold">{value}</div>
-      <div className="text-sm text-muted-foreground">{label}</div>
-    </motion.div>
-  );
-}
-StatsCard.displayName = "StatsCard";
