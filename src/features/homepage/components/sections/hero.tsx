@@ -28,7 +28,7 @@ export function Hero() {
   return (
     <section ref={heroRef} className="relative min-h-screen overflow-hidden">
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-background via-indigo-900/70 to-cyan-900/70"
+        className="absolute inset-0 bg-gradient-to-br from-background via-indigo-900/70 to-cyan-900/70 pointer-events-none z-0"
         style={{
           y: heroY,
           opacity: heroOpacity,

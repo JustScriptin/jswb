@@ -17,7 +17,7 @@ export const ParticleBackground = memo(function ParticleBackground({
   opacity = 0.02,
 }: ParticleBackgroundProps) {
   return (
-    <div className="absolute inset-0" style={{ opacity }}>
+    <div className="absolute inset-0 pointer-events-none" style={{ opacity }}>
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
