@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
+import { HomePage } from "@/features/homepage/components/home-page";
 
 export default function Home(): ReactElement {
-  return <main data-component="HomePage">Home Page</main>;
+  return <HomePage />;
 }
 Home.displayName = "Home";
