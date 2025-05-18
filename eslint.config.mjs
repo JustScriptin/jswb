@@ -89,6 +89,7 @@ const eslintConfig = [
       'boundaries/no-unknown': ['error'],
       // Forces every single file to be in one of the boundries types (shared, feature, app, neverImport)
       'boundaries/no-unknown-files': ['error'],
+      'eol-last': ['error', 'always'],
     }
   }
 ];
