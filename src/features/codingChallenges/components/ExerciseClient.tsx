@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { ReactNode, useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Card,
@@ -65,6 +65,60 @@ const KEYBOARD_SHORTCUTS = [
   { key: "⌘/Ctrl + 2", description: "Switch to Test Cases" },
   { key: "Esc", description: "Exit Fullscreen" },
 ];
+
+// subcomponents
+type Shortcut = (typeof KEYBOARD_SHORTCUTS)[number];
+
+type ShortcutItemProps = {
+  shortcut: Shortcut;
+};
+
+function ShortcutItem({ shortcut }: ShortcutItemProps) {
+  return (
+    <div
+      data-component="ShortcutItem"
+      className="flex items-center justify-between"
+    >
+      <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+        {shortcut.key}
+      </code>
+      <span className="text-sm text-muted-foreground">
+        {shortcut.description}
+      </span>
+    </div>
+  );
+}
+
+type SectionHeadingProps = {
+  icon: ReactNode;
+  title: string;
+  className?: string;
+};
+
+function SectionHeading({ icon, title, className }: SectionHeadingProps) {
+  return (
+    <h3 className={cn("font-semibold mb-2 flex items-center gap-2", className)}>
+      {icon}
+      {title}
+    </h3>
+  );
+}
+
+type MarkdownListProps = {
+  items: string[];
+};
+
+function MarkdownList({ items }: MarkdownListProps) {
+  return (
+    <ul className="list-disc pl-4 space-y-1">
+      {items.map((item) => (
+        <li key={item}>
+          <Markdown content={item} />
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export function ExerciseClient({ exercise }: Props) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
@@ -173,17 +227,7 @@ export function ExerciseClient({ exercise }: Props) {
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   {KEYBOARD_SHORTCUTS.map((shortcut) => (
-                    <div
-                      key={shortcut.key}
-                      className="flex items-center justify-between"
-                    >
-                      <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-                        {shortcut.key}
-                      </code>
-                      <span className="text-sm text-muted-foreground">
-                        {shortcut.description}
-                      </span>
-                    </div>
+                    <ShortcutItem key={shortcut.key} shortcut={shortcut} />
                   ))}
                 </div>
               </DialogContent>
@@ -303,70 +347,56 @@ export function ExerciseClient({ exercise }: Props) {
                   <CardContent className="space-y-6">
                     {/* Explanation Section */}
                     <div>
-                      <h3 className="font-semibold mb-2 flex items-center gap-2">
-                        <Lightbulb className="h-4 w-4" />
-                        Explanation
-                      </h3>
+                      <SectionHeading
+                        icon={<Lightbulb className="h-4 w-4" />}
+                        title="Explanation"
+                      />
                       <Markdown content={exercise.education.explanation} />
                     </div>
 
                     {/* Visual Example Section */}
                     {exercise.education.visualExample && (
                       <div>
-                        <h3 className="font-semibold mb-2 flex items-center gap-2">
-                          <Code className="h-4 w-4" />
-                          Visual Example
-                        </h3>
+                        <SectionHeading
+                          icon={<Code className="h-4 w-4" />}
+                          title="Visual Example"
+                        />
                         <Markdown content={exercise.education.visualExample} />
                       </div>
                     )}
 
                     {/* Use Cases Section */}
                     <div>
-                      <h3 className="font-semibold mb-2 flex items-center gap-2">
-                        <Target className="h-4 w-4" />
-                        Common Use Cases
-                      </h3>
-                      <ul className="list-disc pl-4 space-y-1">
-                        {exercise.education.useCases.map((useCase) => (
-                          <li key={useCase}>
-                            <Markdown content={useCase} />
-                          </li>
-                        ))}
-                      </ul>
+                      <SectionHeading
+                        icon={<Target className="h-4 w-4" />}
+                        title="Common Use Cases"
+                      />
+                      <MarkdownList items={exercise.education.useCases} />
                     </div>
 
                     {/* Common Mistakes Section */}
                     {exercise.education.commonMistakes && (
                       <div>
-                        <h3 className="font-semibold mb-2 flex items-center gap-2 text-yellow-500">
-                          <AlertTriangle className="h-4 w-4" />
-                          Common Mistakes to Avoid
-                        </h3>
-                        <ul className="list-disc pl-4 space-y-1">
-                          {exercise.education.commonMistakes.map((mistake) => (
-                            <li key={mistake}>
-                              <Markdown content={mistake} />
-                            </li>
-                          ))}
-                        </ul>
+                        <SectionHeading
+                          icon={<AlertTriangle className="h-4 w-4" />}
+                          title="Common Mistakes to Avoid"
+                          className="text-yellow-500"
+                        />
+                        <MarkdownList
+                          items={exercise.education.commonMistakes}
+                        />
                       </div>
                     )}
 
                     {/* Tips Section */}
                     {exercise.education.tips && (
                       <div>
-                        <h3 className="font-semibold mb-2 flex items-center gap-2 text-green-500">
-                          <Lightbulb className="h-4 w-4" />
-                          Pro Tips
-                        </h3>
-                        <ul className="list-disc pl-4 space-y-1">
-                          {exercise.education.tips.map((tip) => (
-                            <li key={tip}>
-                              <Markdown content={tip} />
-                            </li>
-                          ))}
-                        </ul>
+                        <SectionHeading
+                          icon={<Lightbulb className="h-4 w-4" />}
+                          title="Pro Tips"
+                          className="text-green-500"
+                        />
+                        <MarkdownList items={exercise.education.tips} />
                       </div>
                     )}
                   </CardContent>
