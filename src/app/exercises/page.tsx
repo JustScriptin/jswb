@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, type ReactElement } from "react";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
-import { CATEGORY_METHODS } from "@/features/codingChallenges/types";
+import {
+  CATEGORY_METHODS,
+  type CategoryName,
+} from "@/features/codingChallenges/types";
 import { ExerciseCard } from "@/features/codingChallenges/components/ExerciseCard";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -21,16 +24,17 @@ import {
 } from "@/components/ui/command";
 
 // Category color mapping
-const categoryColors: Record<string, { bg: string; text: string; border: string }> = {
+const categoryColors: Record<CategoryName, { bg: string; text: string; border: string }> = {
   array: { bg: "bg-green-100", text: "text-green-800", border: "border-green-200" },
   object: { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-200" },
   map: { bg: "bg-purple-100", text: "text-purple-800", border: "border-purple-200" },
   set: { bg: "bg-orange-100", text: "text-orange-800", border: "border-orange-200" },
 };
 
-export default function ExercisesPage() {
+export default function ExercisesPage(): ReactElement {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] =
+    useState<CategoryName | "all">("all");
   const [selectedMethod, setSelectedMethod] = useState<string>("all");
   const [completedCount, setCompletedCount] = useState(0);
   const [isCommandOpen, setIsCommandOpen] = useState(false);
@@ -202,7 +206,7 @@ export default function ExercisesPage() {
             <Select
               value={selectedCategory}
               onValueChange={(value) => {
-                setSelectedCategory(value);
+                setSelectedCategory(value as CategoryName | "all");
                 const validMethods: readonly string[] =
                   value === "all"
                     ? Array.from(
@@ -227,7 +231,7 @@ export default function ExercisesPage() {
                     <div className="flex items-center gap-2">
                       <div className={cn(
                         "w-2 h-2 rounded-full",
-                        categoryColors[category]?.bg || "bg-gray-100"
+                        categoryColors[category as CategoryName]?.bg || "bg-gray-100"
                       )} />
                       {category.charAt(0).toUpperCase() + category.slice(1)}
                     </div>
@@ -273,8 +277,8 @@ export default function ExercisesPage() {
                   variant="secondary" 
                   className={cn(
                     "capitalize",
-                    categoryColors[selectedCategory]?.bg,
-                    categoryColors[selectedCategory]?.text
+                    categoryColors[selectedCategory as CategoryName]?.bg,
+                    categoryColors[selectedCategory as CategoryName]?.text
                   )}
                 >
                   {selectedCategory}

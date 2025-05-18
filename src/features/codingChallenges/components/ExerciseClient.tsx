@@ -465,7 +465,7 @@ ExerciseClient.displayName = "ExerciseClient";
 type TestCaseAccordionProps = {
   test: TestCase;
   index: number;
-  result?: TestResult;
+  result: TestResult | undefined;
 };
 
 function TestCaseAccordion({ test, index, result }: TestCaseAccordionProps) {

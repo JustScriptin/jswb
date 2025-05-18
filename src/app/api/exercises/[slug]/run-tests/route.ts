@@ -17,7 +17,7 @@ const RequestBodySchema = z.object({
 export async function POST(
   request: Request,
   { params }: { params: { slug: string } }
-) {
+) : Promise<NextResponse> {
   let isolate: ivm.Isolate | undefined;
 
   try {
