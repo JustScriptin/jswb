@@ -1,29 +1,38 @@
 import type { ReactElement } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import {
+  HeroSection,
+  StatsPebble,
+  FinalBanner,
+  MicroNav,
+} from "@/features/home/components";
+import { Code2, Layers, Trophy } from "lucide-react";
 
 export default function Home(): ReactElement {
   return (
-    <section
-      data-component="HomePage"
-      className="container mx-auto flex min-h-screen flex-col items-center justify-center gap-6 px-4 text-center"
-    >
-      <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-        JavaScript Methods Learning
-      </h1>
-      <p className="text-lg text-muted-foreground">
-        Practice essential JavaScript methods through short, interactive
-        exercises.
-      </p>
-      <div className="flex flex-col items-center gap-4 sm:flex-row">
-        <Button asChild>
-          <Link href="/exercises">Browse Exercises</Link>
-        </Button>
-        <Button variant="secondary" asChild>
-          <Link href="/exercises">Start Now</Link>
-        </Button>
-      </div>
-    </section>
+    <main data-component="HomePage" className="flex flex-col">
+      <MicroNav />
+      <HeroSection />
+      <section className="bg-muted py-12">
+        <div className="container mx-auto flex justify-center gap-6">
+          <StatsPebble
+            icon={<Code2 className="h-6 w-6" />}
+            value={50}
+            label="Exercises"
+          />
+          <StatsPebble
+            icon={<Layers className="h-6 w-6" />}
+            value={4}
+            label="Categories"
+          />
+          <StatsPebble
+            icon={<Trophy className="h-6 w-6" />}
+            value={12}
+            label="Techniques"
+          />
+        </div>
+      </section>
+      <FinalBanner />
+    </main>
   );
 }
 Home.displayName = "Home";
