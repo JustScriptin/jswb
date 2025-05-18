@@ -14,14 +14,14 @@ export function HowItWorks() {
     <section className="py-24 bg-background relative">
       <div className="container max-w-7xl mx-auto px-4 relative z-10">
         <motion.h2
-          className="text-3xl font-bold text-center text-white mb-4"
+          className="text-3xl font-bold text-center text-foreground mb-4"
           {...fadeInUp(0)}
           viewport={{ once: true, margin: "-100px" }}
         >
           How It Works
         </motion.h2>
         <motion.div
-          className="max-w-xl mx-auto text-center mb-16 text-white/70"
+          className="max-w-xl mx-auto text-center mb-16 text-muted-foreground"
           {...fadeInUp(0.1)}
           viewport={{ once: true, margin: "-100px" }}
         >

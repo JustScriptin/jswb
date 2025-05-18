@@ -109,13 +109,13 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-black/20;
+  @apply bg-gray-200 dark:bg-gray-700;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-cyan-500/20 rounded;
+  @apply bg-cyan-500/40 dark:bg-cyan-400/40 rounded;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-cyan-500/40;
+  @apply bg-cyan-500/60 dark:bg-cyan-400/60;
 }
