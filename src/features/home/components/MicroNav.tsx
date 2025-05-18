@@ -7,9 +7,14 @@ import { cn } from "@/lib/utils";
 
 export function MicroNav() {
   const [visible, setVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY >= 64);
+    const onScroll = () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      setVisible(window.scrollY >= 64);
+      setProgress(Math.min(window.scrollY / total, 1));
+    };
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -38,6 +43,10 @@ export function MicroNav() {
           </Button>
         </div>
       </div>
+      <div
+        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-cyan-400 via-sky-500 to-purple-500"
+        style={{ width: `${progress * 100}%` }}
+      />
     </nav>
   );
 }

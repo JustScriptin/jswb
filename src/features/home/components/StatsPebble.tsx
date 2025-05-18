@@ -22,7 +22,7 @@ export function StatsPebble({
       data-component="StatsPebble"
       whileHover={{ y: -4 }}
       className={cn(
-        "flex h-32 w-32 flex-col items-center justify-center rounded-xl bg-card text-foreground shadow-sm",
+        "flex h-36 w-36 flex-col items-center justify-center rounded-xl bg-white/90 text-foreground shadow-md backdrop-blur-md",
         className,
       )}
     >
