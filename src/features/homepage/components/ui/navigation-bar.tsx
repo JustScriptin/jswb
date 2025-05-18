@@ -30,7 +30,7 @@ export const NavigationBar = memo(function NavigationBar({
       exit={{ y: -64 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="container flex items-center justify-between h-full max-w-7xl">
+      <div className="container flex items-center justify-between h-full max-w-7xl mx-auto px-4">
         <div className="text-white font-bold flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-primary"></div>
           Digital Prism
