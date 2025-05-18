@@ -44,16 +44,33 @@ console.log(result) // [2, 4, 6]`;
     });
   }, [typedCode]);
 
-  // Typing animation - optimized
+  // Typing animation
   useEffect(() => {
     if (!isTyping) return;
     let testInterval: NodeJS.Timeout | undefined;
     let startTestsTimeout: NodeJS.Timeout | undefined;
 
-    function runTests() {
-      let currentTest = 0;
+    const typingTimeout = setTimeout(() => {
+      if (typedCode.length < codeSnippet.length) {
+        setTypedCode(codeSnippet.slice(0, typedCode.length + 1));
+      } else {
+        setIsTyping(false);
+      }
+    }, 30);
 
-      testInterval = setInterval(() => {
+    return () => {
+      clearTimeout(typingTimeout);
+    };
+  }, [typedCode, isTyping, codeSnippet]);
+
+  // Run tests after typing completes
+  useEffect(() => {
+    if (isTyping) return;
+
+    let currentTest = 0;
+    const startTestsTimeout = setTimeout(() => {
+      setTestsRun(true);
+      const testInterval = setInterval(() => {
         if (currentTest >= testsPassed.length) {
           if (testInterval) clearInterval(testInterval);
           return;
@@ -67,27 +84,12 @@ console.log(result) // [2, 4, 6]`;
 
         currentTest++;
       }, 400);
-    }
-
-    const typingTimeout = setTimeout(() => {
-      if (typedCode.length < codeSnippet.length) {
-        setTypedCode(codeSnippet.slice(0, typedCode.length + 1));
-      } else {
-        setIsTyping(false);
-        // Start test animation after typing is complete
-        startTestsTimeout = setTimeout(() => {
-          setTestsRun(true);
-          runTests();
-        }, 1000);
-      }
-    }, 30);
+    }, 1000);
 
     return () => {
-      clearTimeout(typingTimeout);
-      if (startTestsTimeout) clearTimeout(startTestsTimeout);
-      if (testInterval) clearInterval(testInterval);
+      clearTimeout(startTestsTimeout);
     };
-  }, [typedCode, isTyping, codeSnippet, testsPassed.length]);
+  }, [isTyping, testsPassed.length]);
 
   return (
     <motion.div
