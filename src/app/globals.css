@@ -92,3 +92,30 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+  @apply bg-cyan-500/30 text-white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-black/20;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-cyan-500/20 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-cyan-500/40;
+}
