@@ -40,13 +40,13 @@ export function Hero() {
       <div className="container relative grid items-center h-screen max-w-7xl grid-cols-1 px-4 mx-auto lg:grid-cols-12 gap-y-12">
         <div className="lg:col-span-7 z-10">
           <motion.h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight"
+            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 dark:text-white"
             {...fadeInUp(0)}
           >
             Master Arrays in JavaScript
           </motion.h1>
           <motion.p
-            className="max-w-xl mt-6 text-lg text-white/80 leading-relaxed"
+            className="max-w-xl mt-6 text-lg leading-relaxed text-gray-700 dark:text-white/80"
             {...fadeInUp(0.1)}
           >
             Interactive challenges to build your skills through practice. Learn
