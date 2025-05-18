@@ -15,7 +15,9 @@ export const CodeCard = memo(function CodeCard() {
   const [testsPassed, setTestsPassed] = useState([false, false, false]);
   const [isTyping, setIsTyping] = useState(true);
   const [typedCode, setTypedCode] = useState("");
-  const [cursorPosition, setCursorPosition] = useState({ x: 4, y: 36 });
+
+  const lines = typedCode.split("\n");
+  const cursorLine = lines.length - 1;
 
   const codeSnippet = `function filterEvenNumbers(numbers) {
   return numbers.filter(num => num % 2 === 0)
@@ -24,25 +26,6 @@ export const CodeCard = memo(function CodeCard() {
 // Test with sample array
 const result = filterEvenNumbers([1, 2, 3, 4, 5, 6])
 console.log(result) // [2, 4, 6]`;
-
-  // Calculate cursor position based on typed code
-  useEffect(() => {
-    // Calculate position based on the current line and character
-    const lines = typedCode.split("\n");
-    const currentLineIndex = lines.length - 1;
-    const currentLineLength = lines[currentLineIndex]?.length || 0;
-
-    // Adjust these values based on your font and spacing
-    const charWidth = 8; // Width of each character in pixels
-    const lineHeight = 20; // Height of each line in pixels
-    const baseX = 4; // Base X position
-    const baseY = 36; // Base Y position
-
-    setCursorPosition({
-      x: baseX + currentLineLength * charWidth,
-      y: baseY + currentLineIndex * lineHeight,
-    });
-  }, [typedCode]);
 
   // Typing animation
   useEffect(() => {
@@ -66,26 +49,28 @@ console.log(result) // [2, 4, 6]`;
     if (isTyping) return;
 
     let currentTest = 0;
+    let testInterval: NodeJS.Timeout | undefined;
     const startTestsTimeout = setTimeout(() => {
       setTestsRun(true);
-      const testInterval = setInterval(() => {
+      testInterval = setInterval(() => {
         if (currentTest >= testsPassed.length) {
           if (testInterval) clearInterval(testInterval);
           return;
         }
 
         setTestsPassed((prev) => {
-          const newState = [...prev];
-          newState[currentTest] = true;
-          return newState;
+          const next = [...prev];
+          next[currentTest] = true;
+          return next;
         });
 
-        currentTest++;
+        currentTest += 1;
       }, 400);
     }, 1000);
 
     return () => {
       clearTimeout(startTestsTimeout);
+      if (testInterval) clearInterval(testInterval);
     };
   }, [isTyping, testsPassed.length]);
 
@@ -105,21 +90,12 @@ console.log(result) // [2, 4, 6]`;
           <div className="ml-2 text-xs text-white/60">array-challenge.js</div>
         </div>
 
-        <div className="flex-1 text-white font-mono text-sm leading-relaxed relative">
-          {/* Cursor */}
-          {isTyping && (
-            <motion.div
-              className="absolute w-[2px] h-[14px] bg-white/70"
-              style={{ left: cursorPosition.x, top: cursorPosition.y }}
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY }}
-            />
-          )}
-
-          {/* Code with syntax highlighting */}
-          <div className="text-white/90">
-            <SyntaxHighlighter code={typedCode} />
-          </div>
+        <div className="flex-1 text-white font-mono text-sm leading-relaxed">
+          <SyntaxHighlighter
+            code={typedCode}
+            showCursor={isTyping}
+            cursorLine={cursorLine}
+          />
         </div>
 
         <div className="mt-4 flex items-center justify-end gap-3">
@@ -170,7 +146,17 @@ function TestIndicator({
  *
  * Applies syntax highlighting to code
  */
-function SyntaxHighlighter({ code }: { code: string }) {
+type SyntaxHighlighterProps = {
+  code: string;
+  showCursor?: boolean;
+  cursorLine?: number;
+};
+
+function SyntaxHighlighter({
+  code,
+  showCursor,
+  cursorLine,
+}: SyntaxHighlighterProps) {
   // Process the code line by line for better performance
   return (
     <>
@@ -331,7 +317,9 @@ function SyntaxHighlighter({ code }: { code: string }) {
         // Sort tokens by their position in the line
         tokens.sort((a, b) => a.index - b.index);
 
-        // Render the line with its tokens
+        const isCursor = showCursor && lineIndex === cursorLine;
+
+        // Render the line with its tokens and optional cursor
         return (
           <div key={lineIndex} className="whitespace-pre">
             {tokens.map((token, tokenIndex) => (
@@ -339,6 +327,13 @@ function SyntaxHighlighter({ code }: { code: string }) {
                 {token.text}
               </span>
             ))}
+            {isCursor && (
+              <motion.span
+                className="inline-block w-[2px] h-[1em] bg-white/70 align-bottom"
+                animate={{ opacity: [1, 0, 1] }}
+                transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY }}
+              />
+            )}
           </div>
         );
       })}
