@@ -172,9 +172,9 @@ export function ExerciseClient({ exercise }: Props) {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
-                  {KEYBOARD_SHORTCUTS.map((shortcut, index) => (
+                  {KEYBOARD_SHORTCUTS.map((shortcut) => (
                     <div
-                      key={index}
+                      key={shortcut.key}
                       className="flex items-center justify-between"
                     >
                       <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
@@ -328,8 +328,8 @@ export function ExerciseClient({ exercise }: Props) {
                         Common Use Cases
                       </h3>
                       <ul className="list-disc pl-4 space-y-1">
-                        {exercise.education.useCases.map((useCase, index) => (
-                          <li key={index}>
+                        {exercise.education.useCases.map((useCase) => (
+                          <li key={useCase}>
                             <Markdown content={useCase} />
                           </li>
                         ))}
@@ -344,13 +344,11 @@ export function ExerciseClient({ exercise }: Props) {
                           Common Mistakes to Avoid
                         </h3>
                         <ul className="list-disc pl-4 space-y-1">
-                          {exercise.education.commonMistakes.map(
-                            (mistake, index) => (
-                              <li key={index}>
-                                <Markdown content={mistake} />
-                              </li>
-                            ),
-                          )}
+                          {exercise.education.commonMistakes.map((mistake) => (
+                            <li key={mistake}>
+                              <Markdown content={mistake} />
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     )}
@@ -363,8 +361,8 @@ export function ExerciseClient({ exercise }: Props) {
                           Pro Tips
                         </h3>
                         <ul className="list-disc pl-4 space-y-1">
-                          {exercise.education.tips.map((tip, index) => (
-                            <li key={index}>
+                          {exercise.education.tips.map((tip) => (
+                            <li key={tip}>
                               <Markdown content={tip} />
                             </li>
                           ))}
@@ -426,7 +424,7 @@ export function ExerciseClient({ exercise }: Props) {
                       <AnimatePresence>
                         {exercise.testCases.map((test, index) => (
                           <motion.div
-                            key={index}
+                            key={test.message}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
