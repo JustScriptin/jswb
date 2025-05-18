@@ -122,9 +122,9 @@ export function ExerciseClient({ exercise }: Props) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isFullscreen, runTests]);
 
-  const toggleFullscreen = useCallback(() => {
+  const toggleFullscreen = () => {
     setIsFullscreen((prev) => !prev);
-  }, []);
+  };
 
   return (
     <motion.div

@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 import type { Language, TestResult } from "@/features/codingChallenges/types";
 import { getLocalStorageValue, setLocalStorageValue } from "@/lib/storage";
 import {
@@ -83,13 +84,10 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
     }, [language, onLanguageChange, slug]);
 
     // Auto-save code changes
-    const handleEditorChange = useCallback(
-      (value: string | undefined) => {
-        if (typeof window === "undefined" || !value) return;
-        setLocalStorageValue(`${slug}-code`, value);
-      },
-      [slug],
-    );
+    const handleEditorChange = (value: string | undefined) => {
+      if (typeof window === "undefined" || !value) return;
+      setLocalStorageValue(`${slug}-code`, value);
+    };
 
     const handleRunTests = useCallback(async () => {
       if (!editorRef.current) return;
@@ -121,42 +119,39 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
         setError(
           err instanceof Error ? err.message : "An unexpected error occurred",
         );
-        console.error("Failed to run tests:", err);
+        logger.error("Failed to run tests:", err);
       } finally {
         setIsSubmitting(false);
       }
     }, [slug, onTestResults, language]);
 
-    const handleEditorDidMount: OnMount = useCallback(
-      (editor, monaco) => {
-        editorRef.current = editor;
+    const handleEditorDidMount: OnMount = (editor, monaco) => {
+      editorRef.current = editor;
 
-        // Load saved code if it exists
-        if (typeof window !== "undefined") {
-          try {
-            const savedCode = getLocalStorageValue(`${slug}-code`, null);
-            if (savedCode) {
-              editor.setValue(savedCode);
-            }
-          } catch (err) {
-            console.error("Failed to load saved code:", err);
+      // Load saved code if it exists
+      if (typeof window !== "undefined") {
+        try {
+          const savedCode = getLocalStorageValue(`${slug}-code`, null);
+          if (savedCode) {
+            editor.setValue(savedCode);
           }
+        } catch (err) {
+          logger.error("Failed to load saved code:", err);
         }
+      }
 
-        // Add custom keybinding for Cmd/Ctrl + Enter
-        editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-          handleRunTests();
-        });
-      },
-      [handleRunTests, slug],
-    );
+      // Add custom keybinding for Cmd/Ctrl + Enter
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+        handleRunTests();
+      });
+    };
 
-    const handleEditorValidation = useCallback((markers: editor.IMarker[]) => {
+    const handleEditorValidation = (markers: editor.IMarker[]) => {
       // Log validation issues for debugging
       markers.forEach((marker) => {
-        console.log("onValidate:", marker.message);
+        logger.info("onValidate:", marker.message);
       });
-    }, []);
+    };
 
     // Expose the runTests function to parent components
     useImperativeHandle(

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { logger } from "@/lib/logger";
 
 /**
  * GET /api/exercises
@@ -9,24 +10,25 @@ export async function GET(): Promise<NextResponse> {
   try {
     // Return exercises with 200 status
     return NextResponse.json(
-      { 
-        exercises: EXERCISES 
+      {
+        exercises: EXERCISES,
       },
-      { 
+      {
         status: 200,
         headers: {
           // Add cache control headers - revalidate every hour since exercises are static
-          "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          "Cache-Control":
+            "public, s-maxage=3600, stale-while-revalidate=86400",
         },
-      }
+      },
     );
   } catch (error) {
     // Log error internally but don't expose details to client
-    console.error("[api/exercises] Error:", error);
-    
+    logger.error("[api/exercises] Error:", error);
+
     return NextResponse.json(
       { error: "Failed to fetch exercises" },
-      { status: 500 }
+      { status: 500 },
     );
   }
-} 
+}

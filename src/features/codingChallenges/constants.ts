@@ -6,23 +6,23 @@ export const categoryColors: Record<
   { bg: string; text: string; border: string }
 > = {
   array: {
-    bg: "bg-green-100",
-    text: "text-green-800",
-    border: "border-green-200",
+    bg: "bg-[hsl(var(--category-array-bg))]",
+    text: "text-[hsl(var(--category-array-text))]",
+    border: "border-[hsl(var(--category-array-border))]",
   },
   object: {
-    bg: "bg-blue-100",
-    text: "text-blue-800",
-    border: "border-blue-200",
+    bg: "bg-[hsl(var(--category-object-bg))]",
+    text: "text-[hsl(var(--category-object-text))]",
+    border: "border-[hsl(var(--category-object-border))]",
   },
   map: {
-    bg: "bg-purple-100",
-    text: "text-purple-800",
-    border: "border-purple-200",
+    bg: "bg-[hsl(var(--category-map-bg))]",
+    text: "text-[hsl(var(--category-map-text))]",
+    border: "border-[hsl(var(--category-map-border))]",
   },
   set: {
-    bg: "bg-orange-100",
-    text: "text-orange-800",
-    border: "border-orange-200",
+    bg: "bg-[hsl(var(--category-set-bg))]",
+    text: "text-[hsl(var(--category-set-text))]",
+    border: "border-[hsl(var(--category-set-border))]",
   },
 };
