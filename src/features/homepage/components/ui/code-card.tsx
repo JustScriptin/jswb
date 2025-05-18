@@ -1,9 +1,17 @@
 "use client";
 
-import { useEffect, useState, memo } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const CODE_SNIPPET = `function filterEvenNumbers(numbers) {
+  return numbers.filter(num => num % 2 === 0)
+}
+
+// Test with sample array
+const result = filterEvenNumbers([1, 2, 3, 4, 5, 6])
+console.log(result) // [2, 4, 6]`;
 
 /**
  * Code Card component
@@ -15,25 +23,18 @@ export const CodeCard = memo(function CodeCard() {
   const [testsPassed, setTestsPassed] = useState([false, false, false]);
   const [isTyping, setIsTyping] = useState(true);
   const [typedCode, setTypedCode] = useState("");
+  const testIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const lines = typedCode.split("\n");
   const cursorLine = lines.length - 1;
-
-  const codeSnippet = `function filterEvenNumbers(numbers) {
-  return numbers.filter(num => num % 2 === 0)
-}
-
-// Test with sample array
-const result = filterEvenNumbers([1, 2, 3, 4, 5, 6])
-console.log(result) // [2, 4, 6]`;
 
   // Typing animation
   useEffect(() => {
     if (!isTyping) return;
 
     const typingTimeout = setTimeout(() => {
-      if (typedCode.length < codeSnippet.length) {
-        setTypedCode(codeSnippet.slice(0, typedCode.length + 1));
+      if (typedCode.length < CODE_SNIPPET.length) {
+        setTypedCode(CODE_SNIPPET.slice(0, typedCode.length + 1));
       } else {
         setIsTyping(false);
       }
@@ -42,19 +43,19 @@ console.log(result) // [2, 4, 6]`;
     return () => {
       clearTimeout(typingTimeout);
     };
-  }, [typedCode, isTyping, codeSnippet]);
+  }, [typedCode, isTyping]);
 
   // Run tests after typing completes
   useEffect(() => {
     if (isTyping) return;
 
     let currentTest = 0;
-    let testInterval: NodeJS.Timeout | undefined;
     const startTestsTimeout = setTimeout(() => {
       setTestsRun(true);
-      testInterval = setInterval(() => {
+      setTestsPassed([false, false, false]);
+      testIntervalRef.current = setInterval(() => {
         if (currentTest >= testsPassed.length) {
-          if (testInterval) clearInterval(testInterval);
+          if (testIntervalRef.current) clearInterval(testIntervalRef.current);
           return;
         }
 
@@ -70,7 +71,7 @@ console.log(result) // [2, 4, 6]`;
 
     return () => {
       clearTimeout(startTestsTimeout);
-      if (testInterval) clearInterval(testInterval);
+      if (testIntervalRef.current) clearInterval(testIntervalRef.current);
     };
   }, [isTyping, testsPassed.length]);
 
