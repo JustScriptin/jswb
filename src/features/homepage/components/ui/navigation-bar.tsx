@@ -4,9 +4,12 @@ import { memo } from "react";
 import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DarkModeToggle } from "@/features/homepage/components/ui/dark-mode-toggle";
 
 type NavigationBarProps = {
   scrollProgress: number;
+  isDark: boolean;
+  toggleDark: () => void;
 };
 
 /**
@@ -16,6 +19,8 @@ type NavigationBarProps = {
  */
 export const NavigationBar = memo(function NavigationBar({
   scrollProgress,
+  isDark,
+  toggleDark,
 }: NavigationBarProps) {
   return (
     <motion.div
@@ -31,6 +36,7 @@ export const NavigationBar = memo(function NavigationBar({
           Digital Prism
         </div>
         <div className="flex items-center gap-4">
+          <DarkModeToggle isDark={isDark} toggleDark={toggleDark} />
           <Button variant="ghost" className="text-white hover:bg-white/10">
             Log in
           </Button>
