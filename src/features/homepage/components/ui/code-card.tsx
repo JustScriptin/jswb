@@ -47,8 +47,6 @@ console.log(result) // [2, 4, 6]`;
   // Typing animation
   useEffect(() => {
     if (!isTyping) return;
-    let testInterval: NodeJS.Timeout | undefined;
-    let startTestsTimeout: NodeJS.Timeout | undefined;
 
     const typingTimeout = setTimeout(() => {
       if (typedCode.length < codeSnippet.length) {
