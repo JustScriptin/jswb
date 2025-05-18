@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, type ReactElement } from "react";
 import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { useRouter } from "next/navigation";
 import {
   CATEGORY_METHODS,
   type CategoryName,
@@ -39,6 +40,7 @@ export default function ExercisesPage(): ReactElement {
   const [selectedMethod, setSelectedMethod] = useState<string>("all");
   const [completedCount, setCompletedCount] = useState(0);
   const [isCommandOpen, setIsCommandOpen] = useState(false);
+  const router = useRouter();
 
   // Debounce search query to prevent excessive re-renders
   const debouncedSearch = useDebounce(searchQuery, 300);
@@ -207,7 +209,7 @@ export default function ExercisesPage(): ReactElement {
                               value={exercise.title}
                               className="flex items-center gap-2 cursor-pointer"
                               onSelect={() => {
-                                window.location.href = `/exercises/${exercise.slug}`;
+                                router.push(`/exercises/${exercise.slug}`);
                                 setIsCommandOpen(false);
                               }}
                             >
