@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CodeCard } from "@/features/homepage/components/ui/code-card";
 import { ParticleBackground } from "@/features/homepage/components/ui/particle-background";
@@ -53,13 +54,15 @@ export function Hero() {
             array methods through hands-on coding exercises.
           </motion.p>
           <motion.div className="mt-10" {...fadeInUp(0.2)}>
-            <Button
-              size="lg"
-              className="h-14 px-8 text-lg font-medium bg-primary hover:bg-primary/90 text-white rounded-lg"
-            >
-              Start the Challenges
-              <ChevronRight className="w-5 h-5 ml-2" />
-            </Button>
+            <Link href="/exercises">
+              <Button
+                size="lg"
+                className="h-14 px-8 text-lg font-medium bg-primary hover:bg-primary/90 text-white rounded-lg"
+              >
+                Start the Challenges
+                <ChevronRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
         <div className="lg:col-span-5 z-10 flex justify-center lg:justify-end">
