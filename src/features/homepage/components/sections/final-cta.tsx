@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { TestimonialBubble } from "@/features/homepage/components/ui/testimonial-bubble";
 import { fadeInUp } from "@/lib/animations";
@@ -31,13 +32,15 @@ export function FinalCta() {
           through our interactive challenges.
         </motion.div>
         <motion.div {...fadeInUp(0.2)} viewport={{ once: true }}>
-          <Button
-            size="lg"
-            className="h-14 px-8 text-lg font-medium bg-white text-blue-700 hover:bg-white/90 rounded-lg"
-          >
-            Start the Challenges
-            <ChevronRight className="w-5 h-5 ml-2" />
-          </Button>
+          <Link href="/exercises">
+            <Button
+              size="lg"
+              className="h-14 px-8 text-lg font-medium bg-white text-blue-700 hover:bg-white/90 rounded-lg"
+            >
+              Start the Challenges
+              <ChevronRight className="w-5 h-5 ml-2" />
+            </Button>
+          </Link>
         </motion.div>
 
         <motion.div
