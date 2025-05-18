@@ -6,19 +6,19 @@ import { MousePointer, Code2, Trophy } from "lucide-react";
 
 const STEPS = [
   {
-    icon: <MousePointer className="h-6 w-6 text-white" />,
+    icon: <MousePointer className="h-6 w-6 text-white" strokeWidth={1.5} />,
     title: "Choose a Challenge",
     description: "Pick from our library of exercises.",
     color: "violet",
   },
   {
-    icon: <Code2 className="h-6 w-6 text-white" />,
+    icon: <Code2 className="h-6 w-6 text-white" strokeWidth={1.5} />,
     title: "Write Your Solution",
     description: "Solve it directly in the editor.",
     color: "cyan",
   },
   {
-    icon: <Trophy className="h-6 w-6 text-white" />,
+    icon: <Trophy className="h-6 w-6 text-white" strokeWidth={1.5} />,
     title: "Test & Learn",
     description: "Run tests and learn from the results.",
     color: "lime",

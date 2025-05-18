@@ -6,17 +6,17 @@ import { Rocket, BookOpen, Lightbulb } from "lucide-react";
 
 const FEATURES = [
   {
-    icon: <Rocket className="h-6 w-6" />,
+    icon: <Rocket className="h-6 w-6" strokeWidth={1.5} />,
     title: "Hands-on Practice",
     description: "Write and run code right in your browser.",
   },
   {
-    icon: <BookOpen className="h-6 w-6" />,
+    icon: <BookOpen className="h-6 w-6" strokeWidth={1.5} />,
     title: "Real Examples",
     description: "Learn through practical, everyday tasks.",
   },
   {
-    icon: <Lightbulb className="h-6 w-6" />,
+    icon: <Lightbulb className="h-6 w-6" strokeWidth={1.5} />,
     title: "Track Progress",
     description: "See which challenges you've completed.",
   },
@@ -29,6 +29,10 @@ function FeatureItem({ icon, title, description }: Feature): ReactElement {
     <motion.div
       data-component="FeatureItem"
       whileHover={{ y: -4 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4 }}
       className="text-center"
     >
       <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary shadow">

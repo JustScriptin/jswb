@@ -7,17 +7,17 @@ export function StatsSection(): ReactElement {
     <section data-component="StatsSection" className="bg-muted py-12">
       <div className="container mx-auto flex flex-wrap items-center justify-center gap-8">
         <StatsPebble
-          icon={<Code2 className="h-6 w-6" />}
+          icon={<Code2 className="h-6 w-6" strokeWidth={1.5} />}
           value={50}
           label="Exercises"
         />
         <StatsPebble
-          icon={<Layers className="h-6 w-6" />}
+          icon={<Layers className="h-6 w-6" strokeWidth={1.5} />}
           value={4}
           label="Categories"
         />
         <StatsPebble
-          icon={<Trophy className="h-6 w-6" />}
+          icon={<Trophy className="h-6 w-6" strokeWidth={1.5} />}
           value={12}
           label="Techniques"
         />
