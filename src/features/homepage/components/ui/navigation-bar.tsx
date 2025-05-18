@@ -24,26 +24,29 @@ export const NavigationBar = memo(function NavigationBar({
 }: NavigationBarProps) {
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 z-40 h-16 backdrop-blur-md bg-black/30 border-b border-white/5"
+      className="fixed top-0 left-0 right-0 z-40 h-16 backdrop-blur-md dark:bg-black/30 bg-white/70 dark:border-white/5 border-black/5"
       initial={{ y: -64 }}
       animate={{ y: 0 }}
       exit={{ y: -64 }}
       transition={{ duration: 0.3 }}
     >
       <div className="container flex items-center justify-between h-full max-w-7xl mx-auto px-4">
-        <div className="text-white font-bold flex items-center gap-2">
+        <div className="font-bold flex items-center gap-2 text-gray-900 dark:text-white">
           <div className="w-2 h-2 rounded-full bg-primary"></div>
           Digital Prism
         </div>
         <div className="flex items-center gap-4">
           <DarkModeToggle isDark={isDark} toggleDark={toggleDark} />
-          <Button variant="ghost" className="text-white hover:bg-white/10">
+          <Button
+            variant="ghost"
+            className="text-gray-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10"
+          >
             Log in
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="text-white hover:bg-white/10"
+            className="text-gray-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10"
           >
             <Menu className="w-5 h-5" />
           </Button>

@@ -22,7 +22,7 @@ export const DarkModeToggle = memo(function DarkModeToggle({
     <Button
       variant="ghost"
       size="icon"
-      className="text-white hover:bg-white/10"
+      className="text-gray-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10"
       aria-label="Toggle dark mode"
       onClick={toggleDark}
     >
