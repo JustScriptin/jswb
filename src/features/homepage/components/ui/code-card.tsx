@@ -19,12 +19,12 @@ console.log(result) // [2, 4, 6]`;
  * Displays an interactive code editor with typing animation and test results
  */
 const TESTS_COUNT = 3;
+// Order in which test indicators should light up: middle (1), right (2), left (0)
+const TESTS_DISPLAY_ORDER = [1, 2, 0];
 
 export const CodeCard = memo(function CodeCard() {
   const [testsRun, setTestsRun] = useState(false);
-  const [testsPassed, setTestsPassed] = useState<boolean[]>(
-    Array(TESTS_COUNT).fill(false),
-  );
+  const [passedCount, setPassedCount] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
   const [typedCode, setTypedCode] = useState("");
   const testIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -56,7 +56,7 @@ export const CodeCard = memo(function CodeCard() {
     let currentTest = 0;
     const startTestsTimeout = setTimeout(() => {
       setTestsRun(true);
-      setTestsPassed(Array(TESTS_COUNT).fill(false));
+      setPassedCount(0);
       testIntervalRef.current = setInterval(() => {
         if (currentTest >= TESTS_COUNT) {
           if (testIntervalRef.current) {
@@ -66,12 +66,7 @@ export const CodeCard = memo(function CodeCard() {
           return;
         }
 
-        setTestsPassed((prev) => {
-          if (prev[currentTest]) return prev;
-          const next = [...prev];
-          next[currentTest] = true;
-          return next;
-        });
+        setPassedCount((prev) => prev + 1);
 
         currentTest += 1;
       }, 400);
@@ -109,9 +104,17 @@ export const CodeCard = memo(function CodeCard() {
 
         <div className="mt-4 flex items-center justify-end gap-3">
           <div className="text-xs text-white/70 mr-2">Tests:</div>
-          {testsPassed.map((passed, i) => (
-            <TestIndicator key={i} passed={passed} isRunning={testsRun} />
-          ))}
+          {Array.from({ length: TESTS_COUNT }).map((_, i) => {
+            const orderIndex = TESTS_DISPLAY_ORDER.indexOf(i);
+            const isPassed = orderIndex !== -1 && passedCount > orderIndex;
+            return (
+              <TestIndicator
+                key={i}
+                passed={isPassed}
+                isRunning={testsRun}
+              />
+            );
+          })}
         </div>
       </div>
     </motion.div>
