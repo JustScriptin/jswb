@@ -23,8 +23,8 @@ export function MicroNav() {
         visible ? "translate-y-0" : "-translate-y-full",
       )}
     >
-      <div className="mx-auto flex h-12 max-w-5xl items-center justify-between rounded-b border-b border-border/50 bg-background/80 px-4 backdrop-blur">
-        <Link href="/" className="font-bold">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between rounded-b-md border-b border-border/50 bg-background/80 px-4 backdrop-blur">
+        <Link href="/" className="font-semibold tracking-tight">
           JSWB
         </Link>
         <div className="flex items-center gap-2">

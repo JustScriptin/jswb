@@ -22,13 +22,13 @@ export function StatsPebble({
       data-component="StatsPebble"
       whileHover={{ y: -4 }}
       className={cn(
-        "flex h-32 w-32 flex-col items-center justify-center rounded-2xl bg-muted text-foreground shadow-inner",
+        "flex h-32 w-32 flex-col items-center justify-center rounded-xl bg-card text-foreground shadow-sm",
         className,
       )}
     >
       <div className="mb-2 text-primary">{icon}</div>
-      <div className="text-lg font-bold">{value}</div>
-      <div className="text-xs text-muted-foreground">{label}</div>
+      <div className="text-xl font-bold">{value}</div>
+      <div className="text-sm text-muted-foreground">{label}</div>
     </motion.div>
   );
 }
