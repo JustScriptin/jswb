@@ -47,6 +47,8 @@ describe("exercise integration", () => {
   it("runs tests and shows results", async () => {
     render(<ExerciseClient exercise={EXERCISES[0]!} />);
     fireEvent.click(screen.getByText("Run Tests"));
-    await screen.findByText("4/4");
+    await screen.findByText(
+      `${EXERCISES[0]!.testCases.length}/${EXERCISES[0]!.testCases.length}`,
+    );
   });
 });

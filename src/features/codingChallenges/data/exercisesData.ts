@@ -130,6 +130,11 @@ Result: 6
         expected: 42,
         message: "Should return `42` for array `[42]`",
       },
+      {
+        input: [[-1, 1, -2, 2]],
+        expected: 0,
+        message: "Should sum positive and negative numbers",
+      },
     ],
   },
   {
@@ -251,6 +256,11 @@ Result: 9
         expected: 42,
         message: "Should return `42` for single-element array `[42]`",
       },
+      {
+        input: [[-5, -2, -10]],
+        expected: -2,
+        message: "Should handle all negative values",
+      },
     ],
   },
   {
@@ -369,6 +379,241 @@ Result: { a: 2, b: 1 }
         input: [["unique"]],
         expected: { unique: 1 },
         message: "Should count single item as `{ unique: 1 }`",
+      },
+      {
+        input: [[1, 1, 2]],
+        expected: { 1: 2, 2: 1 },
+        message: "Should count numeric values",
+      },
+    ],
+  },
+  {
+    slug: "filter-even",
+    title: "Filter Even Numbers",
+    description: `# Filter Even Numbers
+
+### Problem
+Return only the even numbers from an array using \`filter\`.
+
+### Example
+\`\`\`js
+Input: [1, 2, 3, 4]
+Output: [2, 4]
+\`\`\`
+
+### Requirements
+1. Use Array.prototype.filter()
+2. Return an empty array if there are no even numbers
+3. Handle negative numbers properly`,
+    category: {
+      name: "array",
+      method: "filter",
+    },
+    education: {
+      concept: "Filtering with filter()",
+      explanation: `# Using filter() for conditionals
+
+The \`filter()\` method returns a new array containing elements that pass a test function.`,
+      useCases: [
+        "**Even Lists**: \`nums.filter(n => n % 2 === 0)\`",
+        "**Search Results**: Filtering items matching a query",
+        "**Cleanup**: Removing invalid values from data",
+        "**Simple Validation**: Keeping entries that meet criteria",
+      ],
+      tips: [
+        "Return a boolean from the callback",
+        "Keep callbacks pure for predictability",
+      ],
+    },
+    starterCode: `const solve = (numbers) => {
+  // Return only even numbers
+  return []; // Replace with your logic
+}`,
+    testCases: [
+      {
+        input: [[1, 2, 3, 4]],
+        expected: [2, 4],
+        message: "Should return [2, 4]",
+      },
+      {
+        input: [[5, 7, 9]],
+        expected: [],
+        message: "Should return empty array when no evens",
+      },
+      {
+        input: [[-2, -1, 0]],
+        expected: [-2, 0],
+        message: "Should handle negative numbers",
+      },
+      {
+        input: [[0, 1]],
+        expected: [0],
+        message: "Should include zero",
+      },
+    ],
+  },
+  {
+    slug: "map-square",
+    title: "Square Numbers with map()",
+    description: `# Square Numbers with map()
+
+### Problem
+Create a new array containing the squares of each number using \`map()\`.
+
+### Example
+\`\`\`js
+Input: [1, 2, 3]
+Output: [1, 4, 9]
+\`\`\`
+
+### Requirements
+1. Use Array.prototype.map()
+2. The original array must not be modified
+3. Support empty arrays`,
+    category: {
+      name: "array",
+      method: "map",
+    },
+    education: {
+      concept: "Transforming values with map()",
+      explanation: `# Why map()
+
+\`map()\` applies a function to each element and returns a new array of results.`,
+      useCases: [
+        "**Calculations**: Squaring numbers or adjusting prices",
+        "**Formatting**: Converting objects to display formats",
+        "**Normalization**: Ensuring data is consistent",
+        "**Bulk Operations**: Applying the same change to many items",
+      ],
+      tips: [
+        "Never mutate the input array",
+        "Return the transformed value from the callback",
+      ],
+    },
+    starterCode: `const solve = (numbers) => {
+  // Return a new array of squared numbers
+  return []; // Replace with your logic
+}`,
+    testCases: [
+      {
+        input: [[1, 2, 3]],
+        expected: [1, 4, 9],
+        message: "Should square each number",
+      },
+      {
+        input: [[-1, 0, 2]],
+        expected: [1, 0, 4],
+        message: "Should handle negatives and zero",
+      },
+      {
+        input: [[0, 5]],
+        expected: [0, 25],
+        message: "Should square zero and positives",
+      },
+      { input: [[]], expected: [], message: "Should handle empty arrays" },
+    ],
+  },
+  {
+    slug: "foreach-sum",
+    title: "Sum with forEach()",
+    description: `# Sum with forEach()
+
+### Problem
+Use \`forEach()\` to add all numbers in an array and return the total.
+
+### Example
+\`\`\`js
+Input: [1, 2, 3]
+Output: 6
+\`\`\`
+
+### Requirements
+1. Use Array.prototype.forEach()
+2. Do not use reduce()
+3. Return 0 for empty array`,
+    category: {
+      name: "array",
+      method: "forEach",
+    },
+    education: {
+      concept: "Iterating with forEach()",
+      explanation: `# forEach for accumulation
+
+\`forEach\` runs a callback for each element. Use it to build up a value.`,
+      useCases: [
+        "**Logging**: console.log each value",
+        "**Sums**: Add numbers to a running total",
+        "**DOM Updates**: Apply changes to elements",
+        "**Sequential Tasks**: Send requests in order",
+      ],
+      tips: [
+        "Initialize variables before calling forEach()",
+        "Keep the callback short and focused",
+      ],
+    },
+    starterCode: `const solve = (numbers) => {
+  // Sum numbers using forEach
+  return 0; // Replace with your logic
+}`,
+    testCases: [
+      { input: [[1, 2, 3]], expected: 6, message: "Should sum 1,2,3 to 6" },
+      { input: [[]], expected: 0, message: "Should return 0 for empty array" },
+      { input: [[-1, 1]], expected: 0, message: "Should handle negatives" },
+    ],
+  },
+  {
+    slug: "object-keys",
+    title: "Get Object Keys",
+    description: `# Get Object Keys
+
+### Problem
+Return an array of keys from an object using \`Object.keys()\`.
+
+### Example
+\`\`\`js
+Input: { a: 1, b: 2 }
+Output: ["a", "b"]
+\`\`\`
+
+### Requirements
+1. Use Object.keys()
+2. Keep key order intact
+3. Return empty array for empty object`,
+    category: {
+      name: "object",
+      method: "keys",
+    },
+    education: {
+      concept: "Listing object keys",
+      explanation: `# Why Object.keys()
+
+Object.keys() returns an array of an object's own enumerable property names.`,
+      useCases: [
+        "**Iteration**: Loop over keys",
+        "**Validation**: Check required fields",
+        "**Transformation**: Convert object to entries",
+        "**Debugging**: Inspect object structure",
+      ],
+      tips: [
+        "Only enumerable properties are returned",
+        "Order follows property insertion",
+      ],
+    },
+    starterCode: `const solve = (obj) => {
+  // Return array of keys
+  return []; // Replace with your logic
+}`,
+    testCases: [
+      {
+        input: [{ a: 1, b: 2 }],
+        expected: ["a", "b"],
+        message: "Should list keys in order",
+      },
+      { input: [{}], expected: [], message: "Should return empty array" },
+      {
+        input: [{ foo: 42 }],
+        expected: ["foo"],
+        message: "Should handle single key",
       },
     ],
   },
