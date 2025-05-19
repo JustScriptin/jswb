@@ -1,9 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, memo } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+type Token = {
+  text: string;
+  className: string;
+  index: number;
+};
 
 const CODE_SNIPPET = `function filterEvenNumbers(numbers) {
   return numbers.filter(num => num % 2 === 0)
@@ -13,14 +19,95 @@ const CODE_SNIPPET = `function filterEvenNumbers(numbers) {
 const result = filterEvenNumbers([1, 2, 3, 4, 5, 6])
 console.log(result) // [2, 4, 6]`;
 
+const TESTS_COUNT = 3;
+// Order in which test indicators should light up: middle (1), right (2), left (0)
+const TESTS_DISPLAY_ORDER = [1, 2, 0];
+
+const KEYWORD_STYLES: Record<string, string> = {
+  function: "text-[#569cd6]",
+  return: "text-[#c586c0]",
+  const: "text-[#569cd6]",
+  filter: "text-[#dcdcaa]",
+  filterEvenNumbers: "text-[#dcdcaa]",
+  numbers: "text-[#9cdcfe]",
+  num: "text-[#9cdcfe]",
+  result: "text-[#4fc1ff]",
+  console: "text-[#9cdcfe]",
+  log: "text-[#dcdcaa]",
+};
+
+const SYMBOL_STYLES = {
+  "(": "text-white",
+  ")": "text-white",
+  "{": "text-white",
+  "}": "text-white",
+  "[": "text-white",
+  "]": "text-white",
+  "=>": "text-white",
+} as const;
+
+function highlightLine(line: string): Token[] {
+  const tokens: Token[] = [];
+  let current = 0;
+
+  const pushText = (end: number) => {
+    if (end > current) {
+      tokens.push({
+        text: line.slice(current, end),
+        className: "text-white/90",
+        index: current,
+      });
+      current = end;
+    }
+  };
+
+  const processRegex = (regex: RegExp, className: string) => {
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(line))) {
+      const start = match.index;
+      const end = start + match[0].length;
+      if (start >= current) {
+        pushText(start);
+        tokens.push({ text: match[0], className, index: start });
+        current = end;
+      }
+    }
+  };
+
+  Object.entries(KEYWORD_STYLES).forEach(([keyword, className]) =>
+    processRegex(new RegExp(`\\b${keyword}\\b`, "g"), className),
+  );
+
+  const commentStart = line.indexOf("//");
+  if (commentStart >= current) {
+    pushText(commentStart);
+    tokens.push({
+      text: line.slice(commentStart),
+      className: "text-[#6a9955]",
+      index: commentStart,
+    });
+    current = line.length;
+  }
+
+  processRegex(/\b\d+\b/g, "text-[#b5cea8]");
+
+  Object.entries(SYMBOL_STYLES).forEach(([symbol, className]) =>
+    processRegex(
+      new RegExp(symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"),
+      className,
+    ),
+  );
+
+  pushText(line.length);
+  tokens.sort((a, b) => a.index - b.index);
+  return tokens;
+}
+
 /**
  * Code Card component
  *
  * Displays an interactive code editor with typing animation and test results
  */
-const TESTS_COUNT = 3;
-// Order in which test indicators should light up: middle (1), right (2), left (0)
-const TESTS_DISPLAY_ORDER = [1, 2, 0];
 
 export const CodeCard = memo(function CodeCard() {
   const [testsRun, setTestsRun] = useState(false);
@@ -108,11 +195,7 @@ export const CodeCard = memo(function CodeCard() {
             const orderIndex = TESTS_DISPLAY_ORDER.indexOf(i);
             const isPassed = orderIndex !== -1 && passedCount > orderIndex;
             return (
-              <TestIndicator
-                key={i}
-                passed={isPassed}
-                isRunning={testsRun}
-              />
+              <TestIndicator key={i} passed={isPassed} isRunning={testsRun} />
             );
           })}
         </div>
@@ -169,173 +252,16 @@ function SyntaxHighlighter({
   showCursor,
   cursorLine,
 }: SyntaxHighlighterProps) {
-  // Process the code line by line for better performance
   return (
     <>
       {code.split("\n").map((line, lineIndex) => {
-        // Create an array of spans with appropriate styling
-        const tokens: { text: string; className: string; index: number }[] = [];
-        let currentIndex = 0;
-
-        // Process keywords
-        const processKeyword = (keyword: string, className: string) => {
-          const regex = new RegExp(`\\b${keyword}\\b`, "g");
-          let match;
-
-          while ((match = regex.exec(line)) !== null) {
-            const start = match.index;
-            const end = start + keyword.length;
-
-            if (start >= currentIndex) {
-              // Add text before the keyword
-              if (start > currentIndex) {
-                tokens.push({
-                  text: line.substring(currentIndex, start),
-                  className: "text-white/90",
-                  index: currentIndex,
-                });
-              }
-
-              // Add the keyword with its class
-              tokens.push({
-                text: keyword,
-                className,
-                index: start,
-              });
-
-              currentIndex = end;
-            }
-          }
-        };
-
-        // Process different syntax elements
-        processKeyword("function", "text-[#569cd6]");
-        processKeyword("return", "text-[#c586c0]");
-        processKeyword("const", "text-[#569cd6]");
-        processKeyword("filter", "text-[#dcdcaa]");
-        processKeyword("filterEvenNumbers", "text-[#dcdcaa]");
-        processKeyword("numbers", "text-[#9cdcfe]");
-        processKeyword("num", "text-[#9cdcfe]");
-        processKeyword("result", "text-[#4fc1ff]");
-        processKeyword("console", "text-[#9cdcfe]");
-        processKeyword("log", "text-[#dcdcaa]");
-
-        // Process comments
-        if (line.includes("//")) {
-          const commentStart = line.indexOf("//");
-
-          if (commentStart >= currentIndex) {
-            // Add text before the comment
-            if (commentStart > currentIndex) {
-              tokens.push({
-                text: line.substring(currentIndex, commentStart),
-                className: "text-white/90",
-                index: currentIndex,
-              });
-            }
-
-            // Add the comment
-            tokens.push({
-              text: line.substring(commentStart),
-              className: "text-[#6a9955]",
-              index: commentStart,
-            });
-
-            currentIndex = line.length;
-          }
-        }
-
-        // Process numbers
-        const numberRegex = /\b\d+\b/g;
-        let match;
-
-        while ((match = numberRegex.exec(line)) !== null) {
-          const start = match.index;
-          const end = start + match[0].length;
-
-          if (start >= currentIndex) {
-            // Add text before the number
-            if (start > currentIndex) {
-              tokens.push({
-                text: line.substring(currentIndex, start),
-                className: "text-white/90",
-                index: currentIndex,
-              });
-            }
-
-            // Add the number
-            tokens.push({
-              text: match[0],
-              className: "text-[#b5cea8]",
-              index: start,
-            });
-
-            currentIndex = end;
-          }
-        }
-
-        // Process symbols
-        const symbolMap = {
-          "(": "text-white",
-          ")": "text-white",
-          "{": "text-white",
-          "}": "text-white",
-          "[": "text-white",
-          "]": "text-white",
-          "=>": "text-white",
-        };
-
-        for (const [symbol, className] of Object.entries(symbolMap)) {
-          const symbolRegex = new RegExp(
-            symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-            "g",
-          );
-
-          while ((match = symbolRegex.exec(line)) !== null) {
-            const start = match.index;
-            const end = start + symbol.length;
-
-            if (start >= currentIndex) {
-              // Add text before the symbol
-              if (start > currentIndex) {
-                tokens.push({
-                  text: line.substring(currentIndex, start),
-                  className: "text-white/90",
-                  index: currentIndex,
-                });
-              }
-
-              // Add the symbol
-              tokens.push({
-                text: symbol,
-                className,
-                index: start,
-              });
-
-              currentIndex = end;
-            }
-          }
-        }
-
-        // Add any remaining text
-        if (currentIndex < line.length) {
-          tokens.push({
-            text: line.substring(currentIndex),
-            className: "text-white/90",
-            index: currentIndex,
-          });
-        }
-
-        // Sort tokens by their position in the line
-        tokens.sort((a, b) => a.index - b.index);
-
+        const tokens = highlightLine(line);
         const isCursor = showCursor && lineIndex === cursorLine;
 
-        // Render the line with its tokens and optional cursor
         return (
           <div key={lineIndex} className="whitespace-pre">
-            {tokens.map((token, tokenIndex) => (
-              <span key={tokenIndex} className={token.className}>
+            {tokens.map((token, i) => (
+              <span key={i} className={token.className}>
                 {token.text}
               </span>
             ))}
