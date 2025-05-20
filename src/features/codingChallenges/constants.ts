@@ -26,3 +26,13 @@ export const categoryColors: Record<
     border: "border-[hsl(var(--category-set-border))]",
   },
 };
+
+export const KEYBOARD_SHORTCUTS = [
+  { key: "\u2318/Ctrl + Enter", description: "Run Tests" },
+  { key: "\u2318/Ctrl + F", description: "Toggle Fullscreen" },
+  { key: "\u2318/Ctrl + 1", description: "Switch to Instructions" },
+  { key: "\u2318/Ctrl + 2", description: "Switch to Test Cases" },
+  { key: "Esc", description: "Exit Fullscreen" },
+] as const;
+
+export type Shortcut = (typeof KEYBOARD_SHORTCUTS)[number];

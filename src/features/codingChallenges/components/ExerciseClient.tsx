@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Card,
@@ -53,72 +53,15 @@ import {
 import { Markdown } from "@/components/ui/markdown";
 import type { Exercise } from "@/features/codingChallenges/types";
 import { TestCaseAccordion } from "./TestCaseAccordion";
+import { KEYBOARD_SHORTCUTS } from "../constants";
+import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
+import { MarkdownList } from "./MarkdownList";
+import { SectionHeading } from "./SectionHeading";
+import { ShortcutItem } from "./ShortcutItem";
 
 type Props = {
   exercise: Exercise;
 };
-
-const KEYBOARD_SHORTCUTS = [
-  { key: "⌘/Ctrl + Enter", description: "Run Tests" },
-  { key: "⌘/Ctrl + F", description: "Toggle Fullscreen" },
-  { key: "⌘/Ctrl + 1", description: "Switch to Instructions" },
-  { key: "⌘/Ctrl + 2", description: "Switch to Test Cases" },
-  { key: "Esc", description: "Exit Fullscreen" },
-];
-
-// subcomponents
-type Shortcut = (typeof KEYBOARD_SHORTCUTS)[number];
-
-type ShortcutItemProps = {
-  shortcut: Shortcut;
-};
-
-function ShortcutItem({ shortcut }: ShortcutItemProps) {
-  return (
-    <div
-      data-component="ShortcutItem"
-      className="flex items-center justify-between"
-    >
-      <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-        {shortcut.key}
-      </code>
-      <span className="text-sm text-muted-foreground">
-        {shortcut.description}
-      </span>
-    </div>
-  );
-}
-
-type SectionHeadingProps = {
-  icon: ReactNode;
-  title: string;
-  className?: string;
-};
-
-function SectionHeading({ icon, title, className }: SectionHeadingProps) {
-  return (
-    <h3 className={cn("font-semibold mb-2 flex items-center gap-2", className)}>
-      {icon}
-      {title}
-    </h3>
-  );
-}
-
-type MarkdownListProps = {
-  items: string[];
-};
-
-function MarkdownList({ items }: MarkdownListProps) {
-  return (
-    <ul className="list-disc pl-4 space-y-1">
-      {items.map((item) => (
-        <li key={item}>
-          <Markdown content={item} />
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 export function ExerciseClient({ exercise }: Props) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
@@ -139,46 +82,23 @@ export function ExerciseClient({ exercise }: Props) {
     setLanguage(savedLanguage);
   }, [exercise.slug]);
 
-  const runTests = useCallback(async () => {
+  const runTests = async () => {
     if (editorRef.current) {
       await editorRef.current.runTests();
       setActiveTab("tests");
     }
-  }, []);
-
-  // Handle keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const cmdOrCtrl = e.metaKey || e.ctrlKey;
-
-      if (cmdOrCtrl && e.key === "Enter") {
-        // Run tests
-        e.preventDefault();
-        runTests();
-      } else if (cmdOrCtrl && e.key === "f") {
-        // Toggle fullscreen
-        e.preventDefault();
-        setIsFullscreen((prev) => !prev);
-      } else if (cmdOrCtrl && e.key === "1") {
-        // Switch to Instructions
-        e.preventDefault();
-        setActiveTab("instructions");
-      } else if (cmdOrCtrl && e.key === "2") {
-        // Switch to Test Cases
-        e.preventDefault();
-        setActiveTab("tests");
-      } else if (e.key === "Escape" && isFullscreen) {
-        setIsFullscreen(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isFullscreen, runTests]);
+  };
 
   const toggleFullscreen = () => {
     setIsFullscreen((prev) => !prev);
   };
+
+  useKeyboardShortcuts({
+    runTests,
+    toggleFullscreen,
+    setActiveTab,
+    isFullscreen,
+  });
 
   return (
     <motion.div
