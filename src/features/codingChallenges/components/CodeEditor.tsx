@@ -9,7 +9,11 @@ import {
   useImperativeHandle,
   useMemo,
 } from "react";
-import Editor, { type EditorProps, type OnMount, loader } from "@monaco-editor/react";
+import Editor, {
+  type EditorProps,
+  type OnMount,
+  loader,
+} from "@monaco-editor/react";
 import type { editor } from "monaco-editor";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -96,10 +100,13 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
     }, [language, onLanguageChange, slug]);
 
     // React 19 Performance: Memoize auto-save handler to prevent unnecessary re-renders
-    const handleEditorChange = useCallback((value: string | undefined) => {
-      if (typeof window === "undefined" || !value) return;
-      setLocalStorageValue(`${slug}-code`, value);
-    }, [slug]);
+    const handleEditorChange = useCallback(
+      (value: string | undefined) => {
+        if (typeof window === "undefined" || !value) return;
+        setLocalStorageValue(`${slug}-code`, value);
+      },
+      [slug],
+    );
 
     // React 19 Performance: useCallback with proper dependencies for runTests
     const handleRunTests = useCallback(async () => {
@@ -131,36 +138,42 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
 
         const { results: newResults } = await response.json();
         onTestResults?.(newResults);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred";
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred";
         setError(errorMessage);
-        logger.error("Failed to run tests:", err);
+        logger.error("Failed to run tests:", error);
       } finally {
         setIsSubmitting(false);
       }
     }, [slug, onTestResults, language]);
 
     // Monaco Editor: Proper onMount handler with cleanup considerations
-    const handleEditorDidMount: OnMount = useCallback((editor, monaco) => {
-      editorRef.current = editor;
+    const handleEditorDidMount: OnMount = useCallback(
+      (editor, monaco) => {
+        editorRef.current = editor;
 
-      // Load saved code if it exists (Next.js SSR safe)
-      if (typeof window !== "undefined") {
-        try {
-          const savedCode = getLocalStorageValue(`${slug}-code`, null);
-          if (savedCode) {
-            editor.setValue(savedCode);
+        // Load saved code if it exists (Next.js SSR safe)
+        if (typeof window !== "undefined") {
+          try {
+            const savedCode = getLocalStorageValue(`${slug}-code`, null);
+            if (savedCode) {
+              editor.setValue(savedCode);
+            }
+          } catch (error) {
+            logger.error("Failed to load saved code:", error);
           }
-        } catch (err) {
-          logger.error("Failed to load saved code:", err);
         }
-      }
 
-      // Add custom keybinding for Cmd/Ctrl + Enter
-      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-        handleRunTests();
-      });
-    }, [slug, handleRunTests]);
+        // Add custom keybinding for Cmd/Ctrl + Enter
+        editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+          handleRunTests();
+        });
+      },
+      [slug, handleRunTests],
+    );
 
     // Monaco Editor: Validation handler
     const handleEditorValidation = useCallback((markers: editor.IMarker[]) => {
@@ -180,33 +193,36 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
     );
 
     // React 19 Performance: Memoize editor options to prevent unnecessary re-renders
-    const editorOptions: EditorProps["options"] = useMemo(() => ({
-      minimap: { enabled: false },
-      fontSize: 14,
-      lineNumbers: "on",
-      roundedSelection: false,
-      scrollBeyondLastLine: false,
-      readOnly: isSubmitting,
-      automaticLayout: true,
-      tabSize: 2,
-      wordWrap: "on",
-      "semanticHighlighting.enabled": true,
-      renderValidationDecorations: "on",
-      // Monaco Editor Performance: Additional optimizations
-      suggest: {
-        showKeywords: true,
-        showSnippets: true,
-      },
-      quickSuggestions: {
-        other: true,
-        comments: false,
-        strings: false,
-      },
-    }), [isSubmitting]);
+    const editorOptions: EditorProps["options"] = useMemo(
+      () => ({
+        minimap: { enabled: false },
+        fontSize: 14,
+        lineNumbers: "on",
+        roundedSelection: false,
+        scrollBeyondLastLine: false,
+        readOnly: isSubmitting,
+        automaticLayout: true,
+        tabSize: 2,
+        wordWrap: "on",
+        "semanticHighlighting.enabled": true,
+        renderValidationDecorations: "on",
+        // Monaco Editor Performance: Additional optimizations
+        suggest: {
+          showKeywords: true,
+          showSnippets: true,
+        },
+        quickSuggestions: {
+          other: true,
+          comments: false,
+          strings: false,
+        },
+      }),
+      [isSubmitting],
+    );
 
     // React 19 Performance: Memoize language change handler
-    const handleLanguageChange = useCallback((val: string) => {
-      setLanguage(val as Language);
+    const handleLanguageChange = useCallback((selectedLanguage: string) => {
+      setLanguage(selectedLanguage as Language);
     }, []);
 
     return (
@@ -219,10 +235,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       >
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center justify-between w-full">
-            <Select
-              value={language}
-              onValueChange={handleLanguageChange}
-            >
+            <Select value={language} onValueChange={handleLanguageChange}>
               <SelectTrigger className="w-[150px]">
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
