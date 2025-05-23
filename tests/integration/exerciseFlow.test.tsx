@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import * as React from "react";
-import { ExerciseClient } from "@/features/codingChallenges/components/ExerciseClient";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { ExerciseClient } from "@/features/codingChallenges";
+import { EXERCISES } from "@/features/codingChallenges";
 
 jest.mock("@monaco-editor/react", () => () => <div />);
 jest.mock("lucide-react", () => new Proxy({}, { get: () => () => <svg /> }));

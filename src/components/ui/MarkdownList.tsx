@@ -1,4 +1,4 @@
-import { Markdown } from "@/components/ui/markdown";
+import { Markdown } from "@/components/ui";
 
 export type MarkdownListProps = {
   items: string[];

@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { TestimonialBubble } from "@/features/homepage/components/ui/testimonial-bubble";
-import { fadeInUp } from "@/lib/animations";
+import { Button } from "@/components/ui";
+import { TestimonialBubble } from "@/features/homepage";
+import { fadeInUp } from "@/lib";
 
 /**
  * Final CTA section component
