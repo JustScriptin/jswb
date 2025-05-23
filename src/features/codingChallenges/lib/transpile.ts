@@ -17,12 +17,17 @@ export const transpile = (
   });
 
   if (result.diagnostics?.length) {
-    const messages = result.diagnostics.map((d) => {
-      const msg = ts.flattenDiagnosticMessageText(d.messageText, "\n");
-      const pos = d.file?.getLineAndCharacterOfPosition(d.start ?? 0);
-      const line = (pos?.line ?? 0) + 1;
-      const col = (pos?.character ?? 0) + 1;
-      return `TS Error at ${line}:${col} - ${msg}`;
+    const messages = result.diagnostics.map((diagnostic) => {
+      const message = ts.flattenDiagnosticMessageText(
+        diagnostic.messageText,
+        "\n",
+      );
+      const position = diagnostic.file?.getLineAndCharacterOfPosition(
+        diagnostic.start ?? 0,
+      );
+      const line = (position?.line ?? 0) + 1;
+      const column = (position?.character ?? 0) + 1;
+      return `TS Error at ${line}:${column} - ${message}`;
     });
     return { error: messages.join("\n") };
   }
