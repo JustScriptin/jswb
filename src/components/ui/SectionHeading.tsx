@@ -19,4 +19,4 @@ export function SectionHeading({
     </h3>
   );
 }
-SectionHeading.displayName = "SectionHeading";
+SectionHeading.displayName = "SectionHeading"; 

@@ -7,8 +7,9 @@ import {
   useEffect,
   forwardRef,
   useImperativeHandle,
+  useMemo,
 } from "react";
-import Editor, { type EditorProps, type OnMount } from "@monaco-editor/react";
+import Editor, { type EditorProps, type OnMount, loader } from "@monaco-editor/react";
 import type { editor } from "monaco-editor";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -25,6 +26,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+// Monaco Editor Performance: Configure loader for optimal performance
+// Only run this configuration once on the client side
+if (typeof window !== "undefined") {
+  loader.config({
+    paths: {
+      vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs",
+    },
+  });
+}
 
 export type CodeEditorProps = {
   defaultLanguage?: Language;
@@ -51,6 +62,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
     },
     ref,
   ) {
+    // React 19: useRef with proper initial value
     const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -83,14 +95,18 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       onLanguageChange?.(language);
     }, [language, onLanguageChange, slug]);
 
-    // Auto-save code changes
-    const handleEditorChange = (value: string | undefined) => {
+    // React 19 Performance: Memoize auto-save handler to prevent unnecessary re-renders
+    const handleEditorChange = useCallback((value: string | undefined) => {
       if (typeof window === "undefined" || !value) return;
       setLocalStorageValue(`${slug}-code`, value);
-    };
+    }, [slug]);
 
+    // React 19 Performance: useCallback with proper dependencies for runTests
     const handleRunTests = useCallback(async () => {
-      if (!editorRef.current) return;
+      if (!editorRef.current) {
+        logger.warn("Editor ref is not available");
+        return;
+      }
 
       try {
         setIsSubmitting(true);
@@ -116,19 +132,19 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
         const { results: newResults } = await response.json();
         onTestResults?.(newResults);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "An unexpected error occurred",
-        );
+        const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred";
+        setError(errorMessage);
         logger.error("Failed to run tests:", err);
       } finally {
         setIsSubmitting(false);
       }
     }, [slug, onTestResults, language]);
 
-    const handleEditorDidMount: OnMount = (editor, monaco) => {
+    // Monaco Editor: Proper onMount handler with cleanup considerations
+    const handleEditorDidMount: OnMount = useCallback((editor, monaco) => {
       editorRef.current = editor;
 
-      // Load saved code if it exists
+      // Load saved code if it exists (Next.js SSR safe)
       if (typeof window !== "undefined") {
         try {
           const savedCode = getLocalStorageValue(`${slug}-code`, null);
@@ -144,16 +160,17 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
         handleRunTests();
       });
-    };
+    }, [slug, handleRunTests]);
 
-    const handleEditorValidation = (markers: editor.IMarker[]) => {
+    // Monaco Editor: Validation handler
+    const handleEditorValidation = useCallback((markers: editor.IMarker[]) => {
       // Log validation issues for debugging
       markers.forEach((marker) => {
         logger.info("onValidate:", marker.message);
       });
-    };
+    }, []);
 
-    // Expose the runTests function to parent components
+    // React 19: useImperativeHandle with proper dependencies
     useImperativeHandle(
       ref,
       () => ({
@@ -162,7 +179,8 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       [handleRunTests],
     );
 
-    const editorOptions: EditorProps["options"] = {
+    // React 19 Performance: Memoize editor options to prevent unnecessary re-renders
+    const editorOptions: EditorProps["options"] = useMemo(() => ({
       minimap: { enabled: false },
       fontSize: 14,
       lineNumbers: "on",
@@ -174,7 +192,22 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       wordWrap: "on",
       "semanticHighlighting.enabled": true,
       renderValidationDecorations: "on",
-    };
+      // Monaco Editor Performance: Additional optimizations
+      suggest: {
+        showKeywords: true,
+        showSnippets: true,
+      },
+      quickSuggestions: {
+        other: true,
+        comments: false,
+        strings: false,
+      },
+    }), [isSubmitting]);
+
+    // React 19 Performance: Memoize language change handler
+    const handleLanguageChange = useCallback((val: string) => {
+      setLanguage(val as Language);
+    }, []);
 
     return (
       <Card
@@ -188,7 +221,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
           <div className="flex items-center justify-between w-full">
             <Select
               value={language}
-              onValueChange={(val) => setLanguage(val as Language)}
+              onValueChange={handleLanguageChange}
             >
               <SelectTrigger className="w-[150px]">
                 <SelectValue placeholder="Select language" />
@@ -252,4 +285,5 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
     );
   },
 );
+
 CodeEditor.displayName = "CodeEditor";
