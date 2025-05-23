@@ -12,8 +12,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ShortcutItem } from "./ShortcutItem";
-import { KEYBOARD_SHORTCUTS } from "../../constants";
-import { exerciseAnimations } from "../../lib/animations";
+import { KEYBOARD_SHORTCUTS } from "@/features/codingChallenges/constants";
+import { exerciseAnimations } from "@/features/codingChallenges/lib/animations";
 
 export function ShortcutsDialog() {
   return (
@@ -31,14 +31,17 @@ export function ShortcutsDialog() {
             Master these shortcuts to boost your productivity
           </DialogDescription>
         </DialogHeader>
-        <motion.div 
+        <motion.div
           variants={exerciseAnimations.staggeredList}
           initial="initial"
           animate="animate"
           className="grid gap-4 py-4"
         >
           {KEYBOARD_SHORTCUTS.map((shortcut) => (
-            <motion.div key={shortcut.key} variants={exerciseAnimations.listItem}>
+            <motion.div
+              key={shortcut.key}
+              variants={exerciseAnimations.listItem}
+            >
               <ShortcutItem shortcut={shortcut} />
             </motion.div>
           ))}
@@ -48,4 +51,4 @@ export function ShortcutsDialog() {
   );
 }
 
-ShortcutsDialog.displayName = "ShortcutsDialog"; 
+ShortcutsDialog.displayName = "ShortcutsDialog";

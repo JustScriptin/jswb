@@ -1,11 +1,17 @@
 "use client";
 
 import { Lightbulb, Code, Target, AlertTriangle } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { Markdown } from "@/components/ui/markdown";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { MarkdownList } from "@/components/ui/MarkdownList";
-import type { Education } from "../../types";
+import type { Education } from "@/features/codingChallenges/types";
 
 type LearnTabProps = {
   education: Education;
@@ -19,9 +25,7 @@ export function LearnTab({ education }: LearnTabProps) {
           <Lightbulb className="h-5 w-5" />
           {education.concept}
         </CardTitle>
-        <CardDescription>
-          Understanding the core concept
-        </CardDescription>
+        <CardDescription>Understanding the core concept</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Explanation Section */}
@@ -81,4 +85,4 @@ export function LearnTab({ education }: LearnTabProps) {
   );
 }
 
-LearnTab.displayName = "LearnTab"; 
+LearnTab.displayName = "LearnTab";

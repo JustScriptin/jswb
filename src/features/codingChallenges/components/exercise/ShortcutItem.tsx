@@ -1,4 +1,4 @@
-import type { Shortcut } from "../../constants"; // Adjusted path for constants
+import type { Shortcut } from "@/features/codingChallenges/constants"; // Adjusted path for constants
 
 export type ShortcutItemProps = {
   shortcut: Shortcut;
@@ -19,4 +19,4 @@ export function ShortcutItem({ shortcut }: ShortcutItemProps) {
     </div>
   );
 }
-ShortcutItem.displayName = "ShortcutItem"; 
+ShortcutItem.displayName = "ShortcutItem";

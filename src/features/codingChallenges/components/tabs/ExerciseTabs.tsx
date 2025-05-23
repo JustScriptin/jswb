@@ -6,7 +6,7 @@ import { LearnTab } from "./LearnTab";
 import { InstructionsTab } from "./InstructionsTab";
 import { TestCasesTab } from "./TestCasesTab";
 import { TestResultBadge } from "./TestResultBadge";
-import type { Exercise, TestResult } from "../../types";
+import type { Exercise, TestResult } from "@/features/codingChallenges/types";
 
 type ExerciseTabsProps = {
   exercise: Exercise;
@@ -28,11 +28,7 @@ export function ExerciseTabs({
   hasRun,
 }: ExerciseTabsProps) {
   return (
-    <Tabs
-      value={activeTab}
-      onValueChange={onTabChange}
-      className="w-full"
-    >
+    <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
       <TabsList className="w-full">
         <TabsTrigger value="learn" className="flex-1">
           <GraduationCap className="mr-2 h-4 w-4" />
@@ -45,24 +41,24 @@ export function ExerciseTabs({
         <TabsTrigger value="tests" className="flex-1 relative">
           <Beaker className="mr-2 h-4 w-4" />
           Test Cases
-          <TestResultBadge 
-            passed={passedTests} 
-            total={totalTests} 
+          <TestResultBadge
+            passed={passedTests}
+            total={totalTests}
             visible={hasRun}
           />
         </TabsTrigger>
       </TabsList>
-      
+
       <TabsContent value="learn">
         <LearnTab education={exercise.education} />
       </TabsContent>
-      
+
       <TabsContent value="instructions" className="space-y-4">
         <InstructionsTab description={exercise.description} />
       </TabsContent>
-      
+
       <TabsContent value="tests">
-        <TestCasesTab 
+        <TestCasesTab
           testCases={exercise.testCases}
           testResults={testResults}
           passedTests={passedTests}
@@ -74,4 +70,4 @@ export function ExerciseTabs({
   );
 }
 
-ExerciseTabs.displayName = "ExerciseTabs"; 
+ExerciseTabs.displayName = "ExerciseTabs";

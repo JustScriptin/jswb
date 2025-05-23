@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import type { Category } from "../../types";
+import type { Category } from "@/features/codingChallenges/types";
 
 type ExerciseTitleProps = {
   category: Category;
@@ -27,4 +27,4 @@ export function ExerciseTitle({ category, title }: ExerciseTitleProps) {
   );
 }
 
-ExerciseTitle.displayName = "ExerciseTitle"; 
+ExerciseTitle.displayName = "ExerciseTitle";
