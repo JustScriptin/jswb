@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
-import { logger } from "@/lib/logger";
+import { EXERCISES } from "@/features/codingChallenges/data";
+import { logger } from "@/lib";
 
 /**
  * GET /api/exercises
