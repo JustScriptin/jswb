@@ -29,11 +29,15 @@ export const CategorySchema = z
     name: CategoryNameSchema,
     method: MethodNameSchema,
   })
-  .superRefine((val, ctx) => {
-    if (!CATEGORY_METHODS[val.name].includes(val.method as never)) {
-      ctx.addIssue({
+  .superRefine((categoryInput, context) => {
+    if (
+      !CATEGORY_METHODS[categoryInput.name].includes(
+        categoryInput.method as never,
+      )
+    ) {
+      context.addIssue({
         code: z.ZodIssueCode.custom,
-        message: `Method ${val.method} is not valid for ${val.name}`,
+        message: `Method ${categoryInput.method} is not valid for ${categoryInput.name}`,
       });
     }
   });

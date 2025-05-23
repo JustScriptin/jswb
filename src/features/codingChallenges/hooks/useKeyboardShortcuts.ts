@@ -17,22 +17,22 @@ export function useKeyboardShortcuts({
   isFullscreen,
 }: UseKeyboardShortcutsParams) {
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const cmdOrCtrl = e.metaKey || e.ctrlKey;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const cmdOrCtrl = event.metaKey || event.ctrlKey;
 
-      if (cmdOrCtrl && e.key === "Enter") {
-        e.preventDefault();
+      if (cmdOrCtrl && event.key === "Enter") {
+        event.preventDefault();
         runTests();
-      } else if (cmdOrCtrl && e.key === "f") {
-        e.preventDefault();
+      } else if (cmdOrCtrl && event.key === "f") {
+        event.preventDefault();
         toggleFullscreen();
-      } else if (cmdOrCtrl && e.key === "1") {
-        e.preventDefault();
+      } else if (cmdOrCtrl && event.key === "1") {
+        event.preventDefault();
         setActiveTab("instructions");
-      } else if (cmdOrCtrl && e.key === "2") {
-        e.preventDefault();
+      } else if (cmdOrCtrl && event.key === "2") {
+        event.preventDefault();
         setActiveTab("tests");
-      } else if (e.key === "Escape" && isFullscreen) {
+      } else if (event.key === "Escape" && isFullscreen) {
         toggleFullscreen();
       }
     };

@@ -65,8 +65,8 @@ export async function runIsolatedTests({
     } catch {
       return { success: false, error: "Invalid results format" };
     }
-  } catch (err) {
-    logger.error("[runIsolatedTests] Error:", err);
+  } catch (error) {
+    logger.error("[runIsolatedTests] Error:", error);
     return { success: false, error: "Failed to run snippet" };
   } finally {
     isolate.dispose();
@@ -100,8 +100,8 @@ try {
     let output;
     try {
       output = globalThis.solve(...test.input);
-    } catch (err) {
-      results.push({ passed: false, message: test.message, error: String(err) });
+    } catch (error) {
+      results.push({ passed: false, message: test.message, error: String(error) });
       continue;
     }
 
@@ -126,9 +126,9 @@ try {
 
   myLog("[snippet] All tests completed. Storing final object in __myResult__");
   globalThis.__myResult__ = { success: true, results };
-} catch (allErr) {
-  myLog("[snippet] Snippet-level error:", String(allErr));
-  globalThis.__myResult__ = { success: false, error: String(allErr) };
+} catch (snippetError) {
+  myLog("[snippet] Snippet-level error:", String(snippetError));
+  globalThis.__myResult__ = { success: false, error: String(snippetError) };
 }
 `;
 }

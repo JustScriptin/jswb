@@ -8,7 +8,7 @@ export function useExerciseState(exercise: Exercise) {
 
   // React 19 Performance: Memoize computed values to prevent unnecessary re-calculations
   const computedValues = useMemo(() => {
-    const passedTests = testResults.filter((r) => r.passed).length;
+    const passedTests = testResults.filter((result) => result.passed).length;
     const totalTests = exercise.testCases.length;
     const hasRun = testResults.length > 0;
 
