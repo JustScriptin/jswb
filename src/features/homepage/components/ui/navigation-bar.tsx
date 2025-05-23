@@ -3,8 +3,8 @@
 import { memo } from "react";
 import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { DarkModeToggle } from "@/features/homepage/components/ui/dark-mode-toggle";
+import { Button } from "@/components/ui";
+import { DarkModeToggle } from "@/features/homepage";
 
 type NavigationBarProps = {
   scrollProgress: number;

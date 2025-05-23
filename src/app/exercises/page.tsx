@@ -1,27 +1,27 @@
 "use client";
 
 import React, { useState, useEffect, type ReactElement } from "react";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISES } from "@/features/codingChallenges";
 import { useRouter } from "next/navigation";
 import {
   CATEGORY_METHODS,
   type CategoryName,
-} from "@/features/codingChallenges/types";
-import { ExerciseCard } from "@/features/codingChallenges/components/ExerciseCard";
-import { Badge } from "@/components/ui/badge";
+} from "@/features/codingChallenges";
+import { ExerciseCard } from "@/features/codingChallenges";
+import { Badge } from "@/components/ui";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Code2, BookOpen, Layers, Trophy } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useDebounce } from "@/hooks/useDebounce";
-import { categoryColors } from "@/features/codingChallenges/constants";
-import { StatsCard } from "@/features/codingChallenges/components/StatsCard";
+import { cn } from "@/lib";
+import { useDebounce } from "@/hooks";
+import { categoryColors } from "@/features/codingChallenges";
+import { StatsCard } from "@/features/codingChallenges";
 import {
   Command,
   CommandEmpty,
@@ -30,7 +30,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
+} from "@/components/ui";
 
 export default function ExercisesPage(): ReactElement {
   const [searchQuery, setSearchQuery] = useState("");

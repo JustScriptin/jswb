@@ -1,4 +1,4 @@
-import { getLocalStorageValue, setLocalStorageValue } from "@/lib/storage";
+import { getLocalStorageValue, setLocalStorageValue } from "@/lib";
 
 beforeEach(() => {
   localStorage.clear();

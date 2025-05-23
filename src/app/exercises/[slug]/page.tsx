@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
-import { ExerciseClient } from "@/features/codingChallenges/components/ExerciseClient";
+import { EXERCISES } from "@/features/codingChallenges";
+import { ExerciseClient } from "@/features/codingChallenges";
 
 type Props = {
   params: Promise<{
