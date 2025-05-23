@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { exerciseAnimations } from "../../lib/animations";
+import { exerciseAnimations } from "@/features/codingChallenges/lib/animations";
 
 type TestResultBadgeProps = {
   passed: number;
@@ -11,9 +11,13 @@ type TestResultBadgeProps = {
   visible?: boolean;
 };
 
-export function TestResultBadge({ passed, total, visible = true }: TestResultBadgeProps) {
+export function TestResultBadge({
+  passed,
+  total,
+  visible = true,
+}: TestResultBadgeProps) {
   const allPassed = passed === total;
-  
+
   return (
     <AnimatePresence mode="wait">
       {visible && (
@@ -38,4 +42,4 @@ export function TestResultBadge({ passed, total, visible = true }: TestResultBad
   );
 }
 
-TestResultBadge.displayName = "TestResultBadge"; 
+TestResultBadge.displayName = "TestResultBadge";

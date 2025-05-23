@@ -1,5 +1,5 @@
 // Category color mapping for exercise listings
-import type { CategoryName } from "./types";
+import type { CategoryName } from "@/features/codingChallenges/types";
 
 export const categoryColors: Record<
   CategoryName,

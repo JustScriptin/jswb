@@ -12,14 +12,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ShortcutsDialog } from "./ShortcutsDialog";
-import { exerciseAnimations } from "../../lib/animations";
+import { exerciseAnimations } from "@/features/codingChallenges/lib/animations";
 
 type ExerciseHeaderProps = {
   isFullscreen: boolean;
   onToggleFullscreen: () => void;
 };
 
-export function ExerciseHeader({ isFullscreen, onToggleFullscreen }: ExerciseHeaderProps) {
+export function ExerciseHeader({
+  isFullscreen,
+  onToggleFullscreen,
+}: ExerciseHeaderProps) {
   return (
     <motion.div
       variants={exerciseAnimations.header}
@@ -68,4 +71,4 @@ export function ExerciseHeader({ isFullscreen, onToggleFullscreen }: ExerciseHea
   );
 }
 
-ExerciseHeader.displayName = "ExerciseHeader"; 
+ExerciseHeader.displayName = "ExerciseHeader";

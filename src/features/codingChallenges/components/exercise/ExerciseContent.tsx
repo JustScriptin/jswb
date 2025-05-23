@@ -2,11 +2,15 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ExerciseTabs } from "../tabs/ExerciseTabs";
-import { CodeEditorPanel } from "../editor/CodeEditorPanel";
-import { exerciseAnimations } from "../../lib/animations";
-import type { Exercise, TestResult, Language } from "../../types";
-import type { CodeEditorHandle } from "../CodeEditor";
+import { ExerciseTabs } from "@/features/codingChallenges/components/tabs/ExerciseTabs";
+import { CodeEditorPanel } from "@/features/codingChallenges/components/editor/CodeEditorPanel";
+import { exerciseAnimations } from "@/features/codingChallenges/lib/animations";
+import type {
+  Exercise,
+  TestResult,
+  Language,
+} from "@/features/codingChallenges/types";
+import type { CodeEditorHandle } from "@/features/codingChallenges/components/CodeEditor";
 
 type ExerciseContentProps = {
   exercise: Exercise;
@@ -72,4 +76,4 @@ export function ExerciseContent({
   );
 }
 
-ExerciseContent.displayName = "ExerciseContent"; 
+ExerciseContent.displayName = "ExerciseContent";

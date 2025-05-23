@@ -2,11 +2,17 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { TestCaseAccordion } from "./TestCaseAccordion";
-import { exerciseAnimations } from "../../lib/animations";
-import type { TestCase, TestResult } from "../../types";
+import { exerciseAnimations } from "@/features/codingChallenges/lib/animations";
+import type { TestCase, TestResult } from "@/features/codingChallenges/types";
 
 type TestCasesTabProps = {
   testCases: TestCase[];
@@ -62,7 +68,7 @@ export function TestCasesTab({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <motion.div 
+        <motion.div
           variants={exerciseAnimations.staggeredList}
           initial="initial"
           animate="animate"
@@ -86,4 +92,4 @@ export function TestCasesTab({
   );
 }
 
-TestCasesTab.displayName = "TestCasesTab"; 
+TestCasesTab.displayName = "TestCasesTab";

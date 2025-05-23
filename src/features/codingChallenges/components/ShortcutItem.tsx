@@ -1,4 +1,4 @@
-import type { Shortcut } from "../constants";
+import type { Shortcut } from "@/features/codingChallenges/constants";
 
 export type ShortcutItemProps = {
   shortcut: Shortcut;
