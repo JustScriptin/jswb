@@ -5,7 +5,7 @@ import rehypeSanitize from "rehype-sanitize";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Image, { type ImageProps } from "next/image";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 
 function MarkdownImage({
   src,
