@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChallengeTile } from "@/features/homepage/components/challenge-tile";
-import { fadeInUp } from "@/lib/animations";
+import { ChallengeTile } from "@/features/homepage";
+import { fadeInUp } from "@/lib";
 
 /**
  * Popular Challenges section component
