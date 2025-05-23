@@ -1,7 +1,7 @@
 /** @jest-environment node */
 /* eslint-disable boundaries/element-types */
 import { POST } from "@/app/api/exercises/[slug]/run-tests/route";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISES } from "@/features/codingChallenges/data";
 
 const successCode =
   "const solve = (numbers) => numbers.reduce((a,b) => a+b, 0);";

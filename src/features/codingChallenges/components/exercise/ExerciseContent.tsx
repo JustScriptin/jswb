@@ -2,15 +2,15 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ExerciseTabs } from "@/features/codingChallenges/components/tabs/ExerciseTabs";
-import { CodeEditorPanel } from "@/features/codingChallenges/components/editor/CodeEditorPanel";
+import { ExerciseTabs } from "@/features/codingChallenges/components/tabs";
+import { CodeEditorPanel } from "@/features/codingChallenges/components/editor";
 import { exerciseAnimations } from "@/features/codingChallenges/lib/animations";
 import type {
   Exercise,
   TestResult,
   Language,
-} from "@/features/codingChallenges/types";
-import type { CodeEditorHandle } from "@/features/codingChallenges/components/CodeEditor";
+  CodeEditorHandle,
+} from "@/features/codingChallenges";
 
 type ExerciseContentProps = {
   exercise: Exercise;

@@ -19,7 +19,6 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0-rc.0",
     "@radix-ui/react-dialog": "^1.1.4",
-    "@radix-ui/react-dropdown-menu": "^2.1.4",
     "@radix-ui/react-select": "^2.1.4",
     "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-tabs": "^1.1.2",
@@ -45,7 +44,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@shadcn/ui": "^0.0.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -64,7 +62,6 @@
     "lint-staged": "^16.0.0",
     "postcss": "^8",
     "prettier": "^3.5.3",
-    "shadcn-ui": "^0.9.4",
     "tailwindcss": "^3.4.1"
   },
   "_typescript_note": "TypeScript is a runtime dependency because we use it to transpile user-submitted TypeScript code"

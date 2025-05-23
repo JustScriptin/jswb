@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { StatPebble } from "@/features/homepage/components/stat-pebble";
-import { fadeInUp } from "@/lib/animations";
+import { StatPebble } from "@/features/homepage";
+import { fadeInUp } from "@/lib";
 
 /**
  * Value Strip section component

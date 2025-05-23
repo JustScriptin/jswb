@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { HowItWorksCard } from "@/features/homepage/components/how-it-works-card";
-import { fadeInUp } from "@/lib/animations";
+import { HowItWorksCard } from "@/features/homepage";
+import { fadeInUp } from "@/lib";
 
 /**
  * How It Works section component

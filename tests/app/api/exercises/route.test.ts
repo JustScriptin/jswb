@@ -1,7 +1,7 @@
 /** @jest-environment node */
 /* eslint-disable boundaries/element-types */
 import { GET } from "@/app/api/exercises/route";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISES } from "@/features/codingChallenges/data";
 
 describe("GET /api/exercises", () => {
   it("returns all exercises", async () => {

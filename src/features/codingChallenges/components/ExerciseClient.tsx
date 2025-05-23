@@ -3,16 +3,19 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ExerciseHeader } from "@/features/codingChallenges/components/exercise/ExerciseHeader";
-import { ExerciseTitle } from "@/features/codingChallenges/components/exercise/ExerciseTitle";
-import { ExerciseContent } from "@/features/codingChallenges/components/exercise/ExerciseContent";
-import { useExerciseState } from "@/features/codingChallenges/hooks/useExerciseState";
-import { useTestRunner } from "@/features/codingChallenges/hooks/useTestRunner";
-import { useLanguagePreference } from "@/features/codingChallenges/hooks/useLanguagePreference";
-import { useKeyboardShortcuts } from "@/features/codingChallenges/hooks/useKeyboardShortcuts";
+import {
+  ExerciseHeader,
+  ExerciseTitle,
+  ExerciseContent,
+} from "@/features/codingChallenges/components/exercise";
+import {
+  useExerciseState,
+  useTestRunner,
+  useLanguagePreference,
+  useKeyboardShortcuts,
+} from "@/features/codingChallenges/hooks";
 import { exerciseAnimations } from "@/features/codingChallenges/lib/animations";
-import type { Exercise } from "@/features/codingChallenges/types";
-import type { CodeEditorHandle } from "@/features/codingChallenges/components/CodeEditor";
+import type { Exercise, CodeEditorHandle } from "@/features/codingChallenges";
 
 type Props = {
   exercise: Exercise;
