@@ -63,6 +63,86 @@ type Props = {
   exercise: Exercise;
 };
 
+// Animation variants for better performance - moved outside component
+const pageVariants = {
+  initial: { opacity: 0 },
+  animate: { 
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+      staggerChildren: 0.1,
+    }
+  },
+  exit: { opacity: 0 }
+};
+
+const sectionVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 25
+    }
+  }
+};
+
+const headerVariants = {
+  initial: { opacity: 0, y: -20 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 25
+    }
+  }
+};
+
+const testResultVariants = {
+  initial: { transform: "scale(0)", opacity: 0 },
+  animate: { 
+    transform: "scale(1)", 
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 25
+    }
+  },
+  exit: { 
+    transform: "scale(0)", 
+    opacity: 0,
+    transition: {
+      duration: 0.15
+    }
+  }
+};
+
+const staggeredListVariants = {
+  animate: {
+    transition: {
+      staggerChildren: 0.05
+    }
+  }
+};
+
+const listItemVariants = {
+  initial: { opacity: 0, y: 10 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 500,
+      damping: 30
+    }
+  }
+};
+
 export function ExerciseClient({ exercise }: Props) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [language, setLanguage] = useState<Language>("javascript");
@@ -103,17 +183,16 @@ export function ExerciseClient({ exercise }: Props) {
   return (
     <motion.div
       data-component="ExerciseClient"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
       className="min-h-screen bg-background"
     >
       {/* Header Section */}
       <motion.div
+        variants={headerVariants}
         className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2 }}
       >
         <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
           <div className="flex items-center gap-4">
@@ -145,11 +224,18 @@ export function ExerciseClient({ exercise }: Props) {
                     Master these shortcuts to boost your productivity
                   </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
+                <motion.div 
+                  variants={staggeredListVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="grid gap-4 py-4"
+                >
                   {KEYBOARD_SHORTCUTS.map((shortcut) => (
-                    <ShortcutItem key={shortcut.key} shortcut={shortcut} />
+                    <motion.div key={shortcut.key} variants={listItemVariants}>
+                      <ShortcutItem shortcut={shortcut} />
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </DialogContent>
             </Dialog>
             <TooltipProvider>
@@ -177,21 +263,14 @@ export function ExerciseClient({ exercise }: Props) {
       </motion.div>
 
       <motion.div
+        variants={sectionVariants}
         className={cn(
           "container mx-auto px-4 py-6 md:py-8 lg:py-12",
           isFullscreen && "max-w-none p-0",
         )}
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3 }}
       >
-        {/* Title Section */}
-        <motion.div
-          className="mb-8 text-center"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
+        {/* Title Section - Remove motion wrapper for static content */}
+        <div className="mb-8 text-center">
           <div className="flex justify-center space-x-2 mb-4">
             <Badge variant="secondary" className="text-sm font-medium">
               {exercise.category.name}
@@ -206,17 +285,15 @@ export function ExerciseClient({ exercise }: Props) {
           <p className="text-xl text-muted-foreground">
             Learn and understand JavaScript methods through practical examples
           </p>
-        </motion.div>
+        </div>
 
         {/* Main Content */}
         <motion.div
+          variants={sectionVariants}
           className={cn(
             "grid gap-6",
             isFullscreen ? "grid-cols-[1fr_2fr]" : "lg:grid-cols-2",
           )}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
         >
           {/* Left Column - Instructions & Tests */}
           <div className="space-y-6">
@@ -237,20 +314,29 @@ export function ExerciseClient({ exercise }: Props) {
                 <TabsTrigger value="tests" className="flex-1 relative">
                   <Beaker className="mr-2 h-4 w-4" />
                   Test Cases
-                  {hasRun && (
-                    <Badge
-                      variant={
-                        passedTests === totalTests ? "default" : "destructive"
-                      }
-                      className={cn(
-                        "ml-2 text-xs",
-                        passedTests === totalTests &&
-                          "bg-green-500 hover:bg-green-600",
-                      )}
-                    >
-                      {passedTests}/{totalTests}
-                    </Badge>
-                  )}
+                  <AnimatePresence mode="wait">
+                    {hasRun && (
+                      <motion.div
+                        variants={testResultVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                      >
+                        <Badge
+                          variant={
+                            passedTests === totalTests ? "default" : "destructive"
+                          }
+                          className={cn(
+                            "ml-2 text-xs",
+                            passedTests === totalTests &&
+                              "bg-green-500 hover:bg-green-600",
+                          )}
+                        >
+                          {passedTests}/{totalTests}
+                        </Badge>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="learn">
@@ -340,61 +426,66 @@ export function ExerciseClient({ exercise }: Props) {
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between">
                       <span>Practice Examples</span>
-                      {hasRun && (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className={cn(
-                            "text-sm px-3 py-1 rounded-full",
-                            passedTests === totalTests
-                              ? "bg-green-500/20 text-green-500"
-                              : "bg-red-500/20 text-red-500",
-                          )}
-                        >
-                          {passedTests === totalTests ? (
-                            <span className="flex items-center gap-2">
-                              <CheckCircle2 className="h-4 w-4" />
-                              All Tests Passed
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-2">
-                              <XCircle className="h-4 w-4" />
-                              {totalTests - passedTests} Failed
-                            </span>
-                          )}
-                        </motion.div>
-                      )}
+                      <AnimatePresence mode="wait">
+                        {hasRun && (
+                          <motion.div
+                            variants={testResultVariants}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                            className={cn(
+                              "text-sm px-3 py-1 rounded-full",
+                              passedTests === totalTests
+                                ? "bg-green-500/20 text-green-500"
+                                : "bg-red-500/20 text-red-500",
+                            )}
+                          >
+                            {passedTests === totalTests ? (
+                              <span className="flex items-center gap-2">
+                                <CheckCircle2 className="h-4 w-4" />
+                                All Tests Passed
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-2">
+                                <XCircle className="h-4 w-4" />
+                                {totalTests - passedTests} Failed
+                              </span>
+                            )}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </CardTitle>
                     <CardDescription>
                       Test your understanding with these examples
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
-                      <AnimatePresence>
-                        {exercise.testCases.map((test, index) => (
-                          <motion.div
-                            key={test.message}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                          >
-                            <TestCaseAccordion
-                              test={test}
-                              index={index}
-                              result={testResults[index]}
-                            />
-                          </motion.div>
-                        ))}
-                      </AnimatePresence>
-                    </div>
+                    <motion.div 
+                      variants={staggeredListVariants}
+                      initial="initial"
+                      animate="animate"
+                      className="space-y-4"
+                    >
+                      {exercise.testCases.map((test, index) => (
+                        <motion.div
+                          key={test.message}
+                          variants={listItemVariants}
+                        >
+                          <TestCaseAccordion
+                            test={test}
+                            index={index}
+                            result={testResults[index]}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
                   </CardContent>
                 </Card>
               </TabsContent>
             </Tabs>
           </div>
 
-          {/* Right Column - Code Editor */}
+          {/* Right Column - Code Editor - Remove motion wrapper for static card */}
           <div className="flex flex-col min-h-[800px]">
             <Card className="flex flex-col h-full overflow-hidden">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
