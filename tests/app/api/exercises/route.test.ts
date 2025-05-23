@@ -5,10 +5,10 @@ import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
 
 describe("GET /api/exercises", () => {
   it("returns all exercises", async () => {
-    const res = await GET();
-    expect(res.status).toBe(200);
-    expect(res.headers.get("Cache-Control")).toContain("s-maxage");
-    const data = await res.json();
-    expect(data).toEqual({ exercises: EXERCISES });
+    const response = await GET();
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Cache-Control")).toContain("s-maxage");
+    const responseData = await response.json();
+    expect(responseData).toEqual({ exercises: EXERCISES });
   });
 });
