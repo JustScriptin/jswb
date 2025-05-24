@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 
+export type UseDarkModeReturn = {
+  isDark: boolean;
+  toggleDark: () => void;
+};
+
 /**
  * Custom hook for toggling dark mode
  *
  * Applies or removes the `dark` class on the html element
  */
-export function useDarkMode(defaultDark = true) {
+export function useDarkMode(defaultDark = true): UseDarkModeReturn {
   const [isDark, setIsDark] = useState(defaultDark);
 
   useEffect(() => {
