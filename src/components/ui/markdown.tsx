@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSanitize from "rehype-sanitize";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Image, { type ImageProps } from "next/image";
 import { cn } from "@/lib";
 
@@ -37,7 +37,7 @@ const renderCodeBlock = (
 ) => (
   <SyntaxHighlighter
     // @ts-expect-error library types incompatible
-    style={oneDark}
+    style={oneLight}
     language={language}
     PreTag="div"
     className="rounded-md"
@@ -56,7 +56,7 @@ export function Markdown({
   return (
     <div
       data-component="Markdown"
-      className={cn("prose prose-sm dark:prose-invert max-w-none", className)}
+      className={cn("prose prose-sm max-w-none", className)}
       {...props}
     >
       <ReactMarkdown

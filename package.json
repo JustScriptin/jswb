@@ -32,7 +32,6 @@
     "isolated-vm": "^5.0.3",
     "lucide-react": "^0.471.1",
     "next": "15.3.2",
-    "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^9.0.3",

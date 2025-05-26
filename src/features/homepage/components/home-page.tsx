@@ -9,14 +9,9 @@ import { NavigationBar } from "@/features/homepage";
 import { FloatingCta } from "@/features/homepage";
 import { LoadingScreen } from "@/features/homepage";
 import { NoiseTexture } from "@/features/homepage";
-import {
-  useLoading,
-  useScrollProgress,
-  useDarkMode,
-} from "@/features/homepage/hooks";
+import { useLoading, useScrollProgress } from "@/features/homepage/hooks";
 
 export function HomePage() {
-  const { isDark, toggleDark } = useDarkMode();
   const { isLoading } = useLoading();
   const { showNav, scrollProgress } = useScrollProgress();
 
@@ -27,13 +22,7 @@ export function HomePage() {
   return (
     <div data-component="HomePage" className="relative">
       <NoiseTexture />
-      {showNav && (
-        <NavigationBar
-          scrollProgress={scrollProgress}
-          isDark={isDark}
-          toggleDark={toggleDark}
-        />
-      )}
+      {showNav && <NavigationBar scrollProgress={scrollProgress} />}
       <Hero />
       <PopularChallenges />
       <HowItWorks />

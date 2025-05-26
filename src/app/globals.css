@@ -70,98 +70,6 @@
   --prose-td-borders: var(--color-border);
 }
 
-/* Dark mode theme overrides */
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-background: oklch(3.9% 0 0);
-    --color-foreground: oklch(98% 0 0);
-    --color-card: oklch(3.9% 0 0);
-    --color-card-foreground: oklch(98% 0 0);
-    --color-popover: oklch(3.9% 0 0);
-    --color-popover-foreground: oklch(98% 0 0);
-    --color-primary: oklch(98% 0 0);
-    --color-primary-foreground: oklch(9% 0 0);
-    --color-secondary: oklch(14.9% 0 0);
-    --color-secondary-foreground: oklch(98% 0 0);
-    --color-muted: oklch(18% 0 0);
-    --color-muted-foreground: oklch(75% 0 0);
-    --color-accent: oklch(14.9% 0 0);
-    --color-accent-foreground: oklch(98% 0 0);
-    --color-destructive: oklch(30.6% 0.237 0);
-    --color-destructive-foreground: oklch(98% 0 0);
-    --color-border: oklch(14.9% 0 0);
-    --color-input: oklch(14.9% 0 0);
-    --color-ring: oklch(83.1% 0 0);
-
-    /* Chart colors */
-    --color-chart-1: oklch(50% 0.237 220);
-    --color-chart-2: oklch(45% 0.237 160);
-    --color-chart-3: oklch(55% 0.237 30);
-    --color-chart-4: oklch(60% 0.237 280);
-    --color-chart-5: oklch(55% 0.237 340);
-
-    /* Category colors */
-    --color-category-array-bg: oklch(20% 0.237 141);
-    --color-category-array-text: oklch(90% 0.237 143);
-    --color-category-array-border: oklch(30% 0.237 141);
-    --color-category-object-bg: oklch(20% 0.237 214);
-    --color-category-object-text: oklch(90% 0.237 214);
-    --color-category-object-border: oklch(30% 0.237 213);
-    --color-category-map-bg: oklch(25% 0.237 269);
-    --color-category-map-text: oklch(90% 0.237 269);
-    --color-category-map-border: oklch(40% 0.237 269);
-    --color-category-set-bg: oklch(25% 0.237 34);
-    --color-category-set-text: oklch(90% 0.237 15);
-    --color-category-set-border: oklch(40% 0.237 32);
-  }
-}
-
-/* Support for class-based dark mode */
-.dark {
-  @theme {
-    --color-background: oklch(3.9% 0 0);
-    --color-foreground: oklch(98% 0 0);
-    --color-card: oklch(3.9% 0 0);
-    --color-card-foreground: oklch(98% 0 0);
-    --color-popover: oklch(3.9% 0 0);
-    --color-popover-foreground: oklch(98% 0 0);
-    --color-primary: oklch(98% 0 0);
-    --color-primary-foreground: oklch(9% 0 0);
-    --color-secondary: oklch(14.9% 0 0);
-    --color-secondary-foreground: oklch(98% 0 0);
-    --color-muted: oklch(18% 0 0);
-    --color-muted-foreground: oklch(75% 0 0);
-    --color-accent: oklch(14.9% 0 0);
-    --color-accent-foreground: oklch(98% 0 0);
-    --color-destructive: oklch(30.6% 0.237 0);
-    --color-destructive-foreground: oklch(98% 0 0);
-    --color-border: oklch(14.9% 0 0);
-    --color-input: oklch(14.9% 0 0);
-    --color-ring: oklch(83.1% 0 0);
-
-    /* Chart colors */
-    --color-chart-1: oklch(50% 0.237 220);
-    --color-chart-2: oklch(45% 0.237 160);
-    --color-chart-3: oklch(55% 0.237 30);
-    --color-chart-4: oklch(60% 0.237 280);
-    --color-chart-5: oklch(55% 0.237 340);
-
-    /* Category colors */
-    --color-category-array-bg: oklch(20% 0.237 141);
-    --color-category-array-text: oklch(90% 0.237 143);
-    --color-category-array-border: oklch(30% 0.237 141);
-    --color-category-object-bg: oklch(20% 0.237 214);
-    --color-category-object-text: oklch(90% 0.237 214);
-    --color-category-object-border: oklch(30% 0.237 213);
-    --color-category-map-bg: oklch(25% 0.237 269);
-    --color-category-map-text: oklch(90% 0.237 269);
-    --color-category-map-border: oklch(40% 0.237 269);
-    --color-category-set-bg: oklch(25% 0.237 34);
-    --color-category-set-text: oklch(90% 0.237 15);
-    --color-category-set-border: oklch(40% 0.237 32);
-  }
-}
-
 /* Base styles */
 @layer base {
   * {
@@ -188,13 +96,13 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-200 dark:bg-gray-700;
+  @apply bg-gray-200;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-cyan-500/40 dark:bg-cyan-400/40 rounded;
+  @apply bg-cyan-500/40 rounded;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-cyan-500/60 dark:bg-cyan-400/60;
+  @apply bg-cyan-500/60;
 }

@@ -18,7 +18,7 @@ export function FloatingCta() {
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
         >
-          <Rocket className="w-5 h-5 text-white dark:text-black" />
+          <Rocket className="w-5 h-5 text-white" />
         </motion.div>
       </Link>
     </div>
