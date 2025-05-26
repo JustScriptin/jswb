@@ -216,8 +216,7 @@ export default function ExercisesPage(): ReactElement {
                               <div
                                 className={cn(
                                   "w-2 h-2 rounded-full",
-                                  categoryColors[exercise.category.name]?.bg ||
-                                    "bg-gray-100",
+                                  categoryColors[exercise.category.name].bg,
                                 )}
                               />
                               <span>{exercise.title}</span>
@@ -259,8 +258,7 @@ export default function ExercisesPage(): ReactElement {
                       <div
                         className={cn(
                           "w-2 h-2 rounded-full",
-                          categoryColors[category as CategoryName]?.bg ||
-                            "bg-gray-100",
+                          categoryColors[category as CategoryName].bg,
                         )}
                       />
                       {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -304,11 +302,10 @@ export default function ExercisesPage(): ReactElement {
             <div className="flex gap-2">
               {selectedCategory !== "all" && (
                 <Badge
-                  variant="secondary"
                   className={cn(
-                    "capitalize",
-                    categoryColors[selectedCategory as CategoryName]?.bg,
-                    categoryColors[selectedCategory as CategoryName]?.text,
+                    "capitalize border-transparent",
+                    categoryColors[selectedCategory as CategoryName].bg,
+                    categoryColors[selectedCategory as CategoryName].text,
                   )}
                 >
                   {selectedCategory}

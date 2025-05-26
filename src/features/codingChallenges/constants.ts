@@ -1,31 +1,40 @@
 // Category color mapping for exercise listings
 import type { CategoryName } from "@/features/codingChallenges/types";
 
-export const categoryColors: Record<
-  CategoryName,
-  { bg: string; text: string; border: string }
-> = {
+type CategoryColorConfig = {
+  bg: string;
+  text: string;
+  border: string;
+};
+
+// Ensure all CategoryName values have corresponding colors
+export const categoryColors: Record<CategoryName, CategoryColorConfig> = {
   array: {
-    bg: "bg-[hsl(var(--category-array-bg))]",
-    text: "text-[hsl(var(--category-array-text))]",
-    border: "border-[hsl(var(--category-array-border))]",
+    bg: "bg-[oklch(93%_0.237_141)]",
+    text: "text-[oklch(24%_0.237_143)]",
+    border: "border-[oklch(85%_0.237_141)]",
   },
   object: {
-    bg: "bg-[hsl(var(--category-object-bg))]",
-    text: "text-[hsl(var(--category-object-text))]",
-    border: "border-[hsl(var(--category-object-border))]",
+    bg: "bg-[oklch(93%_0.237_214)]",
+    text: "text-[oklch(40%_0.237_226)]",
+    border: "border-[oklch(87%_0.237_213)]",
   },
   map: {
-    bg: "bg-[hsl(var(--category-map-bg))]",
-    text: "text-[hsl(var(--category-map-text))]",
-    border: "border-[hsl(var(--category-map-border))]",
+    bg: "bg-[oklch(95%_0.237_269)]",
+    text: "text-[oklch(39%_0.237_273)]",
+    border: "border-[oklch(92%_0.237_269)]",
   },
   set: {
-    bg: "bg-[hsl(var(--category-set-bg))]",
-    text: "text-[hsl(var(--category-set-text))]",
-    border: "border-[hsl(var(--category-set-border))]",
+    bg: "bg-[oklch(92%_0.237_34)]",
+    text: "text-[oklch(34%_0.237_15)]",
+    border: "border-[oklch(83%_0.237_32)]",
   },
-};
+} satisfies Record<CategoryName, CategoryColorConfig>;
+
+// Compile-time check to ensure all categories have colors
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _exhaustiveCheck: Record<CategoryName, CategoryColorConfig> =
+  categoryColors;
 
 export const KEYBOARD_SHORTCUTS = [
   { key: "\u2318/Ctrl + Enter", description: "Run Tests" },

@@ -9,16 +9,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { Exercise } from "@/features/codingChallenges/types";
+import type { categoryColors } from "@/features/codingChallenges/constants";
 
-type CategoryColors = {
-  bg: string;
-  text: string;
-  border: string;
-};
+type CategoryColors = (typeof categoryColors)[keyof typeof categoryColors];
 
 type ExerciseCardProps = {
   exercise: Exercise;
-  categoryColors?: CategoryColors;
+  categoryColors: CategoryColors;
 };
 
 export function ExerciseCard({ exercise, categoryColors }: ExerciseCardProps) {
@@ -35,12 +32,10 @@ export function ExerciseCard({ exercise, categoryColors }: ExerciseCardProps) {
         <CardHeader>
           <div className="flex items-center gap-2 mb-2">
             <Badge
-              variant="secondary"
               className={cn(
-                "capitalize",
-                categoryColors?.bg,
-                categoryColors?.text,
-                categoryColors?.border,
+                "capitalize border-transparent",
+                categoryColors.bg,
+                categoryColors.text,
               )}
             >
               {exercise.category.name}

@@ -79,7 +79,7 @@ array.reduce((accumulator, currentValue, index, array) => {
 \`\`\`
 
 ### Process:
-\`\`\`
+\`\`\`text
 Initial state: sum = 0
 
 First number (1):
@@ -203,7 +203,7 @@ array.reduce((max, current) => {
 \`\`\`
 
 ### Process:
-\`\`\`
+\`\`\`text
 Start: max = 5 (first element)
 
 Compare with 2:
@@ -329,7 +329,7 @@ array.reduce((counts, item) => {
 \`\`\`
 
 ### Step-by-Step:
-\`\`\`
+\`\`\`text
 Initial state: {}
 
 Process "a":

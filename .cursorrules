@@ -1,4 +1,4 @@
-Below is an **enhanced version** of the guidelines, now incorporating the patterns, rules, and notable findings from the repository:
+Below are the guidelines, now incorporating the patterns, rules, and notable findings from the repository:
 
 ---
 
@@ -9,7 +9,7 @@ You’re working with:
 - **TypeScript 5+**  
 - **React 19**  
 - **Next.js 15 App Router**  
-- **Tailwind CSS (with CSS variables)**  
+- **Tailwind CSS Version 4**  
 - **Shadcn UI**  
 - **Zod**
 - **Framer Motion**
@@ -25,7 +25,7 @@ You’re working with:
 2. **Implement Shadcn UI** components for a consistent design.  
    - Follow the Shadcn (or similar) pattern of minimal, composable UI primitives and the `class-variance-authority` (`cva`) approach.
 
-3. Follow **Tailwind CSS best practices**.  
+3. Follow **Tailwind V4 CSS best practices**.  
    - Use custom CSS variables (e.g., `--brand-hue`, `--background`) mapped into Tailwind tokens.  
    - Keep theming consistent and prefer design tokens for reusability.
 

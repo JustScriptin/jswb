@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import type { Category } from "@/features/codingChallenges/types";
+import { categoryColors } from "@/features/codingChallenges";
 
 type ExerciseTitleProps = {
   category: Category;
@@ -7,10 +9,18 @@ type ExerciseTitleProps = {
 };
 
 export function ExerciseTitle({ category, title }: ExerciseTitleProps) {
+  const colors = categoryColors[category.name];
+
   return (
     <div className="mb-8 text-center">
       <div className="flex justify-center space-x-2 mb-4">
-        <Badge variant="secondary" className="text-sm font-medium">
+        <Badge
+          className={cn(
+            "text-sm font-medium border-transparent",
+            colors.bg,
+            colors.text,
+          )}
+        >
           {category.name}
         </Badge>
         <Badge variant="outline" className="text-sm font-medium">
