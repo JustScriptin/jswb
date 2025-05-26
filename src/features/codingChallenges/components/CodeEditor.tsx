@@ -1,13 +1,11 @@
 "use client";
 
 import {
-  useCallback,
   useRef,
   useState,
   useEffect,
   forwardRef,
   useImperativeHandle,
-  useMemo,
 } from "react";
 import Editor, {
   type EditorProps,
@@ -30,13 +28,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  SUPPORTED_LANGUAGES,
+  DEFAULT_LANGUAGE,
+  DEFAULT_CODE_TEMPLATE,
+  MONACO_CDN_URL,
+} from "@/features/codingChallenges/constants";
 
 // Monaco Editor Performance: Configure loader for optimal performance
 // Only run this configuration once on the client side
 if (typeof window !== "undefined") {
   loader.config({
     paths: {
-      vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs",
+      vs: MONACO_CDN_URL,
     },
   });
 }
@@ -57,8 +61,8 @@ export type CodeEditorHandle = {
 export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
   function CodeEditor(
     {
-      defaultLanguage = "typescript" as Language,
-      defaultValue = "const solve = () => {\n  // Write your solution here\n}",
+      defaultLanguage = DEFAULT_LANGUAGE,
+      defaultValue = DEFAULT_CODE_TEMPLATE,
       className,
       slug,
       onTestResults,
@@ -66,7 +70,6 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
     },
     ref,
   ) {
-    // React 19: useRef with proper initial value
     const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -99,17 +102,12 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       onLanguageChange?.(language);
     }, [language, onLanguageChange, slug]);
 
-    // React 19 Performance: Memoize auto-save handler to prevent unnecessary re-renders
-    const handleEditorChange = useCallback(
-      (value: string | undefined) => {
-        if (typeof window === "undefined" || !value) return;
-        setLocalStorageValue(`${slug}-code`, value);
-      },
-      [slug],
-    );
+    const handleEditorChange = (value: string | undefined) => {
+      if (typeof window === "undefined" || !value) return;
+      setLocalStorageValue(`${slug}-code`, value);
+    };
 
-    // React 19 Performance: useCallback with proper dependencies for runTests
-    const handleRunTests = useCallback(async () => {
+    const handleRunTests = async () => {
       if (!editorRef.current) {
         logger.warn("Editor ref is not available");
         return;
@@ -148,82 +146,75 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       } finally {
         setIsSubmitting(false);
       }
-    }, [slug, onTestResults, language]);
+    };
 
     // Monaco Editor: Proper onMount handler with cleanup considerations
-    const handleEditorDidMount: OnMount = useCallback(
-      (editor, monaco) => {
-        editorRef.current = editor;
+    const handleEditorDidMount: OnMount = (editor, monaco) => {
+      editorRef.current = editor;
 
-        // Load saved code if it exists (Next.js SSR safe)
-        if (typeof window !== "undefined") {
-          try {
-            const savedCode = getLocalStorageValue(`${slug}-code`, null);
-            if (savedCode) {
-              editor.setValue(savedCode);
-            }
-          } catch (error) {
-            logger.error("Failed to load saved code:", error);
+      // Load saved code if it exists (Next.js SSR safe)
+      if (typeof window !== "undefined") {
+        try {
+          const savedCode = getLocalStorageValue(`${slug}-code`, null);
+          if (savedCode) {
+            editor.setValue(savedCode);
           }
+        } catch (error) {
+          logger.error("Failed to load saved code:", error);
         }
+      }
 
-        // Add custom keybinding for Cmd/Ctrl + Enter
-        editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-          handleRunTests();
-        });
-      },
-      [slug, handleRunTests],
-    );
+      // Add custom keybinding for Cmd/Ctrl + Enter
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+        handleRunTests();
+      });
+    };
 
     // Monaco Editor: Validation handler
-    const handleEditorValidation = useCallback((markers: editor.IMarker[]) => {
+    const handleEditorValidation = (markers: editor.IMarker[]) => {
       // Log validation issues for debugging
       markers.forEach((marker) => {
         logger.info("onValidate:", marker.message);
       });
-    }, []);
+    };
 
-    // React 19: useImperativeHandle with proper dependencies
     useImperativeHandle(
       ref,
       () => ({
         runTests: handleRunTests,
       }),
-      [handleRunTests],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [],
     );
 
-    // React 19 Performance: Memoize editor options to prevent unnecessary re-renders
-    const editorOptions: EditorProps["options"] = useMemo(
-      () => ({
-        minimap: { enabled: false },
-        fontSize: 14,
-        lineNumbers: "on",
-        roundedSelection: false,
-        scrollBeyondLastLine: false,
-        readOnly: isSubmitting,
-        automaticLayout: true,
-        tabSize: 2,
-        wordWrap: "on",
-        "semanticHighlighting.enabled": true,
-        renderValidationDecorations: "on",
-        // Monaco Editor Performance: Additional optimizations
-        suggest: {
-          showKeywords: true,
-          showSnippets: true,
-        },
-        quickSuggestions: {
-          other: true,
-          comments: false,
-          strings: false,
-        },
-      }),
-      [isSubmitting],
-    );
+    // Editor options - React Compiler will optimize this automatically
+    const editorOptions: EditorProps["options"] = {
+      minimap: { enabled: false },
+      fontSize: 14,
+      lineNumbers: "on",
+      roundedSelection: false,
+      scrollBeyondLastLine: false,
+      readOnly: isSubmitting,
+      automaticLayout: true,
+      tabSize: 2,
+      wordWrap: "on",
+      "semanticHighlighting.enabled": true,
+      renderValidationDecorations: "on",
+      // Monaco Editor Performance: Additional optimizations
+      suggest: {
+        showKeywords: true,
+        showSnippets: true,
+      },
+      quickSuggestions: {
+        other: true,
+        comments: false,
+        strings: false,
+      },
+    };
 
-    // React 19 Performance: Memoize language change handler
-    const handleLanguageChange = useCallback((selectedLanguage: string) => {
+    const handleLanguageChange = (selectedLanguage: string) => {
       setLanguage(selectedLanguage as Language);
-    }, []);
+    };
 
     return (
       <Card
@@ -237,8 +228,11 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="javascript">JavaScript</SelectItem>
-                <SelectItem value="typescript">TypeScript</SelectItem>
+                {Object.entries(SUPPORTED_LANGUAGES).map(([value, label]) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <Button

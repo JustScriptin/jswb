@@ -11,7 +11,7 @@ const customConfig = {
   testMatch: ["<rootDir>/tests/**/*.{test,spec}.{js,jsx,ts,tsx}"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node", "mdx"],
   transformIgnorePatterns: [
-    "/node_modules/(?!(next-mdx-remote|@mdx-js)/)",
+    "/node_modules/(?!(next-mdx-remote)/)",
   ],
 };
 

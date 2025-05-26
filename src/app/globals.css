@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 @plugin "tailwindcss-animate";
 
 @theme {
@@ -50,24 +49,6 @@
   --radius-lg: 0.5rem;
   --radius-md: calc(0.5rem - 2px);
   --radius-sm: calc(0.5rem - 4px);
-
-  /* Typography plugin configuration */
-  --prose-body: var(--color-foreground);
-  --prose-headings: var(--color-foreground);
-  --prose-lead: var(--color-muted-foreground);
-  --prose-links: var(--color-primary);
-  --prose-bold: var(--color-foreground);
-  --prose-counters: var(--color-muted-foreground);
-  --prose-bullets: var(--color-muted-foreground);
-  --prose-hr: var(--color-border);
-  --prose-quotes: var(--color-foreground);
-  --prose-quote-borders: var(--color-border);
-  --prose-captions: var(--color-muted-foreground);
-  --prose-code: var(--color-foreground);
-  --prose-pre-code: var(--color-foreground);
-  --prose-pre-bg: var(--color-muted);
-  --prose-th-borders: var(--color-border);
-  --prose-td-borders: var(--color-border);
 }
 
 /* Base styles */

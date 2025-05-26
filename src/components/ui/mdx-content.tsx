@@ -5,6 +5,8 @@ import { serialize } from "next-mdx-remote/serialize";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib";
 import { useMDXComponents } from "@/lib/mdx-components";
+import { logger } from "@/lib/logger";
+import { Skeleton } from "@/components/ui/skeleton";
 // eslint-disable-next-line boundaries/no-unknown
 import styles from "@/styles/markdown.module.css";
 
@@ -24,6 +26,7 @@ export function MDXContent({
   );
   const [error, setError] = useState<string | null>(null);
 
+  // React Compiler handles memoization automatically
   const defaultComponents = useMDXComponents({});
   const components = { ...defaultComponents, ...customComponents };
 
@@ -34,7 +37,7 @@ export function MDXContent({
         setMdxSource(serialized);
         setError(null);
       } catch (err) {
-        console.error("Error compiling MDX:", err);
+        logger.error("Error compiling MDX:", err);
         setError("Failed to render content");
       }
     };
@@ -53,10 +56,10 @@ export function MDXContent({
   if (!mdxSource) {
     return (
       <div className={cn(styles.markdown, className)} {...props}>
-        <div className="animate-pulse">
-          <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-          <div className="h-4 bg-muted rounded w-full mb-2"></div>
-          <div className="h-4 bg-muted rounded w-5/6"></div>
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-5/6" />
         </div>
       </div>
     );
