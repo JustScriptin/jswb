@@ -7,9 +7,7 @@ import { EXERCISES } from "@/features/codingChallenges";
 
 jest.mock("@monaco-editor/react", () => () => <div />);
 jest.mock("lucide-react", () => new Proxy({}, { get: () => () => <svg /> }));
-jest.mock("react-markdown", () => (props: { children: React.ReactNode }) => (
-  <div>{props.children}</div>
-));
+
 jest.mock("@/components/ui/markdown", () => ({
   Markdown: ({ content }: { content: string }) => <div>{content}</div>,
 }));

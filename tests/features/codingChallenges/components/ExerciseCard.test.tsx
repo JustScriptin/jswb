@@ -1,16 +1,17 @@
+import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { ExerciseCard } from "@/features/codingChallenges";
 import { EXERCISES, categoryColors } from "@/features/codingChallenges";
 
-jest.mock("react-syntax-highlighter", () => ({ Prism: {} }));
-jest.mock("react-syntax-highlighter/dist/esm/styles/prism", () => ({}));
-jest.mock("rehype-sanitize", () => ({}));
-jest.mock("remark-gfm", () => ({}));
+jest.mock("next-mdx-remote", () => ({
+  MDXRemote: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+  serialize: jest.fn(),
+}));
+
 jest.mock("lucide-react", () => new Proxy({}, { get: () => () => <svg /> }));
-jest.mock("react-markdown", () => (props: { children: React.ReactNode }) => (
-  <div>{props.children}</div>
-));
 
 describe("ExerciseCard", () => {
   it("links to the exercise page and shows title", () => {
