@@ -24,26 +24,26 @@ const TESTS_COUNT = 3;
 const TESTS_DISPLAY_ORDER = [1, 2, 0];
 
 const KEYWORD_STYLES: Record<string, string> = {
-  function: "text-[#569cd6]",
-  return: "text-[#c586c0]",
-  const: "text-[#569cd6]",
-  filter: "text-[#dcdcaa]",
-  filterEvenNumbers: "text-[#dcdcaa]",
-  numbers: "text-[#9cdcfe]",
-  num: "text-[#9cdcfe]",
-  result: "text-[#4fc1ff]",
-  console: "text-[#9cdcfe]",
-  log: "text-[#dcdcaa]",
+  function: "text-blue-400",
+  return: "text-purple-400",
+  const: "text-blue-400",
+  filter: "text-yellow-300",
+  filterEvenNumbers: "text-yellow-300",
+  numbers: "text-cyan-300",
+  num: "text-cyan-300",
+  result: "text-sky-400",
+  console: "text-cyan-300",
+  log: "text-yellow-300",
 };
 
 const SYMBOL_STYLES = {
-  "(": "text-white",
-  ")": "text-white",
-  "{": "text-white",
-  "}": "text-white",
-  "[": "text-white",
-  "]": "text-white",
-  "=>": "text-white",
+  "(": "text-gray-100",
+  ")": "text-gray-100",
+  "{": "text-gray-100",
+  "}": "text-gray-100",
+  "[": "text-gray-100",
+  "]": "text-gray-100",
+  "=>": "text-gray-100",
 } as const;
 
 function highlightLine(line: string): Token[] {
@@ -54,7 +54,7 @@ function highlightLine(line: string): Token[] {
     if (end > current) {
       tokens.push({
         text: line.slice(current, end),
-        className: "text-white/90",
+        className: "text-gray-100",
         index: current,
       });
       current = end;
@@ -83,13 +83,13 @@ function highlightLine(line: string): Token[] {
     pushText(commentStart);
     tokens.push({
       text: line.slice(commentStart),
-      className: "text-[#6a9955]",
+      className: "text-green-400",
       index: commentStart,
     });
     current = line.length;
   }
 
-  processRegex(/\b\d+\b/g, "text-[#b5cea8]");
+  processRegex(/\b\d+\b/g, "text-green-300");
 
   Object.entries(SYMBOL_STYLES).forEach(([symbol, className]) =>
     processRegex(
@@ -178,10 +178,10 @@ export const CodeCard = memo(function CodeCard() {
           <div className="w-3 h-3 rounded-full bg-red-500"></div>
           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
           <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <div className="ml-2 text-xs text-white/60">array-challenge.js</div>
+          <div className="ml-2 text-xs text-gray-400">array-challenge.js</div>
         </div>
 
-        <div className="flex-1 text-white font-mono text-sm leading-relaxed">
+        <div className="flex-1 text-gray-100 font-mono text-sm leading-relaxed">
           <SyntaxHighlighter
             code={typedCode}
             showCursor={isTyping}
@@ -190,7 +190,7 @@ export const CodeCard = memo(function CodeCard() {
         </div>
 
         <div className="mt-4 flex items-center justify-end gap-3">
-          <div className="text-xs text-white/70 mr-2">Tests:</div>
+          <div className="text-xs text-gray-300 mr-2">Tests:</div>
           {Array.from({ length: TESTS_COUNT }).map((_, i) => {
             const orderIndex = TESTS_DISPLAY_ORDER.indexOf(i);
             const isPassed = orderIndex !== -1 && passedCount > orderIndex;
@@ -267,7 +267,7 @@ function SyntaxHighlighter({
             ))}
             {isCursor && (
               <motion.span
-                className="inline-block w-[2px] h-[1em] bg-white/70 align-bottom"
+                className="inline-block w-[2px] h-[1em] bg-gray-300 align-bottom"
                 animate={{ opacity: [1, 0, 1] }}
                 transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY }}
               />
