@@ -7,8 +7,8 @@ export function ExercisePageSkeleton() {
       className="min-h-screen bg-background"
     >
       {/* Header Skeleton */}
-      <div className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
+      <div className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+        <div className="container flex h-14 max-w-(--breakpoint-2xl) items-center justify-between">
           <div className="flex items-center gap-4">
             <Skeleton className="h-9 w-32" />
             <Skeleton className="h-6 w-[2px]" />

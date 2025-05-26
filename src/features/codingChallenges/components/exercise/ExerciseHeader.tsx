@@ -26,9 +26,9 @@ export function ExerciseHeader({
   return (
     <motion.div
       variants={exerciseAnimations.header}
-      className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
     >
-      <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
+      <div className="container flex h-14 max-w-(--breakpoint-2xl) items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/exercises">
             <Button variant="ghost" size="sm" className="gap-2">

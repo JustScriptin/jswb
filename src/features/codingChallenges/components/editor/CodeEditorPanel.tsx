@@ -50,13 +50,13 @@ export const CodeEditorPanel = forwardRef<
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="p-0 flex-grow flex flex-col min-h-0">
+      <CardContent className="p-0 grow flex flex-col min-h-0">
         <CodeEditor
           ref={ref}
           defaultLanguage={language}
           defaultValue={exercise.starterCode}
           slug={exercise.slug}
-          className="flex-grow min-h-0"
+          className="grow min-h-0"
           onTestResults={onTestResults}
           onLanguageChange={onLanguageChange}
         />

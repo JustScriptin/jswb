@@ -14,7 +14,7 @@ import { fadeInUp } from "@/lib";
  */
 export function FinalCta() {
   return (
-    <section className="py-24 bg-gradient-to-r from-cyan-600 to-blue-700 flex items-center justify-center relative">
+    <section className="py-24 bg-linear-to-r from-cyan-600 to-blue-700 flex items-center justify-center relative">
       <div className="container max-w-7xl mx-auto px-4 text-center relative z-10">
         <motion.h2
           className="text-4xl font-semibold text-white mb-6"

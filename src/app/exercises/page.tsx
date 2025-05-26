@@ -112,10 +112,10 @@ export default function ExercisesPage(): ReactElement {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="min-h-screen bg-gradient-to-b from-background to-background/80"
+      className="min-h-screen bg-linear-to-b from-background to-background/80"
     >
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-primary/5 to-background/0 border-b border-border/50">
+      <div className="relative overflow-hidden bg-linear-to-b from-primary/5 to-background/0 border-b border-border/50">
         <div className="absolute inset-0 grid grid-cols-6 -skew-y-12 opacity-5">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="border-r border-primary/20 h-full" />
@@ -126,7 +126,7 @@ export default function ExercisesPage(): ReactElement {
             variants={itemVariants}
             className="max-w-3xl mx-auto text-center space-y-6"
           >
-            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent leading-relaxed py-1">
+            <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent leading-relaxed py-1">
               Learn JavaScript Methods
             </h1>
             <p className="text-xl text-muted-foreground">

@@ -50,7 +50,7 @@ export function HowItWorksCard({
     >
       {/* Background gradient - subtle */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br ${gradientColors[color]} opacity-50 rounded-lg`}
+        className={`absolute inset-0 bg-linear-to-br ${gradientColors[color]} opacity-50 rounded-lg`}
       ></div>
 
       <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center border border-gray-700 text-white font-bold z-10">
