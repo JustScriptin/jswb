@@ -186,8 +186,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       () => ({
         runTests: handleRunTests,
       }),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [],
+      [handleRunTests],
     );
 
     // Editor options - React Compiler will optimize this automatically

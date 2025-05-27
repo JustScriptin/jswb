@@ -1,5 +1,4 @@
 /** @jest-environment node */
-/* eslint-disable boundaries/element-types */
 import { GET } from "@/app/api/exercises/route";
 import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
 
