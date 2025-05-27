@@ -1,27 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, type ReactElement } from "react";
-import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
+
 import { useRouter } from "next/navigation";
-import {
-  CATEGORY_METHODS,
-  type CategoryName,
-} from "@/features/codingChallenges";
-import { ExerciseCardMDX } from "@/features/codingChallenges/components/ExerciseCardMDX";
-import { Badge } from "@/components/ui";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Code2, BookOpen, Layers, Trophy } from "lucide-react";
-import { cn } from "@/lib";
-import { useDebounce } from "@/hooks";
-import { categoryColors } from "@/features/codingChallenges";
-import { StatsCard } from "@/features/codingChallenges";
 import {
   Command,
   CommandEmpty,
@@ -30,7 +14,23 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Badge,
 } from "@/components/ui";
+import {
+  CATEGORY_METHODS,
+  type CategoryName,
+  categoryColors,
+  StatsCard,
+} from "@/features/codingChallenges";
+import { ExerciseCardMDX } from "@/features/codingChallenges/components/ExerciseCardMDX";
+import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
+import { useDebounce } from "@/hooks";
+import { cn } from "@/lib";
 
 export default function ExercisesPage(): ReactElement {
   const [searchQuery, setSearchQuery] = useState("");
@@ -69,8 +69,9 @@ export default function ExercisesPage(): ReactElement {
   const availableMethods =
     selectedCategory === "all"
       ? Array.from(new Set(Object.values(CATEGORY_METHODS).flat()))
-      : CATEGORY_METHODS[selectedCategory as keyof typeof CATEGORY_METHODS] ||
-        [];
+      : selectedCategory in CATEGORY_METHODS
+        ? CATEGORY_METHODS[selectedCategory]
+        : [];
 
   // Get methods with their categories for "all" view
   const methodsWithCategories =
@@ -79,7 +80,7 @@ export default function ExercisesPage(): ReactElement {
           (method) => {
             const categories = Object.entries(CATEGORY_METHODS)
               .filter(([, methods]) =>
-                (methods as readonly string[]).includes(method as string),
+                methods.includes(method),
               )
               .map(([category]) => category);
             return { method, categories };
@@ -302,8 +303,8 @@ export default function ExercisesPage(): ReactElement {
                 <Badge
                   className={cn(
                     "capitalize border-transparent",
-                    categoryColors[selectedCategory as CategoryName].bg,
-                    categoryColors[selectedCategory as CategoryName].text,
+                    categoryColors[selectedCategory].bg,
+                    categoryColors[selectedCategory].text,
                   )}
                 >
                   {selectedCategory}
@@ -395,7 +396,9 @@ export default function ExercisesPage(): ReactElement {
                       <div className="flex gap-2 mt-4">
                         {searchQuery && (
                           <button
-                            onClick={() => setSearchQuery("")}
+                            onClick={() => {
+                              setSearchQuery("");
+                            }}
                             className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline"
                           >
                             Clear search

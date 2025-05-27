@@ -1,6 +1,5 @@
 // Category color mapping for exercise listings
-import type { CategoryName } from "@/features/codingChallenges/types";
-import type { Language } from "./types";
+import type { CategoryName, Language } from "@/features/codingChallenges/types";
 
 type CategoryColorConfig = {
   bg: string;
@@ -33,7 +32,6 @@ export const categoryColors: Record<CategoryName, CategoryColorConfig> = {
 } satisfies Record<CategoryName, CategoryColorConfig>;
 
 // Compile-time check to ensure all categories have colors
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _exhaustiveCheck: Record<CategoryName, CategoryColorConfig> =
   categoryColors;
 

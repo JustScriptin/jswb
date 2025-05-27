@@ -7,20 +7,18 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react";
+
 import Editor, {
   type EditorProps,
   type OnMount,
   loader,
 } from "@monaco-editor/react";
+
 import type { editor } from "monaco-editor";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { logger } from "@/lib/logger";
-import type { Language, TestResult } from "@/features/codingChallenges/types";
-import { getLocalStorageValue, setLocalStorageValue } from "@/lib/storage";
 import {
   Select,
   SelectContent,
@@ -28,12 +26,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import {
   SUPPORTED_LANGUAGES,
   DEFAULT_LANGUAGE,
   DEFAULT_CODE_TEMPLATE,
   MONACO_CDN_URL,
 } from "@/features/codingChallenges/constants";
+import type { Language, TestResult } from "@/features/codingChallenges/types";
+import { logger } from "@/lib/logger";
+import { getLocalStorageValue, setLocalStorageValue } from "@/lib/storage";
+import { cn } from "@/lib/utils";
 
 // Monaco Editor Performance: Configure loader for optimal performance
 // Only run this configuration once on the client side
@@ -81,7 +84,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       const savedLanguage = getLocalStorageValue(
         `${slug}-language`,
         defaultLanguage,
-      ) as Language;
+      );
       setLanguage(savedLanguage);
 
       const savedCode = getLocalStorageValue(`${slug}-code`, null);
@@ -166,7 +169,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
 
       // Add custom keybinding for Cmd/Ctrl + Enter
       editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-        handleRunTests();
+        void handleRunTests();
       });
     };
 

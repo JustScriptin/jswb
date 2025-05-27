@@ -51,7 +51,9 @@ export function ExerciseClientMDX({ exerciseMetadata, mdxContent }: Props) {
   const { runTests } = useTestRunner(editorRef);
 
   // Event handlers
-  const handleToggleFullscreen = () => setIsFullscreen((prev) => !prev);
+  const handleToggleFullscreen = () => {
+    setIsFullscreen((prev) => !prev);
+  };
 
   const handleRunTests = async () => {
     await runTests();

@@ -1,5 +1,7 @@
 import type { ReactElement } from "react";
+
 import Link from "next/link";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
 
 export default function NotFound(): ReactElement {

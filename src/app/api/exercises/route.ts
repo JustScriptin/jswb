@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+
 import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
 import { logger } from "@/lib";
 
@@ -6,7 +7,7 @@ import { logger } from "@/lib";
  * GET /api/exercises
  * Returns a list of all available coding exercises
  */
-export async function GET(): Promise<NextResponse> {
+export function GET(): NextResponse {
   try {
     // Return exercises with 200 status
     return NextResponse.json(

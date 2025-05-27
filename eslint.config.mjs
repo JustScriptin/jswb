@@ -158,40 +158,7 @@ export default [
           "**/test/**",
         ],
       }],
-      "import/order": ["error", {
-        groups: [
-          "builtin",
-          "external",
-          "internal",
-          ["parent", "sibling"],
-          "index",
-          "object",
-          "type",
-        ],
-        pathGroups: [
-          {
-            pattern: "react",
-            group: "external",
-            position: "before",
-          },
-          {
-            pattern: "next/**",
-            group: "external",
-            position: "before",
-          },
-          {
-            pattern: "@/**",
-            group: "internal",
-            position: "after",
-          },
-        ],
-        pathGroupsExcludedImportTypes: ["react", "next"],
-        "newlines-between": "always",
-        alphabetize: { 
-          order: "asc", 
-          caseInsensitive: true,
-        },
-      }],
+
 
       /* boundaries matrix with enhanced rules */
       "boundaries/element-types": ["error", {

@@ -1,4 +1,6 @@
 import Link from "next/link";
+
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardHeader,
@@ -6,10 +8,9 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import type { Exercise } from "@/features/codingChallenges/types";
 import type { categoryColors } from "@/features/codingChallenges/constants";
+import type { Exercise } from "@/features/codingChallenges/types";
+import { cn } from "@/lib/utils";
 
 type CategoryColors = (typeof categoryColors)[keyof typeof categoryColors];
 

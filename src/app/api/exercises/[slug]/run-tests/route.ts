@@ -1,9 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
+
+import { z } from "zod";
+
 import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
-import { LanguageSchema } from "@/features/codingChallenges/types";
 import { runIsolatedTests } from "@/features/codingChallenges/lib/runIsolatedTests";
 import { transpile } from "@/features/codingChallenges/lib/transpile";
-import { z } from "zod";
+import { LanguageSchema } from "@/features/codingChallenges/types";
 
 const RequestBodySchema = z.object({
   code: z.string(),
