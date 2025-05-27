@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { Language } from "@/features/codingChallenges/types";
+import type { Language } from "@/features/codingChallenges/types";
 
 export const transpile = (
   code: string,

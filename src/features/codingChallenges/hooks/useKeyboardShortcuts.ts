@@ -38,6 +38,9 @@ export function useKeyboardShortcuts({
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      return void 0;
+    };
   }, [runTests, toggleFullscreen, setActiveTab, isFullscreen]);
 }

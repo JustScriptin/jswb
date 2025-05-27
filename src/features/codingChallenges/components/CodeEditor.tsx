@@ -8,7 +8,7 @@ import {
   useImperativeHandle,
 } from "react";
 
-import Editor, {
+import MonacoEditor, {
   type EditorProps,
   type OnMount,
   loader,
@@ -256,7 +256,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
         <Separator />
 
         <div className="grow relative min-h-0">
-          <Editor
+          <MonacoEditor
             height="100%"
             width="100%"
             language={language}

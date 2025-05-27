@@ -74,9 +74,10 @@ function highlightLine(line: string): Token[] {
     }
   };
 
-  Object.entries(KEYWORD_STYLES).forEach(([keyword, className]) =>
-    processRegex(new RegExp(`\\b${keyword}\\b`, "g"), className),
-  );
+  Object.entries(KEYWORD_STYLES).forEach(([keyword, className]) => {
+    processRegex(new RegExp(`\\b${keyword}\\b`, "g"), className);
+    return void 0;
+  });
 
   const commentStart = line.indexOf("//");
   if (commentStart >= current) {
@@ -91,12 +92,13 @@ function highlightLine(line: string): Token[] {
 
   processRegex(/\b\d+\b/g, "text-green-300");
 
-  Object.entries(SYMBOL_STYLES).forEach(([symbol, className]) =>
+  Object.entries(SYMBOL_STYLES).forEach(([symbol, className]) => {
     processRegex(
       new RegExp(symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"),
       className,
-    ),
-  );
+    );
+    return void 0;
+  });
 
   pushText(line.length);
   tokens.sort((a, b) => a.index - b.index);
@@ -133,6 +135,7 @@ export const CodeCard = memo(function CodeCard() {
 
     return () => {
       clearTimeout(typingTimeout);
+      return void 0;
     };
   }, [typedCode, isTyping]);
 
@@ -162,6 +165,7 @@ export const CodeCard = memo(function CodeCard() {
     return () => {
       clearTimeout(startTestsTimeout);
       if (testIntervalRef.current) clearInterval(testIntervalRef.current);
+      return void 0;
     };
   }, [isTyping]);
 

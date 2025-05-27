@@ -17,11 +17,11 @@ export type ExerciseMDXContent = {
   educationContent: ReactElement;
   educationConcept: string;
   starterCode: string;
-  testCases: Array<{
+  testCases: {
     input: string;
     expected: string;
     description: string;
-  }>;
+  }[];
 };
 
 export async function getExerciseContent(
@@ -42,7 +42,7 @@ export async function getExerciseContent(
     const majorSections = content.split(/^## /m);
 
     // Extract description (everything before first ## heading)
-    const descriptionSource = majorSections[0]?.trim() || "";
+    const descriptionSource = majorSections[0]?.trim() ?? "";
 
     // Find and extract the Education section
     let educationSource = "";
@@ -53,7 +53,7 @@ export async function getExerciseContent(
     );
     if (educationSectionIndex !== -1) {
       // Get everything from Education section until the next major section
-      let educationText = "## " + majorSections[educationSectionIndex];
+      let educationText = "## " + (majorSections[educationSectionIndex] ?? "");
 
       // Find where the next major section starts (Starter Code)
       const starterCodeIndex = content.indexOf("## Starter Code");
@@ -68,8 +68,9 @@ export async function getExerciseContent(
       educationText = educationText.replace(/^## Education\s*\n+/, "");
 
       // Extract the first ### heading as the concept
-      const conceptMatch = educationText.match(/^###\s+(.+?)(?:\n|$)/m);
-      if (conceptMatch && conceptMatch[1]) {
+      const conceptRegex = /^###\s+(.+?)(?:\n|$)/m;
+      const conceptMatch = conceptRegex.exec(educationText);
+      if (conceptMatch?.[1]) {
         educationConcept = conceptMatch[1];
       }
 
@@ -77,10 +78,9 @@ export async function getExerciseContent(
     }
 
     // Extract starter code
-    const starterCodeMatch = content.match(
-      /## Starter Code\s*\n+```javascript\n([\s\S]*?)\n```/,
-    );
-    const starterCode = starterCodeMatch?.[1] || "";
+    const starterCodeRegex = /## Starter Code\s*\n+```javascript\n([\s\S]*?)\n```/;
+    const starterCodeMatch = starterCodeRegex.exec(content);
+    const starterCode = starterCodeMatch?.[1] ?? "";
 
     // Extract test cases
     const testCasesSection = majorSections.find((s) =>
@@ -124,7 +124,7 @@ export async function getExerciseContent(
       frontmatter: frontmatter as ExerciseMDXContent["frontmatter"],
       descriptionContent,
       educationContent,
-      educationConcept: educationConcept || frontmatter.title,
+      educationConcept: educationConcept ?? frontmatter.title,
       starterCode,
       testCases,
     };

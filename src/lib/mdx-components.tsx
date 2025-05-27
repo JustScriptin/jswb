@@ -1,6 +1,5 @@
 import type { MDXComponents as MDXComponentsType } from "mdx/types";
 import Image from "next/image";
-// eslint-disable-next-line boundaries/no-unknown
 import styles from "@/styles/markdown.module.css";
 
 // CodeBlock component for syntax highlighting
@@ -11,7 +10,7 @@ function CodeBlock({
   children: string;
   className?: string;
 }) {
-  const language = className?.replace(/language-/, "") || "text";
+  const language = className?.replace(/language-/, "") ?? "text";
 
   return (
     <div className={styles.codeBlock}>

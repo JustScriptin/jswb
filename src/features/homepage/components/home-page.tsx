@@ -1,14 +1,16 @@
 "use client";
 
-import { Hero } from "@/features/homepage";
-import { PopularChallenges } from "@/features/homepage";
-import { HowItWorks } from "@/features/homepage";
-import { ValueStrip } from "@/features/homepage";
-import { FinalCta } from "@/features/homepage";
-import { NavigationBar } from "@/features/homepage";
-import { FloatingCta } from "@/features/homepage";
-import { LoadingScreen } from "@/features/homepage";
-import { NoiseTexture } from "@/features/homepage";
+import {
+  Hero,
+  PopularChallenges,
+  HowItWorks,
+  ValueStrip,
+  FinalCta,
+  NavigationBar,
+  FloatingCta,
+  LoadingScreen,
+  NoiseTexture,
+} from "@/features/homepage";
 import { useLoading, useScrollProgress } from "@/features/homepage/hooks";
 
 export function HomePage() {

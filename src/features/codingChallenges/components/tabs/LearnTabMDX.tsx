@@ -9,7 +9,6 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-// eslint-disable-next-line boundaries/no-unknown
 import styles from "@/styles/markdown.module.css";
 
 type LearnTabMDXProps = {

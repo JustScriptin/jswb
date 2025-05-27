@@ -398,6 +398,7 @@ export default function ExercisesPage(): ReactElement {
                           <button
                             onClick={() => {
                               setSearchQuery("");
+                              return void 0;
                             }}
                             className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline"
                           >
@@ -410,6 +411,7 @@ export default function ExercisesPage(): ReactElement {
                             onClick={() => {
                               setSelectedCategory("all");
                               setSelectedMethod("all");
+                              return void 0;
                             }}
                             className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline"
                           >

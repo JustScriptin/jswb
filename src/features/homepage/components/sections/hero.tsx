@@ -5,8 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui";
-import { CodeCard } from "@/features/homepage";
-import { ParticleBackground } from "@/features/homepage";
+import { CodeCard, ParticleBackground } from "@/features/homepage";
 import { fadeInUp } from "@/lib";
 
 /**

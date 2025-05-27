@@ -35,7 +35,10 @@ function CodeBlock({
   const handleCopy = async () => {
     await navigator.clipboard.writeText(content);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => {
+      setCopied(false);
+      return void 0;
+    }, 2000);
   };
 
   return (
@@ -105,7 +108,10 @@ export function TestCaseAccordion({
     >
       <button
         className="flex w-full items-center justify-between p-4 hover:bg-black/[0.02] transition-colors rounded-xl"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          return void 0;
+        }}
       >
         <div className="flex items-center gap-3">
           {hasRun &&

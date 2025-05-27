@@ -24,11 +24,15 @@ export const getLocalStorageValue = <T>(key: string, defaultValue: T): T => {
  * Save a value to localStorage. Errors are swallowed to avoid runtime issues
  * in unsupported environments or private browsing modes.
  */
-export const setLocalStorageValue = <T>(key: string, value: T): void => {
+export const setLocalStorageValue = (key: string, value: unknown): void => {
   if (typeof window === "undefined") return;
   try {
     const valueToStore =
-      typeof value === "object" ? JSON.stringify(value) : String(value);
+      typeof value === "object" && value !== null 
+        ? JSON.stringify(value) 
+        : typeof value === "string" 
+          ? value 
+          : String(value);
     window.localStorage.setItem(key, valueToStore);
   } catch {
     // ignore write errors

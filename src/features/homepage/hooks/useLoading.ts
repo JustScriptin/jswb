@@ -11,9 +11,13 @@ export function useLoading(duration = 1000) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
+      return void 0;
     }, duration);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      return void 0;
+    };
   }, [duration]);
 
   return { isLoading, setIsLoading };

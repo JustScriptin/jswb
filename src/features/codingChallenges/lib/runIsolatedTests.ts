@@ -1,10 +1,10 @@
 import ivm from "isolated-vm";
 import { logger } from "@/lib/logger";
-import {
+import type {
   TestCase,
   TestResult,
-  TestResultSchema,
 } from "@/features/codingChallenges/types";
+import { TestResultSchema } from "@/features/codingChallenges/types";
 
 export type IsolatedTestResult =
   | { success: true; results: TestResult[] }
@@ -16,11 +16,11 @@ export type RunIsolatedTestsArgs = {
   memoryMb?: number;
 };
 
-export async function runIsolatedTests({
+export function runIsolatedTests({
   code,
   testCases,
   memoryMb = Number(process.env.ISOLATE_MEMORY_MB ?? 8),
-}: RunIsolatedTestsArgs): Promise<IsolatedTestResult> {
+}: RunIsolatedTestsArgs): IsolatedTestResult {
   const isolate = new ivm.Isolate({ memoryLimit: memoryMb });
 
   try {
@@ -30,7 +30,10 @@ export async function runIsolatedTests({
     jail.setSync(
       "myLog",
       new ivm.Callback(
-        (...args: unknown[]) => logger.info("[Isolate log]", ...args),
+        (...args: unknown[]) => {
+          logger.info("[Isolate log]", ...args);
+          return void 0;
+        },
         {
           sync: true,
         },

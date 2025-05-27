@@ -12,7 +12,7 @@ export function useScrollProgress() {
   const { scrollY } = useScroll();
 
   useEffect(() => {
-    return scrollY.onChange((latest) => {
+    return scrollY.on("change", (latest) => {
       setShowNav(latest > 64);
       setScrollProgress(
         Math.min(latest / (document.body.scrollHeight - window.innerHeight), 1),

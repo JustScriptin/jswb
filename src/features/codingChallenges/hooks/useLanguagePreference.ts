@@ -13,7 +13,7 @@ export function useLanguagePreference(
     const savedLanguage = getLocalStorageValue(
       `${slug}-language`,
       defaultLanguage,
-    ) as Language;
+    );
     setLanguageState(savedLanguage);
   }, [slug, defaultLanguage]);
 

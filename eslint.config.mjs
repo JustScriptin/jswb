@@ -69,6 +69,7 @@ export default [
         prefer: "type-imports",
         fixStyle: "inline-type-imports",
       }],
+      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "@typescript-eslint/no-import-type-side-effects": "error",
       "@typescript-eslint/no-unnecessary-condition": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
