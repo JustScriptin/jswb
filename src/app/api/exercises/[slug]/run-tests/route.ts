@@ -40,7 +40,7 @@ export async function POST(
     return NextResponse.json({ error: transpiled.error }, { status: 400 });
   }
 
-  const result = await runIsolatedTests({
+  const result = runIsolatedTests({
     code: transpiled.code,
     testCases: exercise.testCases,
   });

@@ -80,7 +80,7 @@ export default function ExercisesPage(): ReactElement {
           (method) => {
             const categories = Object.entries(CATEGORY_METHODS)
               .filter(([, methods]) =>
-                methods.includes(method),
+                (methods as readonly string[]).includes(method),
               )
               .map(([category]) => category);
             return { method, categories };
@@ -179,10 +179,14 @@ export default function ExercisesPage(): ReactElement {
                 placeholder="Search exercises..."
                 value={searchQuery}
                 onValueChange={setSearchQuery}
-                onFocus={() => setIsCommandOpen(true)}
+                onFocus={() => {
+                  setIsCommandOpen(true);
+                }}
                 onBlur={() => {
                   // Small delay to allow for item selection
-                  setTimeout(() => setIsCommandOpen(false), 200);
+                  setTimeout(() => {
+                    setIsCommandOpen(false);
+                  }, 200);
                 }}
               />
               {isCommandOpen && (
@@ -398,7 +402,6 @@ export default function ExercisesPage(): ReactElement {
                           <button
                             onClick={() => {
                               setSearchQuery("");
-                              return void 0;
                             }}
                             className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline"
                           >
@@ -411,7 +414,6 @@ export default function ExercisesPage(): ReactElement {
                             onClick={() => {
                               setSelectedCategory("all");
                               setSelectedMethod("all");
-                              return void 0;
                             }}
                             className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline"
                           >
