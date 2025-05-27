@@ -1,10 +1,10 @@
 import "@testing-library/jest-dom";
 
-// Mock next-mdx-remote/serialize
-jest.mock("next-mdx-remote/serialize", () => ({
-  serialize: jest.fn().mockResolvedValue({
-    compiledSource: "",
-    scope: {},
+// Mock next-mdx-remote/rsc
+jest.mock("next-mdx-remote/rsc", () => ({
+  compileMDX: jest.fn().mockResolvedValue({
+    content: null,
     frontmatter: {},
   }),
+  MDXRemote: ({ children }: { children: React.ReactNode }) => children,
 }));

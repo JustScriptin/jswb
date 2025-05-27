@@ -23,8 +23,20 @@ src/
   features/       # Feature-specific modules
   hooks/          # Reusable hooks
   lib/            # Utilities like logger
+content/
+  exercises/      # MDX files for exercise content
 tests/            # Jest tests
+docs/             # Documentation
 ```
+
+## Content Management
+
+Exercise content is managed through MDX files in `content/exercises/`. See [MDX Content Guide](docs/MDX_CONTENT_GUIDE.md) for details on:
+
+- Creating new exercises
+- MDX file structure
+- Formatting requirements
+- Common issues and solutions
 
 ## Useful Commands
 

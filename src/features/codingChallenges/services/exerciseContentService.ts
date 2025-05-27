@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
 import type { ReactElement } from "react";
 import { MDXComponents } from "@/lib/mdx-components";
+import { logger } from "@/lib/logger";
 
 export type ExerciseMDXContent = {
   frontmatter: {
@@ -128,7 +129,7 @@ export async function getExerciseContent(
       testCases,
     };
   } catch (error) {
-    console.error(`Error loading exercise content for ${slug}:`, error);
+    logger.error(`Error loading exercise content for ${slug}:`, error);
     return null;
   }
 }
@@ -142,7 +143,7 @@ export async function getAllExerciseSlugs(): Promise<string[]> {
       .filter((file) => file.endsWith(".mdx"))
       .map((file) => file.replace(/\.mdx$/, ""));
   } catch (error) {
-    console.error("Error getting exercise slugs:", error);
+    logger.error("Error getting exercise slugs:", error);
     return [];
   }
 }
