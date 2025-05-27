@@ -13,18 +13,18 @@ import type { categoryColors } from "@/features/codingChallenges/constants";
 
 type CategoryColors = (typeof categoryColors)[keyof typeof categoryColors];
 
-type ExerciseCardProps = {
-  exercise: Exercise;
+type ExerciseCardMDXProps = {
+  exercise: Omit<Exercise, "description" | "education">;
   categoryColors: CategoryColors;
 };
 
-export function ExerciseCard({ exercise, categoryColors }: ExerciseCardProps) {
-  // Get first line of description for the card preview
-  const previewDescription = exercise.description.split("\n")[0];
-
+export function ExerciseCardMDX({
+  exercise,
+  categoryColors,
+}: ExerciseCardMDXProps) {
   return (
     <Link
-      data-component="ExerciseCard"
+      data-component="ExerciseCardMDX"
       href={`/exercises/${exercise.slug}`}
       className="block transition-colors hover:bg-muted/50"
     >
@@ -46,7 +46,8 @@ export function ExerciseCard({ exercise, categoryColors }: ExerciseCardProps) {
           </div>
           <CardTitle className="line-clamp-2">{exercise.title}</CardTitle>
           <CardDescription className="line-clamp-3">
-            {previewDescription}
+            Practice {exercise.category.method} with this interactive coding
+            challenge
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -58,4 +59,5 @@ export function ExerciseCard({ exercise, categoryColors }: ExerciseCardProps) {
     </Link>
   );
 }
-ExerciseCard.displayName = "ExerciseCard";
+
+ExerciseCardMDX.displayName = "ExerciseCardMDX";

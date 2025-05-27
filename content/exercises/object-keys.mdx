@@ -1,0 +1,76 @@
+---
+title: "Get Object Keys"
+slug: "object-keys"
+category: "object"
+method: "keys"
+---
+
+# Get Object Keys
+
+### Problem
+Return an array of keys from an object using `Object.keys()`.
+
+### Example
+```js
+Input: { a: 1, b: 2 }
+Output: ["a", "b"]
+```
+
+### Requirements
+1. Use Object.keys()
+2. Keep key order intact
+3. Return empty array for empty object
+
+## Education
+
+### Listing object keys
+
+## Why Object.keys()
+
+Object.keys() returns an array of an object's own enumerable property names.
+
+
+
+### Common Use Cases
+
+- **Iteration**: Loop over keys
+- **Validation**: Check required fields
+- **Transformation**: Convert object to entries
+- **Debugging**: Inspect object structure
+
+
+
+### Pro Tips
+
+- Only enumerable properties are returned
+- Order follows property insertion
+
+
+## Starter Code
+
+```javascript
+const solve = (obj) => {
+  // Return array of keys
+  return []; // Replace with your logic
+}
+```
+
+## Test Cases
+
+### Test 1
+
+- **Input:** `[{"a":1,"b":2}]`
+- **Expected:** `["a","b"]`
+- **Description:** Should list keys in order
+
+### Test 2
+
+- **Input:** `[{}]`
+- **Expected:** `[]`
+- **Description:** Should return empty array
+
+### Test 3
+
+- **Input:** `[{"foo":42}]`
+- **Expected:** `["foo"]`
+- **Description:** Should handle single key

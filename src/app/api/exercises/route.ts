@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
 import { logger } from "@/lib";
 
 /**
@@ -11,7 +11,7 @@ export async function GET(): Promise<NextResponse> {
     // Return exercises with 200 status
     return NextResponse.json(
       {
-        exercises: EXERCISES,
+        exercises: EXERCISE_METADATA,
       },
       {
         status: 200,

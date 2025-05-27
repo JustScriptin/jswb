@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ExerciseTabs } from "@/features/codingChallenges/components/tabs/ExerciseTabs";
+import { ExerciseTabsMDX } from "@/features/codingChallenges/components/tabs/ExerciseTabsMDX";
 import { CodeEditorPanel } from "@/features/codingChallenges/components/editor/CodeEditorPanel";
 import { exerciseAnimations } from "@/features/codingChallenges/lib/animations";
 import type {
@@ -11,9 +11,11 @@ import type {
   Language,
 } from "@/features/codingChallenges/types";
 import type { CodeEditorHandle } from "@/features/codingChallenges/components/CodeEditor";
+import type { ExerciseMDXContent } from "@/features/codingChallenges/services/exerciseContentService";
 
-type ExerciseContentProps = {
-  exercise: Exercise;
+type ExerciseContentMDXProps = {
+  exerciseMetadata: Omit<Exercise, "description" | "education">;
+  mdxContent: ExerciseMDXContent;
   isFullscreen: boolean;
   testResults: TestResult[];
   activeTab: string;
@@ -27,8 +29,9 @@ type ExerciseContentProps = {
   hasRun: boolean;
 };
 
-export function ExerciseContent({
-  exercise,
+export function ExerciseContentMDX({
+  exerciseMetadata,
+  mdxContent,
   isFullscreen,
   testResults,
   activeTab,
@@ -40,7 +43,18 @@ export function ExerciseContent({
   passedTests,
   totalTests,
   hasRun,
-}: ExerciseContentProps) {
+}: ExerciseContentMDXProps) {
+  // Create a full exercise object for the CodeEditorPanel
+  const exercise: Exercise = {
+    ...exerciseMetadata,
+    description: "", // Not needed for code editor
+    education: {
+      concept: mdxContent.educationConcept,
+      explanation: "",
+      useCases: [],
+    },
+  };
+
   return (
     <motion.div
       variants={exerciseAnimations.section}
@@ -51,8 +65,9 @@ export function ExerciseContent({
     >
       {/* Left Column - Instructions & Tests */}
       <div className="space-y-6">
-        <ExerciseTabs
-          exercise={exercise}
+        <ExerciseTabsMDX
+          exerciseMetadata={exerciseMetadata}
+          mdxContent={mdxContent}
           activeTab={activeTab}
           onTabChange={onTabChange}
           testResults={testResults}
@@ -76,4 +91,4 @@ export function ExerciseContent({
   );
 }
 
-ExerciseContent.displayName = "ExerciseContent";
+ExerciseContentMDX.displayName = "ExerciseContentMDX";

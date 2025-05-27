@@ -1,6 +1,6 @@
-export { ExerciseTabs } from "./ExerciseTabs";
-export { LearnTab } from "./LearnTab";
-export { InstructionsTab } from "./InstructionsTab";
+export { ExerciseTabsMDX } from "./ExerciseTabsMDX";
+export { LearnTabMDX } from "./LearnTabMDX";
+export { InstructionsTabMDX } from "./InstructionsTabMDX";
 export { TestCasesTab } from "./TestCasesTab";
 export { TestResultBadge } from "./TestResultBadge";
-export { TestCaseAccordion } from "./TestCaseAccordion"; 
+export { TestCaseAccordion } from "./TestCaseAccordion";

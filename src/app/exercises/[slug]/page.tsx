@@ -1,8 +1,9 @@
 import type { ReactElement } from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { EXERCISES } from "@/features/codingChallenges";
-import { ExerciseClient } from "@/features/codingChallenges";
+import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
+import { getExerciseContent } from "@/features/codingChallenges/services/exerciseContentService";
+import { ExerciseClientMDX } from "@/features/codingChallenges/components/ExerciseClientMDX";
 
 type Props = {
   params: Promise<{
@@ -13,7 +14,7 @@ type Props = {
 // Generate metadata for each exercise page
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const exercise = EXERCISES.find((ex) => ex.slug === slug);
+  const exercise = EXERCISE_METADATA.find((ex) => ex.slug === slug);
 
   if (!exercise) {
     return {
@@ -23,10 +24,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${exercise.title} - Coding Exercise`,
-    description: exercise.description,
+    description: `Practice ${exercise.category.method} with this coding challenge`,
     openGraph: {
       title: `${exercise.title} - Coding Exercise`,
-      description: exercise.description,
+      description: `Practice ${exercise.category.method} with this coding challenge`,
       type: "article",
     },
   };
@@ -36,12 +37,25 @@ export default async function ExercisePage({
   params,
 }: Props): Promise<ReactElement> {
   const { slug } = await params;
-  const exercise = EXERCISES.find((ex) => ex.slug === slug);
 
-  if (!exercise) {
+  // Get metadata
+  const exerciseMetadata = EXERCISE_METADATA.find((ex) => ex.slug === slug);
+  if (!exerciseMetadata) {
     notFound();
   }
 
-  return <ExerciseClient exercise={exercise} />;
+  // Load MDX content
+  const mdxContent = await getExerciseContent(slug);
+  if (!mdxContent) {
+    notFound();
+  }
+
+  return (
+    <ExerciseClientMDX
+      exerciseMetadata={exerciseMetadata}
+      mdxContent={mdxContent}
+    />
+  );
 }
+
 ExercisePage.displayName = "ExercisePage";

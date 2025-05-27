@@ -1,0 +1,82 @@
+---
+title: "Square Numbers with map()"
+slug: "map-square"
+category: "array"
+method: "map"
+---
+
+# Square Numbers with map()
+
+### Problem
+Create a new array containing the squares of each number using `map()`.
+
+### Example
+```js
+Input: [1, 2, 3]
+Output: [1, 4, 9]
+```
+
+### Requirements
+1. Use Array.prototype.map()
+2. The original array must not be modified
+3. Support empty arrays
+
+## Education
+
+### Transforming values with map()
+
+## Why map()
+
+`map()` applies a function to each element and returns a new array of results.
+
+
+
+### Common Use Cases
+
+- **Calculations**: Squaring numbers or adjusting prices
+- **Formatting**: Converting objects to display formats
+- **Normalization**: Ensuring data is consistent
+- **Bulk Operations**: Applying the same change to many items
+
+
+
+### Pro Tips
+
+- Never mutate the input array
+- Return the transformed value from the callback
+
+
+## Starter Code
+
+```javascript
+const solve = (numbers) => {
+  // Return a new array of squared numbers
+  return []; // Replace with your logic
+}
+```
+
+## Test Cases
+
+### Test 1
+
+- **Input:** `[[1,2,3]]`
+- **Expected:** `[1,4,9]`
+- **Description:** Should square each number
+
+### Test 2
+
+- **Input:** `[[-1,0,2]]`
+- **Expected:** `[1,0,4]`
+- **Description:** Should handle negatives and zero
+
+### Test 3
+
+- **Input:** `[[0,5]]`
+- **Expected:** `[0,25]`
+- **Description:** Should square zero and positives
+
+### Test 4
+
+- **Input:** `[[]]`
+- **Expected:** `[]`
+- **Description:** Should handle empty arrays

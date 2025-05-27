@@ -1,0 +1,82 @@
+---
+title: "Filter Even Numbers"
+slug: "filter-even"
+category: "array"
+method: "filter"
+---
+
+# Filter Even Numbers
+
+### Problem
+Return only the even numbers from an array using `filter`.
+
+### Example
+```js
+Input: [1, 2, 3, 4]
+Output: [2, 4]
+```
+
+### Requirements
+1. Use Array.prototype.filter()
+2. Return an empty array if there are no even numbers
+3. Handle negative numbers properly
+
+## Education
+
+### Filtering with filter()
+
+## Using filter() for conditionals
+
+The `filter()` method returns a new array containing elements that pass a test function.
+
+
+
+### Common Use Cases
+
+- **Even Lists**: `nums.filter(n => n % 2 === 0)`
+- **Search Results**: Filtering items matching a query
+- **Cleanup**: Removing invalid values from data
+- **Simple Validation**: Keeping entries that meet criteria
+
+
+
+### Pro Tips
+
+- Return a boolean from the callback
+- Keep callbacks pure for predictability
+
+
+## Starter Code
+
+```javascript
+const solve = (numbers) => {
+  // Return only even numbers
+  return []; // Replace with your logic
+}
+```
+
+## Test Cases
+
+### Test 1
+
+- **Input:** `[[1,2,3,4]]`
+- **Expected:** `[2,4]`
+- **Description:** Should return [2, 4]
+
+### Test 2
+
+- **Input:** `[[5,7,9]]`
+- **Expected:** `[]`
+- **Description:** Should return empty array when no evens
+
+### Test 3
+
+- **Input:** `[[-2,-1,0]]`
+- **Expected:** `[-2,0]`
+- **Description:** Should handle negative numbers
+
+### Test 4
+
+- **Input:** `[[0,1]]`
+- **Expected:** `[0]`
+- **Description:** Should include zero

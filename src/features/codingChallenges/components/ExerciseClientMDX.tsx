@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ExerciseHeader } from "@/features/codingChallenges/components/exercise/ExerciseHeader";
 import { ExerciseTitle } from "@/features/codingChallenges/components/exercise/ExerciseTitle";
-import { ExerciseContent } from "@/features/codingChallenges/components/exercise/ExerciseContent";
+import { ExerciseContentMDX } from "@/features/codingChallenges/components/exercise/ExerciseContentMDX";
 import { useExerciseState } from "@/features/codingChallenges/hooks/useExerciseState";
 import { useTestRunner } from "@/features/codingChallenges/hooks/useTestRunner";
 import { useLanguagePreference } from "@/features/codingChallenges/hooks/useLanguagePreference";
@@ -13,13 +13,26 @@ import { useKeyboardShortcuts } from "@/features/codingChallenges/hooks/useKeybo
 import { exerciseAnimations } from "@/features/codingChallenges/lib/animations";
 import type { Exercise } from "@/features/codingChallenges/types";
 import type { CodeEditorHandle } from "@/features/codingChallenges/components/CodeEditor";
+import type { ExerciseMDXContent } from "@/features/codingChallenges/services/exerciseContentService";
 
 type Props = {
-  exercise: Exercise;
+  exerciseMetadata: Omit<Exercise, "description" | "education">;
+  mdxContent: ExerciseMDXContent;
 };
 
-export function ExerciseClient({ exercise }: Props) {
+export function ExerciseClientMDX({ exerciseMetadata, mdxContent }: Props) {
   const editorRef = useRef<CodeEditorHandle | null>(null);
+
+  // Reconstruct full exercise object for hooks
+  const exercise: Exercise = {
+    ...exerciseMetadata,
+    description: "", // Not needed for state management
+    education: {
+      concept: mdxContent.educationConcept,
+      explanation: "",
+      useCases: [],
+    },
+  };
 
   // State management via custom hooks
   const {
@@ -55,7 +68,7 @@ export function ExerciseClient({ exercise }: Props) {
 
   return (
     <motion.div
-      data-component="ExerciseClient"
+      data-component="ExerciseClientMDX"
       variants={exerciseAnimations.page}
       initial="initial"
       animate="animate"
@@ -74,10 +87,14 @@ export function ExerciseClient({ exercise }: Props) {
           isFullscreen && "max-w-none p-0",
         )}
       >
-        <ExerciseTitle category={exercise.category} title={exercise.title} />
+        <ExerciseTitle
+          category={exerciseMetadata.category}
+          title={exerciseMetadata.title}
+        />
 
-        <ExerciseContent
-          exercise={exercise}
+        <ExerciseContentMDX
+          exerciseMetadata={exerciseMetadata}
+          mdxContent={mdxContent}
           isFullscreen={isFullscreen}
           testResults={testResults}
           activeTab={activeTab}
@@ -95,4 +112,4 @@ export function ExerciseClient({ exercise }: Props) {
   );
 }
 
-ExerciseClient.displayName = "ExerciseClient";
+ExerciseClientMDX.displayName = "ExerciseClientMDX";

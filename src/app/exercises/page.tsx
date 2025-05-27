@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, type ReactElement } from "react";
-import { EXERCISES } from "@/features/codingChallenges";
+import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
 import { useRouter } from "next/navigation";
 import {
   CATEGORY_METHODS,
   type CategoryName,
 } from "@/features/codingChallenges";
-import { ExerciseCard } from "@/features/codingChallenges";
+import { ExerciseCardMDX } from "@/features/codingChallenges/components/ExerciseCardMDX";
 import { Badge } from "@/components/ui";
 import {
   Select,
@@ -54,12 +54,10 @@ export default function ExercisesPage(): ReactElement {
   }, []);
 
   // Filter exercises based on search and filters
-  const filteredExercises = EXERCISES.filter((exercise) => {
-    const matchesSearch =
-      exercise.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-      exercise.description
-        .toLowerCase()
-        .includes(debouncedSearch.toLowerCase());
+  const filteredExercises = EXERCISE_METADATA.filter((exercise) => {
+    const matchesSearch = exercise.title
+      .toLowerCase()
+      .includes(debouncedSearch.toLowerCase());
     const matchesCategory =
       selectedCategory === "all" || exercise.category.name === selectedCategory;
     const matchesMethod =
@@ -142,7 +140,7 @@ export default function ExercisesPage(): ReactElement {
           >
             <StatsCard
               icon={<Code2 className="w-5 h-5" />}
-              value={EXERCISES.length}
+              value={EXERCISE_METADATA.length}
               label="Learning Exercises"
             />
             <StatsCard
@@ -351,7 +349,7 @@ export default function ExercisesPage(): ReactElement {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <ExerciseCard
+                      <ExerciseCardMDX
                         exercise={exercise}
                         categoryColors={categoryColors[exercise.category.name]}
                       />

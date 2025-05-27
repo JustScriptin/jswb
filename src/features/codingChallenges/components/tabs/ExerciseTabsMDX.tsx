@@ -2,14 +2,16 @@
 
 import { GraduationCap, BookOpen, Beaker } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LearnTab } from "./LearnTab";
-import { InstructionsTab } from "./InstructionsTab";
+import { LearnTabMDX } from "./LearnTabMDX";
+import { InstructionsTabMDX } from "./InstructionsTabMDX";
 import { TestCasesTab } from "./TestCasesTab";
 import { TestResultBadge } from "./TestResultBadge";
 import type { Exercise, TestResult } from "@/features/codingChallenges/types";
+import type { ExerciseMDXContent } from "@/features/codingChallenges/services/exerciseContentService";
 
-type ExerciseTabsProps = {
-  exercise: Exercise;
+type ExerciseTabsMDXProps = {
+  exerciseMetadata: Omit<Exercise, "description" | "education">;
+  mdxContent: ExerciseMDXContent;
   activeTab: string;
   onTabChange: (tab: string) => void;
   testResults: TestResult[];
@@ -18,15 +20,16 @@ type ExerciseTabsProps = {
   hasRun: boolean;
 };
 
-export function ExerciseTabs({
-  exercise,
+export function ExerciseTabsMDX({
+  exerciseMetadata,
+  mdxContent,
   activeTab,
   onTabChange,
   testResults,
   passedTests,
   totalTests,
   hasRun,
-}: ExerciseTabsProps) {
+}: ExerciseTabsMDXProps) {
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
       <TabsList className="w-full">
@@ -50,16 +53,21 @@ export function ExerciseTabs({
       </TabsList>
 
       <TabsContent value="learn">
-        <LearnTab education={exercise.education} />
+        <LearnTabMDX
+          educationContent={mdxContent.educationContent}
+          concept={mdxContent.educationConcept}
+        />
       </TabsContent>
 
       <TabsContent value="instructions" className="space-y-4">
-        <InstructionsTab description={exercise.description} />
+        <InstructionsTabMDX
+          descriptionContent={mdxContent.descriptionContent}
+        />
       </TabsContent>
 
       <TabsContent value="tests">
         <TestCasesTab
-          testCases={exercise.testCases}
+          testCases={exerciseMetadata.testCases}
           testResults={testResults}
           passedTests={passedTests}
           totalTests={totalTests}
@@ -70,4 +78,4 @@ export function ExerciseTabs({
   );
 }
 
-ExerciseTabs.displayName = "ExerciseTabs";
+ExerciseTabsMDX.displayName = "ExerciseTabsMDX";

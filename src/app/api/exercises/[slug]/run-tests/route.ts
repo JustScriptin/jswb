@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
 import { LanguageSchema } from "@/features/codingChallenges/types";
 import { runIsolatedTests } from "@/features/codingChallenges/lib/runIsolatedTests";
 import { transpile } from "@/features/codingChallenges/lib/transpile";
@@ -15,7 +15,7 @@ export async function POST(
   { params }: { params: Promise<{ slug: string }> },
 ): Promise<NextResponse> {
   const { slug } = await params;
-  const exercise = EXERCISES.find((ex) => ex.slug === slug);
+  const exercise = EXERCISE_METADATA.find((ex) => ex.slug === slug);
 
   if (!exercise) {
     return NextResponse.json({ error: "Exercise not found" }, { status: 404 });

@@ -1,0 +1,144 @@
+---
+title: "Find Maximum with reduce()"
+slug: "reduce-max"
+category: "array"
+method: "reduce"
+---
+
+# Find Maximum with reduce()
+
+### Problem
+Write a function that uses `reduce` to find the largest number in an array.
+
+### Example
+```js
+Input: [5, 2, 9, 1]
+Output: 9
+```
+
+### Requirements
+1. Use Array.prototype.reduce()
+2. If the array is empty, return null
+3. If there's only one element, return that element
+
+## Education
+
+### Finding Maximum with reduce()
+
+## Core Concept
+`reduce()` can track and update a "running maximum" as it processes each array element.
+
+## How It Works
+```js
+array.reduce((max, current) => {
+  return current > max ? current : max;
+});
+```
+
+## Key Points
+1. **No Initial Value Needed**
+   - First element becomes initial maximum
+   - Perfect for number comparisons
+
+2. **Comparison Logic**
+   - Each iteration compares current vs max
+   - Larger value becomes new maximum
+
+3. **Edge Cases**
+   - Empty arrays need special handling
+   - Single element is automatically maximum
+
+## Why reduce() for Maximum?
+- Single pass through array (O(n))
+- Clean, functional approach
+- Built-in array bounds handling
+
+### Visual Example
+
+## Visual Walkthrough
+
+```js
+[5, 2, 9, 1].reduce((max, current) => Math.max(max, current))
+```
+
+### Process:
+```text
+Start: max = 5 (first element)
+
+Compare with 2:
+   max = Math.max(5, 2) = 5
+
+Compare with 9:
+   max = Math.max(5, 9) = 9
+
+Compare with 1:
+   max = Math.max(9, 1) = 9
+
+Result: 9
+```
+
+
+### Common Use Cases
+
+- **High Scores**: `scores.reduce((max, score) => Math.max(max, score))`
+- **Peak Values**: Finding highest stock price, temperature, etc.
+- **Dimensions**: Finding longest string, largest file, etc.
+- **Pricing**: Finding most expensive item in cart
+
+### Common Mistakes to Avoid
+
+- **Wrong Initial**: Using `0` as initialValue (fails with negative numbers)
+- **Missing Null**: Not handling empty array case properly
+- **Complex Logic**: Overthinking the comparison (use `Math.max`)
+
+
+### Pro Tips
+
+- **Use Math.max**: Cleaner than manual comparison
+- **Type Check**: Validate input array contains numbers
+- **Edge Cases**: Handle empty and single-element arrays first
+
+
+## Starter Code
+
+```javascript
+const solve = (numbers) => {
+  // Handle empty array case first
+  if (numbers.length === 0) return null;
+  
+  // Use reduce to find maximum
+  return numbers[0]; // Replace with your logic
+}
+```
+
+## Test Cases
+
+### Test 1
+
+- **Input:** `[[5,2,9,1]]`
+- **Expected:** `9`
+- **Description:** Should find maximum `9` in `[5, 2, 9, 1]`
+
+### Test 2
+
+- **Input:** `[[1,2,3,4,5]]`
+- **Expected:** `5`
+- **Description:** Should find maximum `5` in `[1, 2, 3, 4, 5]`
+
+### Test 3
+
+- **Input:** `[[]]`
+- **Expected:** `null`
+- **Description:** Should return `null` for empty array `[]`
+
+### Test 4
+
+- **Input:** `[[42]]`
+- **Expected:** `42`
+- **Description:** Should return `42` for single-element array `[42]`
+
+### Test 5
+
+- **Input:** `[[-5,-2,-10]]`
+- **Expected:** `-2`
+- **Description:** Should handle all negative values

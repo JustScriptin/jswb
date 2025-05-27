@@ -1,7 +1,7 @@
 /** @jest-environment node */
 /* eslint-disable boundaries/element-types */
 import { POST } from "@/app/api/exercises/[slug]/run-tests/route";
-import { EXERCISES } from "@/features/codingChallenges/data/exercisesData";
+import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
 
 const successCode =
   "const solve = (numbers) => numbers.reduce((a,b) => a+b, 0);";
@@ -16,7 +16,9 @@ describe("POST /api/exercises/[slug]/run-tests", () => {
     });
     expect(response.status).toBe(200);
     const responseData = await response.json();
-    expect(responseData.results).toHaveLength(EXERCISES[0]!.testCases.length);
+    expect(responseData.results).toHaveLength(
+      EXERCISE_METADATA[0]!.testCases.length,
+    );
   });
 
   it("returns 404 for unknown exercise", async () => {

@@ -9,7 +9,7 @@ import {
   ChevronUp,
   Copy,
 } from "lucide-react";
-import { Markdown } from "@/components/ui/markdown";
+
 import { cn } from "@/lib/utils";
 import type { TestCase, TestResult } from "@/features/codingChallenges/types";
 
@@ -120,9 +120,7 @@ export function TestCaseAccordion({
             ))}
           <div className="flex flex-col items-start gap-1">
             <div className="text-sm font-semibold">Test Case {index + 1}</div>
-            <div className="text-xs text-muted-foreground">
-              <Markdown content={test.message} className="inline-block" />
-            </div>
+            <div className="text-xs text-muted-foreground">{test.message}</div>
           </div>
         </div>
         <div

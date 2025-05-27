@@ -1,1 +1,1 @@
-export * from "./exercisesData";
+export * from "./exerciseMetadata";

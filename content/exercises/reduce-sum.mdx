@@ -1,0 +1,145 @@
+---
+title: "Sum Numbers with reduce()"
+slug: "reduce-sum"
+category: "array"
+method: "reduce"
+---
+
+# Sum Numbers with reduce()
+
+### Problem
+Write a function that uses `reduce` to sum all numbers in an array.
+
+### Example
+```js
+Input: [1, 2, 3]
+Output: 6
+```
+
+### Requirements
+1. Use Array.prototype.reduce()
+2. Return 0 if the array is empty
+3. Return the single value if the array has only one element
+
+## Education
+
+### Summation with reduce()
+
+Understanding Array.reduce()
+
+## What is `reduce()`?
+`reduce()` is a built-in JavaScript method that transforms an array into a single value. Think of it as a way to "reduce" many values into one result.
+
+## Syntax
+```js
+array.reduce((accumulator, currentValue, index, array) => {
+  // Return updated accumulator
+}, initialValue);
+```
+
+## Parameters Explained
+- **accumulator**: The running result
+- **currentValue**: Current element being processed
+- **index**: Position of currentValue
+- **array**: The array being processed
+- **initialValue**: Starting value (optional)
+
+## How Summation Works
+1. Start with initialValue (0)
+2. For each number:
+   - Add it to accumulator
+   - Pass result to next iteration
+3. Return final sum
+
+## Why Use reduce()?
+- More declarative than loops
+- Built-in error handling
+- Chainable with other array methods
+
+### Visual Example
+
+## Step-by-Step Visualization
+
+```js
+[1, 2, 3].reduce((sum, num) => sum + num, 0)
+```
+
+### Process:
+```text
+Initial state: sum = 0
+
+First number (1):
+   sum = 0 + 1 = 1
+
+Second number (2):
+   sum = 1 + 2 = 3
+
+Third number (3):
+   sum = 3 + 3 = 6
+
+Result: 6
+```
+
+
+### Common Use Cases
+
+- **Shopping Cart Total**: `cart.reduce((total, item) => total + item.price, 0)`
+- **Game Scoring**: `scores.reduce((total, score) => total + score, 0)`
+- **Data Analysis**: `measurements.reduce((sum, value) => sum + value, 0) / measurements.length`
+- **Running Totals**: Perfect for calculating progressive sums
+
+### Common Mistakes to Avoid
+
+- **No Initial Value**: `numbers.reduce((sum, num) => sum + num)` - Can fail on empty arrays
+- **Missing Return**: `numbers.reduce((sum, num) => { sum + num }, 0)` - Forgot to return!
+- **Wrong Method**: Using `forEach` or `map` when you need a single result
+
+
+### Pro Tips
+
+- **Always Initialize**: Use `0` as initialValue for sums
+- **Type Safety**: Consider input validation for non-numbers
+- **Performance**: `reduce` is O(n) - perfect for large datasets
+
+
+## Starter Code
+
+```javascript
+const solve = (numbers) => {
+  // Use array.reduce(...) here.
+  // Provide 0 as initialValue, add each number to the accumulator, and return it.
+  return 0; // Replace with your logic
+}
+```
+
+## Test Cases
+
+### Test 1
+
+- **Input:** `[[1,2,3]]`
+- **Expected:** `6`
+- **Description:** Should add `[1, 2, 3]` to get `6`
+
+### Test 2
+
+- **Input:** `[[5,10,15,20]]`
+- **Expected:** `50`
+- **Description:** Should add `[5, 10, 15, 20]` to get `50`
+
+### Test 3
+
+- **Input:** `[[]]`
+- **Expected:** `0`
+- **Description:** Should return `0` for an empty array
+
+### Test 4
+
+- **Input:** `[[42]]`
+- **Expected:** `42`
+- **Description:** Should return `42` for array `[42]`
+
+### Test 5
+
+- **Input:** `[[-1,1,-2,2]]`
+- **Expected:** `0`
+- **Description:** Should sum positive and negative numbers
