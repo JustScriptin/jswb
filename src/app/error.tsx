@@ -4,9 +4,14 @@ import { useEffect } from "react";
 
 import { AlertCircle } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { logger } from "@/lib/logger";
+import { Button } from "@/shared/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
+import { logger } from "@/platform/node/logger";
 
 export default function Error({
   error,

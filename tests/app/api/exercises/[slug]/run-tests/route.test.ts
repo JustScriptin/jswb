@@ -1,6 +1,6 @@
 /** @jest-environment node */
-import { POST } from "@/app/api/exercises/[slug]/run-tests/route";
-import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
+import { POST } from "@/app/(api)/exercise-api/[slug]/run-tests/route";
+import { EXERCISE_METADATA } from "@/shared/data/exerciseMetadata";
 
 const successCode =
   "const solve = (numbers) => numbers.reduce((a,b) => a+b, 0);";
