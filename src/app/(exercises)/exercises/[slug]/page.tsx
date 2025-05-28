@@ -2,9 +2,9 @@ import type { ReactElement } from "react";
 
 import { notFound } from "next/navigation";
 
-import { ExerciseClientMDX } from "../components/ExerciseClientMDX";
+import { ExerciseClientMDX } from "../../components/ExerciseClientMDX";
 import { EXERCISE_METADATA } from "@/shared/data/exerciseMetadata";
-import { getExerciseContent } from "../_core/services/exerciseContentService";
+import { getExerciseContent } from "../../_core/services/exerciseContentService";
 import { getCategoryObject } from "@/shared/utils/categoryAdapter";
 
 import type { Metadata } from "next";

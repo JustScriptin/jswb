@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 
-import { ExercisePageSkeleton } from "../components";
+import { ExercisePageSkeleton } from "../../components";
 
 export default function Loading(): ReactElement {
   return <ExercisePageSkeleton />;
