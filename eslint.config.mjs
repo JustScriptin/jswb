@@ -116,7 +116,6 @@ export default [
         alias: {
           map: [
             ["@", "./src"],
-            ["@/components/ui/*", "./src/shared/components/ui/*"], // legacy UI alias
           ],
           extensions: [".js", ".jsx", ".ts", ".tsx"],
         },
