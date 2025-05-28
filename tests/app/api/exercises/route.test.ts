@@ -1,5 +1,5 @@
 /** @jest-environment node */
-import { GET } from "@/app/(api)/exercise-api/route";
+import { GET } from "@/app/(api)/api/exercises/route";
 import { EXERCISE_METADATA } from "@/shared/data/exerciseMetadata";
 
 describe("GET /api/exercises", () => {
