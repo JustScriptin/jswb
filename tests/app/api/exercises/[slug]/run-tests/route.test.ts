@@ -1,5 +1,5 @@
 /** @jest-environment node */
-import { POST } from "@/app/(api)/exercise-api/[slug]/run-tests/route";
+import { POST } from "@/app/(api)/api/exercises/[slug]/run-tests/route";
 import { EXERCISE_METADATA } from "@/shared/data/exerciseMetadata";
 
 const successCode =
