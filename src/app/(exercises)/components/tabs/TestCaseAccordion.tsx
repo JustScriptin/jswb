@@ -20,6 +20,25 @@ export type TestCaseAccordionProps = {
   result: TestResult | undefined;
 };
 
+// Helper function to extract input from test code
+function extractInputFromTestCode(testCode: string): string {
+  // Extract the function call and its arguments from test code like "expect(solve([1, 2, 3])).toBe(6)"
+  const regex = /solve\((.*?)\)/;
+  const match = regex.exec(testCode);
+  if (match?.[1]) {
+    return match[1];
+  }
+  return "Input not available";
+}
+
+// Helper function to format expected output
+function formatExpectedOutput(expectedOutput: string | undefined): string {
+  if (!expectedOutput) {
+    return "Expected output not available";
+  }
+  return expectedOutput;
+}
+
 // helper component for code display
 function CodeBlock({
   title,
@@ -93,6 +112,15 @@ export function TestCaseAccordion({
   const isPassed = result?.passed;
   const hasRun = result !== undefined;
 
+  // Extract input and expected output from test case
+  const inputContent = test.input
+    ? JSON.stringify(test.input, null, 2)
+    : extractInputFromTestCode(test.testCode);
+
+  const expectedContent = test.expected
+    ? JSON.stringify(test.expected, null, 2)
+    : formatExpectedOutput(test.expectedOutput);
+
   return (
     <div
       data-component="TestCaseAccordion"
@@ -152,22 +180,8 @@ export function TestCaseAccordion({
             className="overflow-hidden"
           >
             <div className="border-t border-border/50 p-4 space-y-4 bg-gradient-to-br from-muted/20 to-transparent">
-              <CodeBlock
-                title="Input"
-                content={
-                  test.input
-                    ? JSON.stringify(test.input, null, 2)
-                    : "Input not available"
-                }
-              />
-              <CodeBlock
-                title="Expected Output"
-                content={
-                  test.expected
-                    ? JSON.stringify(test.expected, null, 2)
-                    : "Expected output not available"
-                }
-              />
+              <CodeBlock title="Input" content={inputContent} />
+              <CodeBlock title="Expected Output" content={expectedContent} />
               {result && !result.passed && result.error && (
                 <CodeBlock
                   title="Error"
