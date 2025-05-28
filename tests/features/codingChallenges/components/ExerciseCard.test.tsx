@@ -1,9 +1,10 @@
 import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { ExerciseCardMDX } from "@/features/codingChallenges/components/ExerciseCardMDX";
-import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
-import { categoryColors } from "@/features/codingChallenges";
+import { ExerciseCardMDX } from "@/app/(exercises)/exercises/components/ExerciseCardMDX";
+import { EXERCISE_METADATA } from "@/shared/data/exerciseMetadata";
+import { categoryColors } from "@/app/(exercises)/_shared/constants";
+import { getCategoryObject } from "@/shared/utils/categoryAdapter";
 
 jest.mock("next-mdx-remote", () => ({
   MDXRemote: ({ children }: { children: React.ReactNode }) => (
@@ -16,8 +17,15 @@ jest.mock("lucide-react", () => new Proxy({}, { get: () => () => <svg /> }));
 
 describe("ExerciseCardMDX", () => {
   it("links to the exercise page and shows title", () => {
-    const exercise = EXERCISE_METADATA[0]!;
-    const colors = categoryColors[exercise.category.name];
+    const exerciseData = EXERCISE_METADATA[0]!;
+    const exercise = {
+      ...exerciseData,
+      id: exerciseData.slug,
+      tags: [],
+      difficulty: "intermediate" as const,
+    };
+    const categoryObj = getCategoryObject(exercise.category);
+    const colors = categoryColors[categoryObj.name];
 
     render(<ExerciseCardMDX exercise={exercise} categoryColors={colors} />);
     expect(screen.getByText(exercise.title)).toBeInTheDocument();
@@ -26,12 +34,19 @@ describe("ExerciseCardMDX", () => {
   });
 
   it("applies category colors correctly", () => {
-    const exercise = EXERCISE_METADATA[0]!;
-    const colors = categoryColors[exercise.category.name];
+    const exerciseData = EXERCISE_METADATA[0]!;
+    const exercise = {
+      ...exerciseData,
+      id: exerciseData.slug,
+      tags: [],
+      difficulty: "intermediate" as const,
+    };
+    const categoryObj = getCategoryObject(exercise.category);
+    const colors = categoryColors[categoryObj.name];
 
     render(<ExerciseCardMDX exercise={exercise} categoryColors={colors} />);
 
-    const categoryBadge = screen.getByText(exercise.category.name);
+    const categoryBadge = screen.getByText(categoryObj.name);
     expect(categoryBadge).toBeInTheDocument();
 
     // Check that the badge has the expected classes
@@ -43,14 +58,21 @@ describe("ExerciseCardMDX", () => {
   });
 
   it("displays exercise metadata correctly", () => {
-    const exercise = EXERCISE_METADATA[0]!;
-    const colors = categoryColors[exercise.category.name];
+    const exerciseData = EXERCISE_METADATA[0]!;
+    const exercise = {
+      ...exerciseData,
+      id: exerciseData.slug,
+      tags: [],
+      difficulty: "intermediate" as const,
+    };
+    const categoryObj = getCategoryObject(exercise.category);
+    const colors = categoryColors[categoryObj.name];
 
     render(<ExerciseCardMDX exercise={exercise} categoryColors={colors} />);
 
     // Check category and method badges
-    expect(screen.getByText(exercise.category.name)).toBeInTheDocument();
-    expect(screen.getByText(exercise.category.method)).toBeInTheDocument();
+    expect(screen.getByText(categoryObj.name)).toBeInTheDocument();
+    expect(screen.getByText(categoryObj.method)).toBeInTheDocument();
 
     // Check test cases count
     expect(

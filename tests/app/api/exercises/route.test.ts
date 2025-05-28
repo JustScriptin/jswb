@@ -1,6 +1,6 @@
 /** @jest-environment node */
-import { GET } from "@/app/api/exercises/route";
-import { EXERCISE_METADATA } from "@/features/codingChallenges/data/exerciseMetadata";
+import { GET } from "@/app/(api)/exercise-api/route";
+import { EXERCISE_METADATA } from "@/shared/data/exerciseMetadata";
 
 describe("GET /api/exercises", () => {
   it("returns all exercises", async () => {

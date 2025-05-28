@@ -2,7 +2,9 @@ import type { ReactElement } from "react";
 
 import type { Metadata } from "next";
 
+/* eslint-disable boundaries/no-unknown */
 import "./globals.css";
+/* eslint-enable boundaries/no-unknown */
 
 export const metadata: Metadata = {
   title: "JS Methods Workshop",
