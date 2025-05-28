@@ -73,7 +73,16 @@ export function runIsolatedTests({
 }
 
 function buildSnippet(code: string, testCases: TestCase[]): string {
-  const codeWithGlobal = `${code}\nif (typeof solve === 'function') globalThis.solve = solve;\n`;
+  const codeWithGlobal = `
+${code}
+if (typeof solve === 'function') {
+  globalThis.solve = solve;
+} else if (typeof exports !== 'undefined' && exports.solve) {
+  globalThis.solve = exports.solve;
+} else if (typeof module !== 'undefined' && module.exports && module.exports.solve) {
+  globalThis.solve = module.exports.solve;
+}
+`;
   const userCodeLiteral = JSON.stringify(codeWithGlobal);
   const testCasesLiteral = JSON.stringify(testCases).replace(/`/g, "\\`");
 
@@ -98,8 +107,24 @@ try {
     myLog("[snippet] Running test #", index + 1, "with input:", test.input);
     let output;
     try {
-      output = globalThis.solve(...test.input);
+      const inputToUse = Array.isArray(test.input) && test.input.length === 1 && Array.isArray(test.input[0]) 
+        ? test.input[0] 
+        : test.input;
+      
+      if (Array.isArray(inputToUse) && inputToUse.length === 0) {
+        output = globalThis.solve(inputToUse);
+        myLog("[snippet] Using empty array as single argument");
+      } 
+      else if (Array.isArray(inputToUse) && !Array.isArray(inputToUse[0])) {
+        output = globalThis.solve(inputToUse);
+        myLog("[snippet] Using input as single argument:", inputToUse);
+      }
+      else {
+        output = globalThis.solve(...inputToUse);
+        myLog("[snippet] Spreading input:", inputToUse);
+      }
     } catch (error) {
+      myLog("[snippet] Error executing solve:", String(error));
       results.push({ passed: false, message: test.message, error: String(error) });
       continue;
     }
@@ -113,7 +138,28 @@ try {
       continue;
     }
 
-    const passed = JSON.stringify(output) === JSON.stringify(test.expected);
+    myLog("[snippet] Test case expected:", test.expected, "type:", typeof test.expected);
+    myLog("[snippet] Actual output:", output, "type:", typeof output);
+    
+    let passed = false;
+    if (typeof output === 'number' && typeof test.expected === 'number') {
+      passed = output === test.expected;
+      myLog("[snippet] Number comparison:", output, "===", test.expected, "result:", passed);
+    } else if (typeof output === 'number' && typeof test.expected === 'string') {
+      const numExpected = Number(test.expected);
+      passed = !isNaN(numExpected) && output === numExpected;
+      myLog("[snippet] Number-string comparison:", output, "===", numExpected, "result:", passed);
+    } else if (typeof output === 'string' && typeof test.expected === 'number') {
+      const numOutput = Number(output);
+      passed = !isNaN(numOutput) && numOutput === test.expected;
+      myLog("[snippet] String-number comparison:", numOutput, "===", test.expected, "result:", passed);
+    } else {
+      const outputStr = JSON.stringify(output);
+      const expectedStr = JSON.stringify(test.expected);
+      passed = outputStr === expectedStr;
+      myLog("[snippet] JSON comparison:", outputStr, "===", expectedStr, "result:", passed);
+    }
+
     results.push({
       passed,
       message: test.message,

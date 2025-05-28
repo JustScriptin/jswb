@@ -1,5 +1,6 @@
 import type { TestCase as SharedTestCase } from "@/shared/types/exercise";
 import type { TestCase as PlatformTestCase } from "@/platform/types/exercise";
+import { logger } from "@/platform/node/logger";
 
 /**
  * Converts the new shared TestCase format to the platform TestCase format
@@ -8,15 +9,37 @@ import type { TestCase as PlatformTestCase } from "@/platform/types/exercise";
 export function adaptTestCasesToPlatform(
   testCases: SharedTestCase[],
 ): PlatformTestCase[] {
-  return testCases.map((testCase) => {
+  logger.info(
+    "[adaptTestCasesToPlatform] Processing test cases:",
+    testCases.length,
+  );
+
+  return testCases.map((testCase, index) => {
+    logger.info(
+      `[adaptTestCasesToPlatform] Processing test case #${index + 1}:`,
+      testCase.name,
+    );
+    logger.info(`[adaptTestCasesToPlatform] Test code:`, testCase.testCode);
+
     const inputRegex = /solve\((.*?)\)/;
-    const expectedRegex = /toEqual\((.*?)\)/;
+    const expectedRegex = /to(?:Be|Equal)\((.*?)\)/;
 
     const inputMatch = inputRegex.exec(testCase.testCode);
     const expectedMatch = expectedRegex.exec(testCase.testCode);
 
+    logger.info(`[adaptTestCasesToPlatform] Input match:`, inputMatch?.[1]);
+    logger.info(
+      `[adaptTestCasesToPlatform] Expected match:`,
+      expectedMatch?.[1],
+    );
+
     const inputStr = inputMatch?.[1] ?? "[]";
-    const expectedStr = expectedMatch?.[1] ?? "undefined";
+    const expectedStr = expectedMatch?.[1] ?? testCase.expectedOutput;
+
+    logger.info(
+      `[adaptTestCasesToPlatform] Final expected string:`,
+      expectedStr,
+    );
 
     let input: unknown[];
     try {
@@ -31,21 +54,46 @@ export function adaptTestCasesToPlatform(
           }
         });
       }
-    } catch {
+      logger.info(`[adaptTestCasesToPlatform] Parsed input:`, input);
+    } catch (error) {
+      logger.info(`[adaptTestCasesToPlatform] Error parsing input:`, error);
       input = [inputStr]; // Fallback to treating the whole string as a single input
+      logger.info(`[adaptTestCasesToPlatform] Using fallback input:`, input);
     }
 
     let expected: unknown;
     try {
-      expected = JSON.parse(expectedStr);
-    } catch {
-      expected = expectedStr; // Fallback to using the raw string
+      expected = JSON.parse(expectedStr ?? "null");
+      logger.info(`[adaptTestCasesToPlatform] Parsed expected:`, expected);
+    } catch (error) {
+      logger.info(`[adaptTestCasesToPlatform] Error parsing expected:`, error);
+      expected = expectedStr ?? ""; // Fallback to using the raw string
+      logger.info(
+        `[adaptTestCasesToPlatform] Using fallback expected:`,
+        expected,
+      );
     }
 
-    return {
+    if (typeof expected === "string") {
+      const numericExpected = Number(expected);
+      if (!isNaN(numericExpected)) {
+        logger.info(
+          `[adaptTestCasesToPlatform] Converting string to number:`,
+          expected,
+          "->",
+          numericExpected,
+        );
+        expected = numericExpected;
+      }
+    }
+
+    const result = {
       input,
       expected,
       message: testCase.name,
     };
+
+    logger.info(`[adaptTestCasesToPlatform] Final test case:`, result);
+    return result;
   });
 }

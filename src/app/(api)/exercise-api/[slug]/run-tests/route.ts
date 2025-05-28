@@ -40,14 +40,28 @@ export async function POST(
     return NextResponse.json({ error: transpiled.error }, { status: 400 });
   }
 
+  console.log("[route] Transpiled TypeScript code:", transpiled.code);
+
+  const adaptedTestCases = adaptTestCasesToPlatform(exercise.testCases);
+  console.log(
+    "[route] Adapted test cases:",
+    JSON.stringify(adaptedTestCases, null, 2),
+  );
+
   const result = runIsolatedTests({
     code: transpiled.code,
-    testCases: adaptTestCasesToPlatform(exercise.testCases),
+    testCases: adaptedTestCases,
   });
 
   if (!result.success) {
     return NextResponse.json({ error: result.error }, { status: 500 });
   }
+
+  console.log("[route] Test results:", JSON.stringify(result.results, null, 2));
+  console.log(
+    "[route] All tests passed:",
+    result.results.every((r) => r.passed),
+  );
 
   return NextResponse.json({ results: result.results }, { status: 200 });
 }

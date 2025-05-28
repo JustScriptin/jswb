@@ -7,11 +7,19 @@ export const transpile = (
 ): { code: string } | { error: string } => {
   if (language !== "typescript") return { code };
 
+  const hasSolveFunction = /function\s+solve\s*\(|const\s+solve\s*=/.test(code);
+  if (!hasSolveFunction) {
+    return { error: "No solve function found in the code" };
+  }
+
   const result = ts.transpileModule(code, {
     compilerOptions: {
-      module: ts.ModuleKind.ESNext,
-      target: ts.ScriptTarget.ESNext,
+      module: ts.ModuleKind.CommonJS, // Use CommonJS for better compatibility
+      target: ts.ScriptTarget.ES2020,
       strict: true,
+      removeComments: true,
+      noEmitHelpers: true,
+      esModuleInterop: true,
     },
     reportDiagnostics: true,
   });
@@ -32,5 +40,20 @@ export const transpile = (
     return { error: messages.join("\n") };
   }
 
-  return { code: result.outputText };
+  let cleanedCode = result.outputText;
+
+  cleanedCode = cleanedCode
+    .replace(/exports\.__esModule\s*=\s*true;?/g, "")
+    .replace(/exports\.solve\s*=\s*solve;?/g, "")
+    .replace(/exports\.default\s*=\s*solve;?/g, "")
+    .replace(/module\.exports\s*=\s*{\s*solve\s*:\s*solve\s*};?/g, "")
+    .replace(/export\s+const\s+solve/g, "const solve")
+    .replace(/export\s+function\s+solve/g, "function solve")
+    .replace(/export\s+default\s+function\s+solve/g, "function solve")
+    .replace(/export\s+default\s+solve;?/g, "");
+
+  cleanedCode +=
+    '\n// Ensure solve is globally available\nif (typeof solve === "function") globalThis.solve = solve;';
+
+  return { code: cleanedCode };
 };
