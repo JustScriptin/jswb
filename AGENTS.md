@@ -13,7 +13,7 @@ You’re working with:
 - **Shadcn UI**
 - **Zod**
 - **Framer Motion**
-- **Eslint & eslint-plugin-boundaries** (for layered import boundaries)
+- **Eslint 9 & eslint-plugin-boundaries** (for layered import boundaries)
 
 ---
 
@@ -44,16 +44,7 @@ You’re working with:
 
 6. **Stick to existing folder conventions** already in the project.
 
-   - **Feature-based structure**: `src/features/<featureName>` with `actions/`, `components/`, `hooks/`, `lib/`, `services/`, `types.ts`.
-   - **Shared code** (e.g., UI) belongs in `src/components/ui` or `src/hooks`, `src/lib`.
-   - **App-specific** code (layouts, routes) lives in `src/app`.
-
 7. **Respect ESLint boundaries** (`eslint-plugin-boundaries`).
-
-   - Shared code can import from shared code.
-   - Features can import from shared but not from other features (unless explicitly allowed).
-   - App-level code can import from features or shared.
-   - **Never** import from “neverImport” pattern or rogue src files.
 
    Follow these steps locally before pushing code.
 
@@ -188,6 +179,8 @@ Ask yourself:
 8. **Show a minimal reproducible example**.
 9. **What edge cases** did you account for?
 10. **How will you test** and validate this?
+
+Run tests, lint, type-check, build to ensure your changes are working and adhering to all of these rules as well as all rules enforced in our eslint.config.mjs
 
 ---
 
