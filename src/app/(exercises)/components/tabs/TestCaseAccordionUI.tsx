@@ -78,7 +78,7 @@ function CodeBlock({
           {content}
         </pre>
         {copied && (
-          <div className="absolute top-2 right-2 text-xs bg-green-500 text-white px-2 py-1 rounded-md">
+          <div className="absolute top-2 right-2 text-xs bg-success text-success-foreground px-2 py-1 rounded-md">
             Copied!
           </div>
         )}
@@ -109,8 +109,8 @@ export function TestCaseAccordionUI({
         "rounded-xl border transition-all duration-200 hover:shadow-sm",
         hasRun &&
           (isPassed
-            ? "bg-gradient-to-br from-green-50 to-green-50/50 border-green-200/60 hover:border-green-300/60"
-            : "bg-gradient-to-br from-red-50 to-red-50/50 border-red-200/60 hover:border-red-300/60"),
+            ? "bg-gradient-to-br from-success/5 to-success/10 border-success/20 hover:border-success/30"
+            : "bg-gradient-to-br from-destructive/5 to-destructive/10 border-destructive/20 hover:border-destructive/30"),
         !hasRun &&
           "bg-gradient-to-br from-card to-card/80 hover:border-border/80",
       )}
@@ -122,12 +122,12 @@ export function TestCaseAccordionUI({
         <div className="flex items-center gap-3">
           {hasRun &&
             (isPassed ? (
-              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-green-100 border border-green-200">
-                <CheckCircle2 className="h-4 w-4 text-green-600" />
+              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-success/10 border border-success/20">
+                <CheckCircle2 className="h-4 w-4 text-success" />
               </div>
             ) : (
-              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-red-100 border border-red-200">
-                <XCircle className="h-4 w-4 text-red-600" />
+              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-destructive/10 border border-destructive/20">
+                <XCircle className="h-4 w-4 text-destructive" />
               </div>
             ))}
           <div className="flex flex-col items-start gap-1">

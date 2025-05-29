@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/shared/components/ui/badge";
-import { cn } from "@/shared/lib/utils";
 import { animations } from "@/shared/lib/animations";
 
 type TestResultBadgeProps = {
@@ -28,11 +27,8 @@ export function TestResultBadge({
           exit="exit"
         >
           <Badge
-            variant={allPassed ? "default" : "destructive"}
-            className={cn(
-              "ml-2 text-xs",
-              allPassed && "bg-green-500 hover:bg-green-600",
-            )}
+            variant={allPassed ? "success" : "destructive"}
+            className="ml-2 text-xs"
           >
             {passed}/{total}
           </Badge>

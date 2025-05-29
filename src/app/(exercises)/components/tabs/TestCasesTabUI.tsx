@@ -48,8 +48,8 @@ export function TestCasesTabUI({
                 className={cn(
                   "text-sm px-3 py-1 rounded-full",
                   passedTests === totalTests
-                    ? "bg-green-500/20 text-green-500"
-                    : "bg-red-500/20 text-red-500",
+                    ? "bg-success/20 text-success"
+                    : "bg-destructive/20 text-destructive",
                 )}
               >
                 {passedTests === totalTests ? (

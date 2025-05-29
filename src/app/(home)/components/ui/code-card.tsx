@@ -24,26 +24,26 @@ const TESTS_COUNT = 3;
 const TESTS_DISPLAY_ORDER = [1, 2, 0];
 
 const KEYWORD_STYLES: Record<string, string> = {
-  function: "text-blue-400",
-  return: "text-purple-400",
-  const: "text-blue-400",
-  filter: "text-yellow-300",
-  filterEvenNumbers: "text-yellow-300",
-  numbers: "text-cyan-300",
-  num: "text-cyan-300",
-  result: "text-sky-400",
-  console: "text-cyan-300",
-  log: "text-yellow-300",
+  function: "text-code-function",
+  return: "text-code-keyword",
+  const: "text-code-keyword",
+  filter: "text-code-method",
+  filterEvenNumbers: "text-code-method",
+  numbers: "text-code-variable",
+  num: "text-code-variable",
+  result: "text-code-variable",
+  console: "text-code-object",
+  log: "text-code-method",
 };
 
 const SYMBOL_STYLES = {
-  "(": "text-gray-100",
-  ")": "text-gray-100",
-  "{": "text-gray-100",
-  "}": "text-gray-100",
-  "[": "text-gray-100",
-  "]": "text-gray-100",
-  "=>": "text-gray-100",
+  "(": "text-code-punctuation",
+  ")": "text-code-punctuation",
+  "{": "text-code-punctuation",
+  "}": "text-code-punctuation",
+  "[": "text-code-punctuation",
+  "]": "text-code-punctuation",
+  "=>": "text-code-punctuation",
 } as const;
 
 function highlightLine(line: string): Token[] {
@@ -54,7 +54,7 @@ function highlightLine(line: string): Token[] {
     if (end > current) {
       tokens.push({
         text: line.slice(current, end),
-        className: "text-gray-100",
+        className: "text-code-text",
         index: current,
       });
       current = end;
@@ -84,13 +84,13 @@ function highlightLine(line: string): Token[] {
     pushText(commentStart);
     tokens.push({
       text: line.slice(commentStart),
-      className: "text-green-400",
+      className: "text-code-comment",
       index: commentStart,
     });
     current = line.length;
   }
 
-  processRegex(/\b\d+\b/g, "text-green-300");
+  processRegex(/\b\d+\b/g, "text-code-number");
 
   Object.entries(SYMBOL_STYLES).forEach(([symbol, className]) => {
     processRegex(
@@ -171,21 +171,23 @@ export const CodeCard = memo(function CodeCard() {
 
   return (
     <motion.div
-      className="relative w-full max-w-[560px] h-[360px] rounded-lg bg-[#1e1e1e] border border-gray-800 shadow-lg overflow-hidden"
+      className="relative w-full max-w-[560px] h-[360px] rounded-[var(--radius-lg)] bg-code-bg border border-code-border shadow-[var(--shadow-lg)] overflow-hidden"
       initial={{ y: 20 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -5, transition: { duration: 0.3, ease: "easeOut" } }}
     >
       <div className="p-6 h-full flex flex-col">
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <div className="ml-2 text-xs text-gray-400">array-challenge.js</div>
+          <div className="w-3 h-3 rounded-[var(--radius-full)] bg-destructive"></div>
+          <div className="w-3 h-3 rounded-[var(--radius-full)] bg-warning"></div>
+          <div className="w-3 h-3 rounded-[var(--radius-full)] bg-success"></div>
+          <div className="ml-2 text-xs text-muted-foreground">
+            array-challenge.js
+          </div>
         </div>
 
-        <div className="flex-1 text-gray-100 font-mono text-sm leading-relaxed">
+        <div className="flex-1 text-code-text font-mono text-sm leading-relaxed">
           <SyntaxHighlighter
             code={typedCode}
             showCursor={isTyping}
@@ -194,7 +196,7 @@ export const CodeCard = memo(function CodeCard() {
         </div>
 
         <div className="mt-4 flex items-center justify-end gap-3">
-          <div className="text-xs text-gray-300 mr-2">Tests:</div>
+          <div className="text-xs text-muted-foreground mr-2">Tests:</div>
           {Array.from({ length: TESTS_COUNT }).map((_, i) => {
             const orderIndex = TESTS_DISPLAY_ORDER.indexOf(i);
             const isPassed = orderIndex !== -1 && passedCount > orderIndex;
@@ -223,8 +225,8 @@ function TestIndicator({
   return (
     <motion.div
       className={cn(
-        "w-6 h-6 rounded-full flex items-center justify-center",
-        passed ? "bg-green-500" : "bg-gray-700/50",
+        "w-6 h-6 rounded-[var(--radius-full)] flex items-center justify-center",
+        passed ? "bg-success" : "bg-muted/30",
       )}
       animate={
         isRunning && passed
@@ -235,7 +237,7 @@ function TestIndicator({
       }
       transition={{ duration: 0.3 }}
     >
-      {passed && <Check className="w-3 h-3 text-white" />}
+      {passed && <Check className="w-3 h-3 text-success-foreground" />}
     </motion.div>
   );
 }
@@ -271,7 +273,7 @@ function SyntaxHighlighter({
             ))}
             {isCursor && (
               <motion.span
-                className="inline-block w-[2px] h-[1em] bg-gray-300 align-bottom"
+                className="inline-block w-[2px] h-[1em] bg-code-cursor align-bottom"
                 animate={{ opacity: [1, 0, 1] }}
                 transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY }}
               />

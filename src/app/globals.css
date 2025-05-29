@@ -2,53 +2,216 @@
 @plugin "tailwindcss-animate";
 
 @theme {
-  /* Colors */
-  --color-brand: oklch(56% 0.237 217);
+  /* 
+   * DESIGN SYSTEM TOKENS
+   * A comprehensive set of design tokens for the JavaScript learning platform
+   */
+
+  /* Brand Colors - Primary palette */
+  --color-brand-primary: oklch(56% 0.237 217);
+  --color-brand-secondary: oklch(61% 0.237 250);
+  --color-brand-tertiary: oklch(67% 0.237 190);
+
+  /* Semantic Colors */
   --color-background: oklch(100% 0 0);
   --color-foreground: oklch(3.9% 0 0);
   --color-card: oklch(100% 0 0);
   --color-card-foreground: oklch(3.9% 0 0);
   --color-popover: oklch(100% 0 0);
   --color-popover-foreground: oklch(3.9% 0 0);
-  --color-primary: oklch(9% 0 0);
+
+  /* UI Colors */
+  --color-primary: oklch(56% 0.237 217); /* Updated to match brand */
   --color-primary-foreground: oklch(98% 0 0);
+  --color-primary-muted: oklch(85% 0.15 217);
+  --color-primary-highlight: oklch(65% 0.25 217);
+
   --color-secondary: oklch(96.1% 0 0);
   --color-secondary-foreground: oklch(9% 0 0);
+  --color-secondary-muted: oklch(90% 0 0);
+  --color-secondary-highlight: oklch(98% 0 0);
+
+  --color-accent: oklch(61% 0.237 250); /* Updated to match brand secondary */
+  --color-accent-foreground: oklch(98% 0 0);
+  --color-accent-muted: oklch(80% 0.15 250);
+  --color-accent-highlight: oklch(70% 0.25 250);
+
   --color-muted: oklch(96.1% 0 0);
   --color-muted-foreground: oklch(45.1% 0 0);
-  --color-accent: oklch(96.1% 0 0);
-  --color-accent-foreground: oklch(9% 0 0);
+
+  /* Feedback Colors */
+  --color-success: oklch(65% 0.2 145);
+  --color-success-foreground: oklch(98% 0 0);
+  --color-success-muted: oklch(85% 0.1 145);
+
+  --color-warning: oklch(75% 0.2 85);
+  --color-warning-foreground: oklch(10% 0 0);
+  --color-warning-muted: oklch(90% 0.1 85);
+
   --color-destructive: oklch(60.2% 0.237 0);
   --color-destructive-foreground: oklch(98% 0 0);
+  --color-destructive-muted: oklch(80% 0.15 0);
+
+  --color-info: oklch(70% 0.2 230);
+  --color-info-foreground: oklch(98% 0 0);
+  --color-info-muted: oklch(85% 0.1 230);
+
+  /* UI Element Colors */
   --color-border: oklch(89.8% 0 0);
   --color-input: oklch(89.8% 0 0);
-  --color-ring: oklch(3.9% 0 0);
+  --color-ring: oklch(56% 0.237 217); /* Updated to match brand */
+  --color-focus: oklch(56% 0.237 217); /* Added for focus states */
+  --color-hover: oklch(96% 0.05 217); /* Added for hover states */
 
-  /* Chart colors */
+  /* Chart colors - Enhanced for better contrast */
   --color-chart-1: oklch(61% 0.237 12);
   --color-chart-2: oklch(39% 0.237 173);
   --color-chart-3: oklch(24% 0.237 197);
   --color-chart-4: oklch(66% 0.237 43);
   --color-chart-5: oklch(67% 0.237 27);
+  --color-chart-6: oklch(55% 0.237 300); /* Added additional chart colors */
+  --color-chart-7: oklch(70% 0.237 120);
+  --color-chart-8: oklch(45% 0.237 260);
 
-  /* Category colors */
-  --color-category-array-bg: oklch(93% 0.237 141);
-  --color-category-array-text: oklch(24% 0.237 143);
-  --color-category-array-border: oklch(85% 0.237 141);
-  --color-category-object-bg: oklch(93% 0.237 214);
-  --color-category-object-text: oklch(40% 0.237 226);
-  --color-category-object-border: oklch(87% 0.237 213);
-  --color-category-map-bg: oklch(95% 0.237 269);
-  --color-category-map-text: oklch(39% 0.237 273);
-  --color-category-map-border: oklch(92% 0.237 269);
-  --color-category-set-bg: oklch(92% 0.237 34);
-  --color-category-set-text: oklch(34% 0.237 15);
-  --color-category-set-border: oklch(83% 0.237 32);
+  /* Category colors - Refined for better accessibility */
+  /* Arrays - Green-blue */
+  --color-category-arrays-bg: oklch(93% 0.237 141);
+  --color-category-arrays-text: oklch(24% 0.237 143);
+  --color-category-arrays-border: oklch(85% 0.237 141);
+  --color-category-arrays-hover: oklch(90% 0.237 141);
+  --color-category-arrays-active: oklch(88% 0.237 141);
 
-  /* Border radius */
+  /* Objects - Blue */
+  --color-category-objects-bg: oklch(93% 0.237 214);
+  --color-category-objects-text: oklch(40% 0.237 226);
+  --color-category-objects-border: oklch(87% 0.237 213);
+  --color-category-objects-hover: oklch(90% 0.237 214);
+  --color-category-objects-active: oklch(88% 0.237 214);
+
+  /* Strings - Purple */
+  --color-category-strings-bg: oklch(95% 0.237 269);
+  --color-category-strings-text: oklch(39% 0.237 273);
+  --color-category-strings-border: oklch(92% 0.237 269);
+  --color-category-strings-hover: oklch(92% 0.237 269);
+  --color-category-strings-active: oklch(90% 0.237 269);
+
+  /* Functions - Yellow-green */
+  --color-category-functions-bg: oklch(92% 0.237 34);
+  --color-category-functions-text: oklch(34% 0.237 15);
+  --color-category-functions-border: oklch(83% 0.237 32);
+  --color-category-functions-hover: oklch(89% 0.237 34);
+  --color-category-functions-active: oklch(87% 0.237 34);
+
+  /* Algorithms - Teal */
+  --color-category-algorithms-bg: oklch(94% 0.237 180);
+  --color-category-algorithms-text: oklch(35% 0.237 180);
+  --color-category-algorithms-border: oklch(85% 0.237 180);
+  --color-category-algorithms-hover: oklch(91% 0.237 180);
+  --color-category-algorithms-active: oklch(89% 0.237 180);
+
+  /* Async - Pink */
+  --color-category-async-bg: oklch(94% 0.237 320);
+  --color-category-async-text: oklch(35% 0.237 320);
+  --color-category-async-border: oklch(85% 0.237 320);
+  --color-category-async-hover: oklch(91% 0.237 320);
+  --color-category-async-active: oklch(89% 0.237 320);
+
+  /* Typography Scale */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Spacing Scale */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;
+  --space-1: 0.25rem;
+  --space-1-5: 0.375rem;
+  --space-2: 0.5rem;
+  --space-2-5: 0.625rem;
+  --space-3: 0.75rem;
+  --space-3-5: 0.875rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-9: 2.25rem;
+  --space-10: 2.5rem;
+  --space-11: 2.75rem;
+  --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-28: 7rem;
+  --space-32: 8rem;
+  --space-36: 9rem;
+  --space-40: 10rem;
+  --space-44: 11rem;
+  --space-48: 12rem;
+  --space-52: 13rem;
+  --space-56: 14rem;
+  --space-60: 15rem;
+  --space-64: 16rem;
+  --space-72: 18rem;
+  --space-80: 20rem;
+  --space-96: 24rem;
+
+  /* Border Radius */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
   --radius-lg: 0.5rem;
-  --radius-md: calc(0.5rem - 2px);
-  --radius-sm: calc(0.5rem - 4px);
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+
+  /* Animation */
+  --transition-fast: 150ms;
+  --transition-normal: 250ms;
+  --transition-slow: 350ms;
+  --transition-very-slow: 500ms;
+
+  /* Z-index */
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-auto: auto;
 }
 
 /* Base styles */
@@ -68,7 +231,7 @@ html {
 
 /* Selection styling */
 ::selection {
-  @apply bg-cyan-500/30 text-white;
+  @apply bg-primary/30 text-primary-foreground;
 }
 
 /* Custom scrollbar */
@@ -77,13 +240,13 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-200;
+  @apply bg-muted;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-cyan-500/40 rounded;
+  @apply bg-primary/40 rounded;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-cyan-500/60;
+  @apply bg-primary/60;
 }

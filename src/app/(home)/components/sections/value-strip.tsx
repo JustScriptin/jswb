@@ -11,7 +11,7 @@ import { fadeInUp } from "@/shared/lib/animations";
  */
 export function ValueStrip() {
   return (
-    <section className="py-20 bg-linear-to-b from-background to-gray-900/90 relative">
+    <section className="py-20 bg-gradient-to-b from-background to-muted/90 relative">
       <motion.div
         className="container max-w-7xl mx-auto relative z-10 px-4"
         {...fadeInUp(0)}

@@ -11,7 +11,7 @@ import { fadeInUp } from "@/shared/lib/animations";
  */
 export function PopularChallenges() {
   return (
-    <section className="py-24 bg-linear-to-b from-background to-gray-900/90 relative">
+    <section className="py-24 bg-gradient-to-b from-background to-muted/90 relative">
       <div className="container max-w-7xl mx-auto px-4 relative z-10">
         <motion.h2
           className="text-3xl font-bold text-center text-foreground mb-4"

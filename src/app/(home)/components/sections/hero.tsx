@@ -29,7 +29,7 @@ export function Hero() {
   return (
     <section ref={heroRef} className="relative min-h-screen overflow-hidden">
       <motion.div
-        className="absolute inset-0 bg-linear-to-br from-background via-indigo-900/70 to-cyan-900/70 pointer-events-none z-0"
+        className="absolute inset-0 bg-gradient-to-br from-background via-primary/20 to-secondary/30 pointer-events-none z-0"
         style={{
           y: heroY,
           opacity: heroOpacity,
@@ -41,13 +41,13 @@ export function Hero() {
       <div className="container relative grid items-center h-screen max-w-7xl grid-cols-1 px-4 mx-auto lg:grid-cols-12 gap-y-12">
         <div className="lg:col-span-7 z-10">
           <motion.h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900"
+            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground"
             {...fadeInUp(0)}
           >
             Master Arrays in JavaScript
           </motion.h1>
           <motion.p
-            className="max-w-xl mt-6 text-lg leading-relaxed text-gray-700"
+            className="max-w-xl mt-6 text-lg leading-relaxed text-muted-foreground"
             {...fadeInUp(0.1)}
           >
             Interactive challenges to build your skills through practice. Learn
@@ -56,8 +56,13 @@ export function Hero() {
           <motion.div className="mt-10" {...fadeInUp(0.2)}>
             <Link href="/exercises">
               <Button
-                size="lg"
-                className="h-14 px-8 text-lg font-medium bg-primary hover:bg-primary/90 text-white rounded-lg"
+                variant="default"
+                size="xl"
+                shape="soft"
+                weight="medium"
+                animation="default"
+                elevation="md"
+                className="text-lg"
               >
                 Start the Challenges
                 <ChevronRight className="w-5 h-5 ml-2" />
@@ -92,7 +97,7 @@ function ScrollIndicator() {
       transition={{ delay: 2, duration: 0.6 }}
     >
       <motion.div
-        className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
+        className="w-6 h-10 border-2 border-foreground/30 rounded-[var(--radius-full)] flex justify-center"
         animate={{ y: [0, 5, 0] }}
         transition={{
           repeat: Number.POSITIVE_INFINITY,
@@ -101,7 +106,7 @@ function ScrollIndicator() {
         }}
       >
         <motion.div
-          className="w-1 h-2 bg-white/60 rounded-full mt-2"
+          className="w-1 h-2 bg-foreground/60 rounded-[var(--radius-full)] mt-2"
           animate={{ opacity: [0, 1, 0], y: [0, 5, 0] }}
           transition={{
             repeat: Number.POSITIVE_INFINITY,
