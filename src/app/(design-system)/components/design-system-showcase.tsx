@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,
@@ -22,6 +22,7 @@ import TokensShowcase from "./tokens-showcase";
 import ComponentsShowcase from "./components-showcase";
 
 export default function DesignSystemShowcase() {
+  const [activeTab, setActiveTab] = useState("overview");
   return (
     <div className="container mx-auto py-10 px-4 md:px-6">
       <div className="flex flex-col gap-6">
@@ -35,6 +36,7 @@ export default function DesignSystemShowcase() {
         <Tabs
           defaultValue="overview"
           className="w-full"
+          value={activeTab}
           onValueChange={setActiveTab}
         >
           <TabsList className="grid grid-cols-4 w-full max-w-2xl">
@@ -73,7 +75,9 @@ export default function DesignSystemShowcase() {
                     <CardFooter>
                       <Button
                         variant="outline"
-                        onClick={() => setActiveTab("tokens")}
+                        onClick={() => {
+                          setActiveTab("tokens");
+                        }}
                       >
                         Explore Tokens
                       </Button>
@@ -89,7 +93,9 @@ export default function DesignSystemShowcase() {
                     <CardFooter>
                       <Button
                         variant="outline"
-                        onClick={() => setActiveTab("components")}
+                        onClick={() => {
+                          setActiveTab("components");
+                        }}
                       >
                         Explore Components
                       </Button>
@@ -105,7 +111,9 @@ export default function DesignSystemShowcase() {
                     <CardFooter>
                       <Button
                         variant="outline"
-                        onClick={() => setActiveTab("patterns")}
+                        onClick={() => {
+                          setActiveTab("patterns");
+                        }}
                       >
                         Explore Patterns
                       </Button>
