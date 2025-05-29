@@ -1,4 +1,6 @@
 export { ExerciseHeader } from "./ExerciseHeader";
+export { ExerciseHeaderContainer } from "./ExerciseHeaderContainer";
+export { ExerciseHeaderUI } from "./ExerciseHeaderUI";
 export { ExerciseTitle } from "./ExerciseTitle";
 export { ExerciseContentMDX } from "./ExerciseContentMDX";
 export { ExerciseContentContainer } from "./ExerciseContentContainer";
@@ -9,3 +11,4 @@ export { ShortcutsDialog } from "./ShortcutsDialog";
 export { ShortcutItem } from "./ShortcutItem";
 
 export type { ExerciseContentContainerProps } from "./ExerciseContentContainer";
+export type { ExerciseHeaderContainerProps } from "./ExerciseHeaderContainer";
