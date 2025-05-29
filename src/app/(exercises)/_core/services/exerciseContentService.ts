@@ -1,5 +1,3 @@
-import { compileMDX } from "next-mdx-remote/rsc";
-import { MDXComponents } from "@/shared/lib/mdx-components";
 import { logger } from "@/platform/node/logger";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 import {
@@ -7,6 +5,7 @@ import {
   getAllExerciseSlugs as getExerciseSlugs,
 } from "./content/contentLoader";
 import { parseExerciseContent } from "./content/contentParser";
+import { compileMdxContent } from "./content/mdxCompiler";
 
 /**
  * Gets the compiled MDX content for an exercise
@@ -30,22 +29,9 @@ export async function getExerciseContent(
       testCases,
     } = parseExerciseContent(content);
 
-    // Compile MDX content using RSC version with custom components
-    const { content: descriptionContent } = await compileMDX({
-      source: descriptionSource,
-      options: {
-        parseFrontmatter: false,
-      },
-      components: MDXComponents,
-    });
-
-    const { content: educationContent } = await compileMDX({
-      source: educationSource,
-      options: {
-        parseFrontmatter: false,
-      },
-      components: MDXComponents,
-    });
+    // Compile MDX content using our mdxCompiler service
+    const descriptionContent = await compileMdxContent(descriptionSource);
+    const educationContent = await compileMdxContent(educationSource);
 
     return {
       frontmatter: frontmatter as ExerciseMDXContent["frontmatter"],
