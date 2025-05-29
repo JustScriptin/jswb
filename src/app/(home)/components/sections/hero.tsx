@@ -38,40 +38,43 @@ export function Hero() {
         <ParticleBackground count={50} opacity={1} />
       </motion.div>
 
-      <div className="container relative grid items-center h-screen max-w-7xl grid-cols-1 px-4 mx-auto lg:grid-cols-12 gap-y-12">
+      <div className="container relative grid items-center min-h-[90vh] md:h-screen max-w-7xl grid-cols-1 px-4 py-8 md:py-0 mx-auto lg:grid-cols-12 gap-y-8 md:gap-y-12">
         <div className="lg:col-span-7 z-10">
           <motion.h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground"
             {...fadeInUp(0)}
           >
             Master Arrays in JavaScript
           </motion.h1>
           <motion.p
-            className="max-w-xl mt-6 text-lg leading-relaxed text-muted-foreground"
+            className="max-w-xl mt-4 md:mt-6 text-base md:text-lg leading-relaxed text-muted-foreground"
             {...fadeInUp(0.1)}
           >
             Interactive challenges to build your skills through practice. Learn
             array methods through hands-on coding exercises.
           </motion.p>
-          <motion.div className="mt-10" {...fadeInUp(0.2)}>
+          <motion.div className="mt-6 md:mt-10" {...fadeInUp(0.2)}>
             <Link href="/exercises">
               <Button
                 variant="default"
-                size="xl"
+                size="lg"
                 shape="soft"
                 weight="medium"
                 animation="default"
                 elevation="md"
-                className="text-lg"
+                className="text-base md:text-lg w-full sm:w-auto"
               >
                 Start the Challenges
-                <ChevronRight className="w-5 h-5 ml-2" />
+                <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-2" />
               </Button>
             </Link>
           </motion.div>
         </div>
-        <div className="lg:col-span-5 z-10 flex justify-center lg:justify-end">
-          <motion.div {...fadeInUp(0.3)}>
+        <div className="lg:col-span-5 z-10 flex justify-center lg:justify-end mt-8 lg:mt-0">
+          <motion.div
+            className="w-full max-w-md lg:max-w-none"
+            {...fadeInUp(0.3)}
+          >
             <CodeCard />
           </motion.div>
         </div>

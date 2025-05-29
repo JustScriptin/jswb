@@ -55,10 +55,10 @@ export const CodeEditorUI = forwardRef<HTMLDivElement, CodeEditorUIProps>(
         className={cn("flex flex-col grow min-h-0 overflow-hidden", className)}
         ref={ref}
       >
-        <div className="p-4 flex items-center justify-between">
-          <div className="flex items-center justify-between w-full">
+        <div className="p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-3 sm:gap-4">
             <Select value={language} onValueChange={onLanguageChange}>
-              <SelectTrigger className="w-[150px]">
+              <SelectTrigger className="w-full sm:w-[150px]">
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
               <SelectContent>
@@ -72,13 +72,16 @@ export const CodeEditorUI = forwardRef<HTMLDivElement, CodeEditorUIProps>(
             <Button
               onClick={onRunTests}
               disabled={isSubmitting}
-              className="min-w-[100px]"
+              className="w-full sm:w-auto min-w-[100px]"
             >
               {isSubmitting ? "Running..." : "Run Tests"}
             </Button>
           </div>
           {isSubmitting && (
-            <Badge variant="secondary" className="animate-pulse">
+            <Badge
+              variant="secondary"
+              className="animate-pulse hidden sm:inline-flex"
+            >
               Running tests...
             </Badge>
           )}

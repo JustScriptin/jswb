@@ -15,8 +15,8 @@ export function ExerciseTitle({ category, title }: ExerciseTitleProps) {
   const colors = categoryColors[category.name];
 
   return (
-    <div className="mb-8 text-center">
-      <div className="flex justify-center space-x-2 mb-4">
+    <div className="mb-4 sm:mb-8 text-center px-3 sm:px-0">
+      <div className="flex flex-wrap justify-center gap-2 mb-3 sm:mb-4">
         <Badge
           className={cn(
             "text-sm font-medium border-transparent",
@@ -30,10 +30,10 @@ export function ExerciseTitle({ category, title }: ExerciseTitleProps) {
           {category.method}
         </Badge>
       </div>
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-4">
+      <h1 className="scroll-m-20 text-3xl sm:text-4xl font-extrabold tracking-tight lg:text-5xl mb-3 sm:mb-4">
         {title}
       </h1>
-      <p className="text-xl text-muted-foreground">
+      <p className="text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto">
         Learn and understand JavaScript methods through practical examples
       </p>
     </div>
