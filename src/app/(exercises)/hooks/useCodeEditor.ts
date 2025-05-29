@@ -14,8 +14,8 @@ type UseCodeEditorProps = {
   slug: string;
   defaultLanguage: Language;
   _defaultValue: string;
-  onTestResults?: (results: TestResult[]) => void;
-  onLanguageChange?: (language: Language) => void;
+  onTestResults: ((results: TestResult[]) => void) | undefined;
+  onLanguageChange: ((language: Language) => void) | undefined;
 };
 
 type UseCodeEditorReturn = {
