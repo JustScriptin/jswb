@@ -13,7 +13,7 @@ import {
 type UseCodeEditorProps = {
   slug: string;
   defaultLanguage: Language;
-  defaultValue: string;
+  _defaultValue: string;
   onTestResults?: (results: TestResult[]) => void;
   onLanguageChange?: (language: Language) => void;
 };
