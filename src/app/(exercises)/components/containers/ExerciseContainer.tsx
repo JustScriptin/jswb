@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { useExerciseState } from "../../hooks/useExerciseState";
 import { useTestRunnerV2 } from "../../hooks/useTestRunnerV2";
 import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
-import { ExercisePresenter } from "../exercise/ExercisePresenter";
+import { ExercisePresenter } from "../ui/ExercisePresenter";
 import type { Exercise } from "@/shared/types/exercise";
 import type { CodeEditorHandle } from "../CodeEditor";
 import type { ExerciseMDXContent } from "@/shared/types/services";

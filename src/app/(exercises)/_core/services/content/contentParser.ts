@@ -65,7 +65,7 @@ export function parseExerciseContent(content: string): {
         testCases.push({
           id: `test-${testCases.length + 1}`,
           name: `Test ${testCases.length + 1}`,
-          input: match[1],
+          input: [match[1]],
           expected: match[2],
           message: match[3],
           testCode: "",
