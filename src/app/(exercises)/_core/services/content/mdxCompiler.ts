@@ -5,13 +5,12 @@
 import { compileMDX } from "next-mdx-remote/rsc";
 import { MDXComponents } from "@/shared/lib/mdx-components";
 import { logger } from "@/platform/node/logger";
+import type { ReactElement } from "react";
 
 /**
  * Compiles MDX content to React components
  */
-export async function compileMdxContent(
-  source: string,
-): Promise<React.ReactNode> {
+export async function compileMdxContent(source: string): Promise<ReactElement> {
   try {
     const { content } = await compileMDX({
       source,
@@ -24,6 +23,6 @@ export async function compileMdxContent(
     return content;
   } catch (error) {
     logger.error("Error compiling MDX content:", error);
-    return null;
+    throw new Error(`Failed to compile MDX content: ${error}`);
   }
 }
