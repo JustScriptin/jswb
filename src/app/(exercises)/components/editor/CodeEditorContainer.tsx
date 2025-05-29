@@ -46,7 +46,7 @@ export const CodeEditorContainer = forwardRef<
   } = useCodeEditor({
     slug,
     defaultLanguage,
-    defaultValue,
+    _defaultValue: defaultValue,
     onTestResults,
     onLanguageChange,
   });

@@ -53,7 +53,14 @@ export async function getExerciseContent(
       educationContent,
       educationConcept: educationConcept ?? frontmatter.title,
       starterCode,
-      testCases,
+      testCases: testCases.map((test) => ({
+        input:
+          Array.isArray(test.input) && test.input.length > 0
+            ? (test.input[0] as string)
+            : "",
+        expected: (test.expected as string) ?? "",
+        description: test.message ?? "",
+      })),
     };
   } catch (error) {
     logger.error(`Error loading exercise content for ${slug}:`, error);
