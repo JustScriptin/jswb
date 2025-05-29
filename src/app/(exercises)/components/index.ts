@@ -28,4 +28,4 @@ export { InstructionsTabMDX } from "./tabs/InstructionsTabMDX";
 export { TestResultBadge } from "./tabs/TestResultBadge";
 
 export { ExerciseContainer } from "./containers/ExerciseContainer";
-export { ExercisePresenter } from "./ui/ExercisePresenter";
+export { ExercisePresenter } from "./exercise/ExercisePresenter";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { logger } from "@/platform/node/logger";
+import { browserLogger as logger } from "@/platform";
 import type { Exercise, TestResult } from "@/shared/types/exercise";
 
 type TestRunnerState = {
