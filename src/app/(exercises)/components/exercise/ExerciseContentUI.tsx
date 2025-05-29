@@ -31,12 +31,12 @@ export function ExerciseContentUI({
     <motion.div
       variants={animations.slideUp}
       className={cn(
-        "grid gap-6",
-        isFullscreen ? "grid-cols-[1fr_2fr]" : "lg:grid-cols-2",
+        "grid gap-4 sm:gap-6",
+        isFullscreen ? "grid-cols-[1fr_2fr]" : "grid-cols-1 lg:grid-cols-2",
       )}
     >
       {/* Left Column - Instructions & Tests */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <ExerciseTabsMDX
           exerciseMetadata={exerciseMetadata}
           mdxContent={mdxContent}
@@ -50,7 +50,7 @@ export function ExerciseContentUI({
       </div>
 
       {/* Right Column - Code Editor */}
-      <div className="flex flex-col min-h-[800px]">
+      <div className="flex flex-col min-h-[400px] sm:min-h-[600px] md:min-h-[800px]">
         <CodeEditorPanel
           ref={editorRef}
           exercise={exercise}

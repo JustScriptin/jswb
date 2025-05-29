@@ -8,9 +8,13 @@
    */
 
   /* Brand Colors - Primary palette */
-  --color-brand-primary: oklch(56% 0.237 217);
-  --color-brand-secondary: oklch(61% 0.237 250);
-  --color-brand-tertiary: oklch(67% 0.237 190);
+  --color-brand-primary: oklch(52% 0.24 217); /* Darkened for better contrast */
+  --color-brand-secondary: oklch(
+    58% 0.24 250
+  ); /* Darkened for better contrast */
+  --color-brand-tertiary: oklch(
+    63% 0.24 190
+  ); /* Darkened for better contrast */
 
   /* Semantic Colors */
   --color-background: oklch(100% 0 0);
@@ -21,47 +25,53 @@
   --color-popover-foreground: oklch(3.9% 0 0);
 
   /* UI Colors */
-  --color-primary: oklch(56% 0.237 217); /* Updated to match brand */
+  --color-primary: oklch(52% 0.24 217); /* Darkened for better contrast */
   --color-primary-foreground: oklch(98% 0 0);
-  --color-primary-muted: oklch(85% 0.15 217);
-  --color-primary-highlight: oklch(65% 0.25 217);
+  --color-primary-muted: oklch(80% 0.17 217); /* Adjusted for better contrast */
+  --color-primary-highlight: oklch(
+    60% 0.27 217
+  ); /* Adjusted for better contrast */
 
   --color-secondary: oklch(96.1% 0 0);
   --color-secondary-foreground: oklch(9% 0 0);
   --color-secondary-muted: oklch(90% 0 0);
   --color-secondary-highlight: oklch(98% 0 0);
 
-  --color-accent: oklch(61% 0.237 250); /* Updated to match brand secondary */
+  --color-accent: oklch(58% 0.24 250); /* Darkened for better contrast */
   --color-accent-foreground: oklch(98% 0 0);
-  --color-accent-muted: oklch(80% 0.15 250);
-  --color-accent-highlight: oklch(70% 0.25 250);
+  --color-accent-muted: oklch(75% 0.17 250); /* Adjusted for better contrast */
+  --color-accent-highlight: oklch(
+    65% 0.27 250
+  ); /* Adjusted for better contrast */
 
   --color-muted: oklch(96.1% 0 0);
-  --color-muted-foreground: oklch(45.1% 0 0);
+  --color-muted-foreground: oklch(35% 0 0); /* Darkened for better contrast */
 
   /* Feedback Colors */
-  --color-success: oklch(65% 0.2 145);
+  --color-success: oklch(60% 0.22 145); /* Darkened for better contrast */
   --color-success-foreground: oklch(98% 0 0);
-  --color-success-muted: oklch(85% 0.1 145);
+  --color-success-muted: oklch(80% 0.12 145); /* Adjusted for better contrast */
 
-  --color-warning: oklch(75% 0.2 85);
+  --color-warning: oklch(70% 0.22 85); /* Darkened for better contrast */
   --color-warning-foreground: oklch(10% 0 0);
-  --color-warning-muted: oklch(90% 0.1 85);
+  --color-warning-muted: oklch(85% 0.12 85); /* Adjusted for better contrast */
 
-  --color-destructive: oklch(60.2% 0.237 0);
+  --color-destructive: oklch(55% 0.24 0); /* Darkened for better contrast */
   --color-destructive-foreground: oklch(98% 0 0);
-  --color-destructive-muted: oklch(80% 0.15 0);
+  --color-destructive-muted: oklch(
+    75% 0.17 0
+  ); /* Adjusted for better contrast */
 
-  --color-info: oklch(70% 0.2 230);
+  --color-info: oklch(65% 0.22 230); /* Darkened for better contrast */
   --color-info-foreground: oklch(98% 0 0);
-  --color-info-muted: oklch(85% 0.1 230);
+  --color-info-muted: oklch(80% 0.12 230); /* Adjusted for better contrast */
 
   /* UI Element Colors */
-  --color-border: oklch(89.8% 0 0);
-  --color-input: oklch(89.8% 0 0);
-  --color-ring: oklch(56% 0.237 217); /* Updated to match brand */
-  --color-focus: oklch(56% 0.237 217); /* Added for focus states */
-  --color-hover: oklch(96% 0.05 217); /* Added for hover states */
+  --color-border: oklch(85% 0 0); /* Darkened for better contrast */
+  --color-input: oklch(85% 0 0); /* Darkened for better contrast */
+  --color-ring: oklch(52% 0.24 217); /* Darkened for better contrast */
+  --color-focus: oklch(52% 0.24 217); /* Darkened for better contrast */
+  --color-hover: oklch(92% 0.07 217); /* Adjusted for better contrast */
 
   /* Chart colors - Enhanced for better contrast */
   --color-chart-1: oklch(61% 0.237 12);

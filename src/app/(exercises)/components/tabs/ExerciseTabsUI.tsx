@@ -41,18 +41,24 @@ export function ExerciseTabsUI({
 }: ExerciseTabsUIProps) {
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
-      <TabsList className="w-full">
-        <TabsTrigger value="learn" className="flex-1">
-          <GraduationCap className="mr-2 h-4 w-4" />
-          Learn
+      <TabsList className="w-full overflow-x-auto">
+        <TabsTrigger value="learn" className="flex-1 min-w-[80px] px-2 sm:px-4">
+          <GraduationCap className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+          <span className="text-xs sm:text-sm">Learn</span>
         </TabsTrigger>
-        <TabsTrigger value="instructions" className="flex-1">
-          <BookOpen className="mr-2 h-4 w-4" />
-          Instructions
+        <TabsTrigger
+          value="instructions"
+          className="flex-1 min-w-[100px] px-2 sm:px-4"
+        >
+          <BookOpen className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+          <span className="text-xs sm:text-sm">Instructions</span>
         </TabsTrigger>
-        <TabsTrigger value="tests" className="flex-1 relative">
-          <Beaker className="mr-2 h-4 w-4" />
-          Test Cases
+        <TabsTrigger
+          value="tests"
+          className="flex-1 min-w-[100px] px-2 sm:px-4 relative"
+        >
+          <Beaker className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+          <span className="text-xs sm:text-sm">Test Cases</span>
           <TestResultBadge
             passed={passedTests}
             total={totalTests}
