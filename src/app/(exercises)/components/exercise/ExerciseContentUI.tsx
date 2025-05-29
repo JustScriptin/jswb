@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/shared/lib/utils";
-import { ExerciseTabsMDX } from "../../components/tabs/ExerciseTabsMDX";
-import { CodeEditorPanel } from "../../components/editor/CodeEditorPanel";
+import { ExerciseTabsMDX } from "../tabs";
+import { CodeEditorPanel } from "../editor";
 import { animations } from "@/shared/lib/animations";
 import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
-import type { CodeEditorHandle } from "../../components/CodeEditor";
+import type { CodeEditorHandle } from "../CodeEditor.types";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 
 export type ExerciseContentUIProps = {
