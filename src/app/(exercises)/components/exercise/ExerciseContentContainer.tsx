@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { ExerciseContentUI } from "./ExerciseContentUI";
 import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
-import type { CodeEditorHandle } from "../../components/CodeEditor";
+import type { CodeEditorHandle } from "../CodeEditor.types";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 
 export type ExerciseContentContainerProps = {
