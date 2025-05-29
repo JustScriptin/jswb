@@ -27,5 +27,5 @@ export type ExercisePresenterProps = {
   onTabChange: (tab: string) => void;
   onLanguageChange: (lang: Language) => void;
   onTestResults: (results: TestResult[]) => void;
-  onRunTests?: () => Promise<void>;
+  _onRunTests?: () => Promise<void>;
 };
