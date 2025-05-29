@@ -19,26 +19,26 @@ export function HowItWorksCard({
   delay,
 }: HowItWorksCardProps) {
   const icons = {
-    1: <MousePointer className="w-5 h-5 text-white" />,
-    2: <Code className="w-5 h-5 text-white" />,
-    3: <Trophy className="w-5 h-5 text-white" />,
+    1: <MousePointer className="w-5 h-5 text-card-foreground" />,
+    2: <Code className="w-5 h-5 text-card-foreground" />,
+    3: <Trophy className="w-5 h-5 text-card-foreground" />,
   };
 
   const borderColors = {
-    violet: "border-violet-500",
-    cyan: "border-cyan-500",
-    lime: "border-lime-500",
+    violet: "border-accent",
+    cyan: "border-primary",
+    lime: "border-success",
   };
 
   const gradientColors = {
-    violet: "from-violet-500/5 to-transparent",
-    cyan: "from-cyan-500/5 to-transparent",
-    lime: "from-lime-500/5 to-transparent",
+    violet: "from-accent/10 to-transparent",
+    cyan: "from-primary/10 to-transparent",
+    lime: "from-success/10 to-transparent",
   };
 
   return (
     <motion.div
-      className={`relative p-6 rounded-lg bg-gray-900 border ${borderColors[color]}`}
+      className={`relative p-6 rounded-[var(--radius-lg)] bg-card border ${borderColors[color]}`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -50,22 +50,22 @@ export function HowItWorksCard({
     >
       {/* Background gradient - subtle */}
       <div
-        className={`absolute inset-0 bg-linear-to-br ${gradientColors[color]} opacity-50 rounded-lg`}
+        className={`absolute inset-0 bg-gradient-to-br ${gradientColors[color]} opacity-50 rounded-[var(--radius-lg)]`}
       ></div>
 
-      <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center border border-gray-700 text-white font-bold z-10">
+      <div className="absolute -top-3 -left-3 w-8 h-8 rounded-[var(--radius-full)] bg-muted flex items-center justify-center border border-border text-foreground font-bold z-10">
         {step}
       </div>
 
-      <div className="mb-5 w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center relative z-10">
+      <div className="mb-5 w-12 h-12 rounded-[var(--radius-full)] bg-muted flex items-center justify-center relative z-10">
         {icons[step as keyof typeof icons]}
       </div>
 
-      <h3 className="text-xl font-bold text-white mb-3 relative z-10">
+      <h3 className="text-xl font-bold text-card-foreground mb-3 relative z-10">
         {title}
       </h3>
 
-      <p className="text-gray-300 relative z-10 leading-relaxed">
+      <p className="text-muted-foreground relative z-10 leading-relaxed">
         {description}
       </p>
     </motion.div>
