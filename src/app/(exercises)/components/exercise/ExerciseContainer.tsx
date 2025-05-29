@@ -109,7 +109,7 @@ export function ExerciseContainer({
       onTabChange={setActiveTab}
       onLanguageChange={setLanguage}
       onTestResults={setTestResults}
-      _onRunTests={handleRunTests}
+      onRunTests={handleRunTests}
     />
   );
 }
