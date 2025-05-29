@@ -1,6 +1,6 @@
 "use client";
 
-import { ExerciseContainer } from "./exercise/ExerciseContainer";
+import { ExerciseContainer } from "./containers/ExerciseContainer";
 import type { Exercise } from "@/shared/types/exercise";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 
