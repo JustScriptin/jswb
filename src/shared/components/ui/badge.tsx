@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center border rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
     variants: {
       variant: {
@@ -16,10 +16,32 @@ const badgeVariants = cva(
         destructive:
           "bg-destructive hover:bg-destructive/80 border-transparent text-destructive-foreground",
         outline: "text-foreground",
+        success:
+          "bg-green-500 hover:bg-green-500/80 border-transparent text-white",
+        warning:
+          "bg-yellow-500 hover:bg-yellow-500/80 border-transparent text-white",
+      },
+      size: {
+        default: "px-2.5 py-0.5 text-xs",
+        sm: "px-2 py-0.5 text-xs",
+        lg: "px-3 py-1 text-sm",
+      },
+      shape: {
+        default: "rounded-full",
+        rounded: "rounded-md",
+        square: "rounded-none",
+      },
+      weight: {
+        default: "font-semibold",
+        normal: "font-normal",
+        bold: "font-bold",
       },
     },
     defaultVariants: {
       variant: "default",
+      size: "default",
+      shape: "default",
+      weight: "default",
     },
   },
 );
@@ -27,11 +49,18 @@ const badgeVariants = cva(
 export type BadgeProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof badgeVariants>;
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({
+  className,
+  variant,
+  size,
+  shape,
+  weight,
+  ...props
+}: BadgeProps) {
   return (
     <div
       data-component="Badge"
-      className={cn(badgeVariants({ variant }), className)}
+      className={cn(badgeVariants({ variant, size, shape, weight }), className)}
       {...props}
     />
   );
