@@ -63,6 +63,14 @@ export const CodeEditorContainer = forwardRef<
     wordWrap: "on",
     "semanticHighlighting.enabled": true,
     renderValidationDecorations: "on",
+    folding: true,
+    foldingStrategy: "indentation",
+    matchBrackets: "always",
+    scrollbar: {
+      verticalScrollbarSize: 8,
+      horizontalScrollbarSize: 8,
+      alwaysConsumeMouseWheel: false,
+    },
     suggest: {
       showKeywords: true,
       showSnippets: true,
@@ -71,6 +79,10 @@ export const CodeEditorContainer = forwardRef<
       other: true,
       comments: false,
       strings: false,
+    },
+    padding: {
+      top: 8,
+      bottom: 8,
     },
   };
 

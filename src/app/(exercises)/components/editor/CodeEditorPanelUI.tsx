@@ -33,15 +33,15 @@ export const CodeEditorPanelUI = forwardRef<
 ) {
   return (
     <Card className="flex flex-col h-full overflow-hidden">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <div className="space-y-1">
-          <CardTitle>Solution</CardTitle>
-          <CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 py-2 px-3 sm:py-3 sm:px-4">
+        <div className="space-y-0.5 sm:space-y-1">
+          <CardTitle className="text-base sm:text-lg">Solution</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             Write your solution and run the tests
           </CardDescription>
         </div>
         <div className="flex items-center space-x-2">
-          <Badge variant="secondary">
+          <Badge variant="secondary" className="text-xs h-6 px-2">
             <Code className="mr-1 h-3 w-3" />
             {language === "javascript" ? "JavaScript" : "TypeScript"}
           </Badge>
