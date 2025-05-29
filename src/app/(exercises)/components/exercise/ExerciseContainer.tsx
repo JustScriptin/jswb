@@ -7,12 +7,7 @@ import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 import { ExercisePresenter } from "./ExercisePresenter";
 import type { Exercise } from "@/shared/types/exercise";
 import type { CodeEditorHandle } from "../CodeEditor.types";
-import type { ExerciseMDXContent } from "@/shared/types/services";
-
-type ExerciseContainerProps = {
-  exerciseMetadata: Omit<Exercise, "description" | "education">;
-  mdxContent: ExerciseMDXContent;
-};
+import type { ExerciseContainerProps } from "./ExerciseContainer.types";
 
 export function ExerciseContainer({
   exerciseMetadata,

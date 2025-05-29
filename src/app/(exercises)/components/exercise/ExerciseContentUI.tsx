@@ -5,26 +5,7 @@ import { cn } from "@/shared/lib/utils";
 import { ExerciseTabsMDX } from "../tabs";
 import { CodeEditorPanel } from "../editor";
 import { animations } from "@/shared/lib/animations";
-import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
-import type { CodeEditorHandle } from "../CodeEditor.types";
-import type { ExerciseMDXContent } from "@/shared/types/services";
-
-export type ExerciseContentUIProps = {
-  exerciseMetadata: Omit<Exercise, "description" | "education">;
-  mdxContent: ExerciseMDXContent;
-  isFullscreen: boolean;
-  testResults: TestResult[];
-  activeTab: string;
-  onTabChange: (tab: string) => void;
-  language: Language;
-  onLanguageChange: (lang: Language) => void;
-  onTestResults: (results: TestResult[]) => void;
-  editorRef: React.RefObject<CodeEditorHandle | null>;
-  passedTests: number;
-  totalTests: number;
-  hasRun: boolean;
-  exercise: Exercise;
-};
+import type { ExerciseContentUIProps } from "./ExerciseContentUI.types";
 
 /**
  * Presentational component for exercise content

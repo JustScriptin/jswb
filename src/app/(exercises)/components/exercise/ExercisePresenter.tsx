@@ -7,31 +7,7 @@ import { ExerciseTitle } from "./ExerciseTitle";
 import { ExerciseContentMDX } from "./ExerciseContentMDX";
 import { exerciseAnimations } from "../../helpers/animations";
 import { getCategoryObject } from "@/shared/utils/categoryAdapter";
-import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
-import type { CodeEditorHandle } from "../CodeEditor";
-import type { ExerciseMDXContent } from "@/shared/types/services";
-
-type ExercisePresenterProps = {
-  exerciseMetadata: Omit<Exercise, "description" | "education">;
-  mdxContent: ExerciseMDXContent;
-
-  isFullscreen: boolean;
-  activeTab: string;
-  testResults: TestResult[];
-  language: Language;
-
-  passedTests: number;
-  totalTests: number;
-  hasRun: boolean;
-
-  editorRef: React.RefObject<CodeEditorHandle | null>;
-
-  onToggleFullscreen: () => void;
-  onTabChange: (tab: string) => void;
-  onLanguageChange: (lang: Language) => void;
-  onTestResults: (results: TestResult[]) => void;
-  _onRunTests?: () => Promise<void>;
-};
+import type { ExercisePresenterProps } from "./ExercisePresenter.types";
 
 export function ExercisePresenter({
   exerciseMetadata,
