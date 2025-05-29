@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { ExerciseCardMDX } from "@/app/(exercises)/exercises/components/ExerciseCardMDX";
 import { EXERCISE_METADATA } from "@/shared/data/exerciseMetadata";
-import { categoryColors } from "@/app/(exercises)/_shared/constants";
+import { categoryColors as exerciseCategoryColors } from "@/app/(exercises)/_shared/constants";
 import { getCategoryObject } from "@/shared/utils/categoryAdapter";
 
 jest.mock("next-mdx-remote", () => ({
@@ -25,7 +25,16 @@ describe("ExerciseCardMDX", () => {
       difficulty: "intermediate" as const,
     };
     const categoryObj = getCategoryObject(exercise.category);
-    const colors = categoryColors[categoryObj.name];
+    const colors = {
+      ...exerciseCategoryColors[categoryObj.name],
+      hover: "",
+      active: "",
+      darkBg: "",
+      darkText: "",
+      darkBorder: "",
+      darkHover: "",
+      darkActive: "",
+    };
 
     render(<ExerciseCardMDX exercise={exercise} categoryColors={colors} />);
     expect(screen.getByText(exercise.title)).toBeInTheDocument();
@@ -42,7 +51,16 @@ describe("ExerciseCardMDX", () => {
       difficulty: "intermediate" as const,
     };
     const categoryObj = getCategoryObject(exercise.category);
-    const colors = categoryColors[categoryObj.name];
+    const colors = {
+      ...exerciseCategoryColors[categoryObj.name],
+      hover: "",
+      active: "",
+      darkBg: "",
+      darkText: "",
+      darkBorder: "",
+      darkHover: "",
+      darkActive: "",
+    };
 
     render(<ExerciseCardMDX exercise={exercise} categoryColors={colors} />);
 
@@ -66,7 +84,16 @@ describe("ExerciseCardMDX", () => {
       difficulty: "intermediate" as const,
     };
     const categoryObj = getCategoryObject(exercise.category);
-    const colors = categoryColors[categoryObj.name];
+    const colors = {
+      ...exerciseCategoryColors[categoryObj.name],
+      hover: "",
+      active: "",
+      darkBg: "",
+      darkText: "",
+      darkBorder: "",
+      darkHover: "",
+      darkActive: "",
+    };
 
     render(<ExerciseCardMDX exercise={exercise} categoryColors={colors} />);
 
