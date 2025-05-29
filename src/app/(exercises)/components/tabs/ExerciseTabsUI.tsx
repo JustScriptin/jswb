@@ -41,7 +41,7 @@ export function ExerciseTabsUI({
 }: ExerciseTabsUIProps) {
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
-      <TabsList className="w-full overflow-x-auto">
+      <TabsList className="w-full overflow-x-auto overflow-y-hidden">
         <TabsTrigger value="learn" className="flex-1 min-w-[80px] px-2 sm:px-4">
           <GraduationCap className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
           <span className="text-xs sm:text-sm">Learn</span>
