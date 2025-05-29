@@ -1,14 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
 import { ExerciseTabsMDX } from "../tabs";
 import { CodeEditorPanel } from "../editor";
 import { animations } from "@/shared/lib/animations";
 import { useMediaQuery } from "@/shared/hooks/useMediaQuery";
 import { Button } from "@/shared/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle2, XCircle } from "lucide-react";
 import type { ExerciseContentUIProps } from "./ExerciseContentUI.types";
 
 /**
@@ -32,7 +32,27 @@ export function ExerciseContentUI({
   exercise,
 }: ExerciseContentUIProps) {
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showMobileTestResult, setShowMobileTestResult] = useState(false);
+  const [lastTestRun, setLastTestRun] = useState<{
+    passed: number;
+    total: number;
+  } | null>(null);
   const isMobile = useMediaQuery("(max-width: 640px)");
+
+  useEffect(() => {
+    if (isMobile && hasRun) {
+      setLastTestRun({ passed: passedTests, total: totalTests });
+      setShowMobileTestResult(true);
+
+      const timer = setTimeout(() => {
+        setShowMobileTestResult(false);
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [isMobile, hasRun, passedTests, totalTests]);
 
   return (
     <motion.div
@@ -100,6 +120,38 @@ export function ExerciseContentUI({
                 <span className="text-sm">Instructions</span>
               </Button>
             </div>
+
+            {/* Mobile Test Result Notification */}
+            <AnimatePresence mode="wait">
+              {showMobileTestResult && lastTestRun && (
+                <motion.div
+                  variants={animations.testResult}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className={cn(
+                    "fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-lg shadow-lg",
+                    lastTestRun.passed === lastTestRun.total
+                      ? "bg-success/90 text-success-foreground"
+                      : "bg-destructive/90 text-destructive-foreground",
+                  )}
+                >
+                  {lastTestRun.passed === lastTestRun.total ? (
+                    <span className="flex items-center gap-2 text-sm font-medium">
+                      <CheckCircle2 className="h-4 w-4" />
+                      All Tests Passed ({lastTestRun.passed}/{lastTestRun.total}
+                      )
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2 text-sm font-medium">
+                      <XCircle className="h-4 w-4" />
+                      {lastTestRun.total - lastTestRun.passed} Failed (
+                      {lastTestRun.passed}/{lastTestRun.total})
+                    </span>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Editor takes full remaining height */}
             <div className="flex-1 min-h-0 overflow-hidden">

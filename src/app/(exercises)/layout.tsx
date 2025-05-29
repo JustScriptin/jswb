@@ -18,9 +18,7 @@ export default function ExercisesLayout({
       data-component="ExercisesLayout"
       className="min-h-screen bg-background"
     >
-      <main className="py-0 px-0 sm:container sm:mx-auto sm:py-8 sm:px-4">
-        {children}
-      </main>
+      <main className="container mx-auto py-8 px-4">{children}</main>
     </div>
   );
 }

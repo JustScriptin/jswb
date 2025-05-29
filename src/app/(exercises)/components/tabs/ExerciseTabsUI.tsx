@@ -10,6 +10,7 @@ import {
 import { LearnTabMDX } from "./LearnTabMDX";
 import { InstructionsTabMDX } from "./InstructionsTabMDX";
 import { TestCasesTab } from "./TestCasesTab";
+import { TestResultBadge } from "./TestResultBadge";
 import type { Exercise, TestResult } from "@/shared/types/exercise";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 
@@ -57,15 +58,15 @@ export function ExerciseTabsUI({
         </TabsTrigger>
         <TabsTrigger
           value="tests"
-          className="flex-1 px-1 sm:px-4 relative h-8 sm:h-9 text-center"
+          className="flex-1 min-w-[100px] px-2 sm:px-4 relative"
         >
           <Beaker className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-          <span className="text-xs sm:text-sm">Tests</span>
-          {hasRun && (
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">
-              {passedTests}
-            </span>
-          )}
+          <span className="text-xs sm:text-sm">Test Cases</span>
+          <TestResultBadge
+            passed={passedTests}
+            total={totalTests}
+            visible={hasRun}
+          />
         </TabsTrigger>
       </TabsList>
 
