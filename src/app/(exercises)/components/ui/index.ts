@@ -1,4 +1,4 @@
-export { ExercisePresenter } from "./ExercisePresenter";
+export { ExercisePresenter } from "../exercise/ExercisePresenter";
 export { CodeEditorUI } from "../editor/CodeEditorUI";
 export { CodeEditorPanelUI } from "../editor/CodeEditorPanelUI";
 export { ExerciseTabsUI } from "../tabs/ExerciseTabsUI";

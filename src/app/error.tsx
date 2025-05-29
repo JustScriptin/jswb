@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { logger } from "@/platform/node/logger";
+import { browserLogger as logger } from "@/platform";
 
 export default function Error({
   error,

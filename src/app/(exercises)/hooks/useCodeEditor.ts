@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { logger } from "@/platform/node/logger";
+import { browserLogger as logger } from "@/platform";
 import type { editor } from "monaco-editor";
 import type { OnMount } from "@monaco-editor/react";
 import type { Language, TestResult } from "@/shared/types/exercise";

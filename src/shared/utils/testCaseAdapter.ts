@@ -1,6 +1,6 @@
 import type { TestCase as SharedTestCase } from "@/shared/types/exercise";
 import type { TestCase as PlatformTestCase } from "@/platform/types/exercise";
-import { logger } from "@/platform/node/logger";
+import { nodeLogger as logger } from "@/platform";
 
 /**
  * Converts the new shared TestCase format to the platform TestCase format
