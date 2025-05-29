@@ -5,7 +5,7 @@ import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
 import type { CodeEditorHandle } from "../CodeEditor.types";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 
-export type { ExerciseContentContainerProps } from "./ExerciseContentContainer";
+export type { ExerciseContentContainerProps } from "./ExerciseContentContainer.types";
 
 type ExerciseContentMDXProps = {
   exerciseMetadata: Omit<Exercise, "description" | "education">;

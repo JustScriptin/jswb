@@ -10,5 +10,5 @@ export { ExercisePresenter } from "./ExercisePresenter";
 export { ShortcutsDialog } from "./ShortcutsDialog";
 export { ShortcutItem } from "./ShortcutItem";
 
-export type { ExerciseContentContainerProps } from "./ExerciseContentContainer";
+export type { ExerciseContentContainerProps } from "./ExerciseContentContainer.types";
 export type { ExerciseHeaderContainerProps } from "./ExerciseHeaderContainer";

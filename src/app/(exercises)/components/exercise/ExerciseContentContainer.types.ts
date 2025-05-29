@@ -1,7 +1,7 @@
 /**
  * Type definitions for ExerciseContentContainer component
  */
-import type { TestResult, Language } from "@/shared/types/exercise";
+import type { TestResult, Language, Exercise } from "@/shared/types/exercise";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 import type { CodeEditorHandle } from "../CodeEditor.types";
 
@@ -9,23 +9,7 @@ import type { CodeEditorHandle } from "../CodeEditor.types";
  * Props for the ExerciseContentContainer component
  */
 export type ExerciseContentContainerProps = {
-  exerciseMetadata: {
-    id: string;
-    slug: string;
-    title: string;
-    category: string;
-    difficulty: string;
-    tags: string[];
-    starterCode: string;
-    testCases: {
-      id: string;
-      name: string;
-      input: string[];
-      expected: string;
-      message: string;
-      testCode: string;
-    }[];
-  };
+  exerciseMetadata: Omit<Exercise, "description" | "education">;
   mdxContent: ExerciseMDXContent;
   isFullscreen: boolean;
   testResults: TestResult[];

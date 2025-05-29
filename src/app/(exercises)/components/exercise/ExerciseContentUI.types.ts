@@ -9,23 +9,7 @@ import type { CodeEditorHandle } from "../CodeEditor.types";
  * Props for the ExerciseContentUI component
  */
 export type ExerciseContentUIProps = {
-  exerciseMetadata: {
-    id: string;
-    slug: string;
-    title: string;
-    category: string;
-    difficulty: string;
-    tags: string[];
-    starterCode: string;
-    testCases: {
-      id: string;
-      name: string;
-      input: string[];
-      expected: string;
-      message: string;
-      testCode: string;
-    }[];
-  };
+  exerciseMetadata: Omit<Exercise, "description" | "education">;
   mdxContent: ExerciseMDXContent;
   isFullscreen: boolean;
   testResults: TestResult[];
