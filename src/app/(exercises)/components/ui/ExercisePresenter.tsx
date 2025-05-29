@@ -2,13 +2,11 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/shared/lib/utils";
-import { ExerciseHeader } from "../exercise/ExerciseHeader";
-import { ExerciseTitle } from "../exercise/ExerciseTitle";
-import { ExerciseContentMDX } from "../exercise/ExerciseContentMDX";
+import { ExerciseHeader, ExerciseTitle, ExerciseContentMDX } from "../exercise";
 import { exerciseAnimations } from "../../helpers/animations";
 import { getCategoryObject } from "@/shared/utils/categoryAdapter";
 import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
-import type { CodeEditorHandle } from "../CodeEditor";
+import type { CodeEditorHandle } from "../CodeEditor.types";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 
 type ExercisePresenterProps = {

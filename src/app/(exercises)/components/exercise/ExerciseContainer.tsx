@@ -6,7 +6,7 @@ import { useTestRunnerV2 } from "../../hooks/useTestRunnerV2";
 import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 import { ExercisePresenter } from "./ExercisePresenter";
 import type { Exercise } from "@/shared/types/exercise";
-import type { CodeEditorHandle } from "../CodeEditor";
+import type { CodeEditorHandle } from "../CodeEditor.types";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 
 type ExerciseContainerProps = {
