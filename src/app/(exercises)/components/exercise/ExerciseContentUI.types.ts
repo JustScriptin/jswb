@@ -1,13 +1,14 @@
-"use client";
-
-import { ExerciseContentContainer } from "./ExerciseContentContainer";
+/**
+ * Type definitions for ExerciseContentUI component
+ */
 import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
-import type { CodeEditorHandle } from "../CodeEditor.types";
 import type { ExerciseMDXContent } from "@/shared/types/services";
+import type { CodeEditorHandle } from "../CodeEditor.types";
 
-export type { ExerciseContentContainerProps } from "./ExerciseContentContainer.types";
-
-type ExerciseContentMDXProps = {
+/**
+ * Props for the ExerciseContentUI component
+ */
+export type ExerciseContentUIProps = {
   exerciseMetadata: Omit<Exercise, "description" | "education">;
   mdxContent: ExerciseMDXContent;
   isFullscreen: boolean;
@@ -21,14 +22,5 @@ type ExerciseContentMDXProps = {
   passedTests: number;
   totalTests: number;
   hasRun: boolean;
+  exercise: Exercise;
 };
-
-/**
- * Exercise content component
- * Delegates to the container component for state management and business logic
- */
-export function ExerciseContentMDX(props: ExerciseContentMDXProps) {
-  return <ExerciseContentContainer {...props} />;
-}
-
-ExerciseContentMDX.displayName = "ExerciseContentMDX";
