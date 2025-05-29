@@ -1,5 +1,7 @@
 export { ExerciseHeader } from "./ExerciseHeader";
 export { ExerciseTitle } from "./ExerciseTitle";
 export { ExerciseContentMDX } from "./ExerciseContentMDX";
+export { ExerciseContainer } from "./ExerciseContainer";
+export { ExercisePresenter } from "./ExercisePresenter";
 export { ShortcutsDialog } from "./ShortcutsDialog";
 export { ShortcutItem } from "./ShortcutItem";
