@@ -1,5 +1,6 @@
 import type { MDXComponents as MDXComponentsType } from "mdx/types";
 import Image from "next/image";
+import { cva } from "class-variance-authority";
 import styles from "@/shared/styles/markdown.module.css";
 
 // CodeBlock component for syntax highlighting
@@ -24,46 +25,78 @@ function CodeBlock({
   );
 }
 
+// Define typography variants with CVA
+const headingVariants = cva("scroll-m-20 tracking-tight", {
+  variants: {
+    level: {
+      h1: "text-4xl font-extrabold lg:text-5xl",
+      h2: "text-3xl font-semibold border-b pb-2 first:mt-0",
+      h3: "text-2xl font-semibold",
+      h4: "text-xl font-semibold",
+    },
+  },
+  defaultVariants: {
+    level: "h1",
+  },
+});
+
+const textVariants = cva("", {
+  variants: {
+    variant: {
+      paragraph: "leading-7 [&:not(:first-child)]:mt-6",
+      link: "font-medium underline underline-offset-4 hover:text-primary",
+      blockquote: "mt-6 border-l-2 border-primary pl-6 italic",
+    },
+  },
+  defaultVariants: {
+    variant: "paragraph",
+  },
+});
+
+const listVariants = cva("my-6 ml-6 [&>li]:mt-2", {
+  variants: {
+    variant: {
+      unordered: "list-disc",
+      ordered: "list-decimal",
+    },
+  },
+  defaultVariants: {
+    variant: "unordered",
+  },
+});
+
 // Define MDX components
 export const MDXComponents: MDXComponentsType = {
   // Headings
   h1: ({ children }) => (
-    <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-      {children}
-    </h1>
+    <h1 className={headingVariants({ level: "h1" })}>{children}</h1>
   ),
   h2: ({ children }) => (
-    <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-      {children}
-    </h2>
+    <h2 className={headingVariants({ level: "h2" })}>{children}</h2>
   ),
   h3: ({ children }) => (
-    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-      {children}
-    </h3>
+    <h3 className={headingVariants({ level: "h3" })}>{children}</h3>
   ),
   h4: ({ children }) => (
-    <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-      {children}
-    </h4>
+    <h4 className={headingVariants({ level: "h4" })}>{children}</h4>
   ),
   p: ({ children }) => (
-    <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>
+    <p className={textVariants({ variant: "paragraph" })}>{children}</p>
   ),
 
   // Lists
   ul: ({ children }) => (
-    <ul className="my-6 ml-6 list-disc [&>li]:mt-2">{children}</ul>
+    <ul className={listVariants({ variant: "unordered" })}>{children}</ul>
   ),
   ol: ({ children }) => (
-    <ol className="my-6 ml-6 list-decimal [&>li]:mt-2">{children}</ol>
+    <ol className={listVariants({ variant: "ordered" })}>{children}</ol>
   ),
 
   // Links
   a: ({ children, href }) => (
     <a
       href={href}
-      className="font-medium underline underline-offset-4 hover:text-primary"
+      className={textVariants({ variant: "link" })}
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -73,7 +106,7 @@ export const MDXComponents: MDXComponentsType = {
 
   // Blockquote
   blockquote: ({ children }) => (
-    <blockquote className="mt-6 border-l-2 border-primary pl-6 italic">
+    <blockquote className={textVariants({ variant: "blockquote" })}>
       {children}
     </blockquote>
   ),
