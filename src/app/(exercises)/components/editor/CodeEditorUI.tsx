@@ -19,7 +19,7 @@ import type { editor } from "monaco-editor";
 import type { Language } from "@/shared/types/exercise";
 
 export type CodeEditorUIProps = {
-  className?: string;
+  className: string | undefined;
   language: Language;
   defaultValue: string;
   isSubmitting: boolean;
