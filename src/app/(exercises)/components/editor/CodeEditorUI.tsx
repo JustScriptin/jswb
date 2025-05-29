@@ -75,12 +75,26 @@ export const CodeEditorUI = forwardRef<HTMLDivElement, CodeEditorUIProps>(
             controlsVisible
               ? "max-h-[200px] opacity-100"
               : "max-h-0 opacity-0 overflow-hidden",
-            "p-2 sm:p-3 md:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3",
+            isMobile
+              ? "p-2 flex flex-row items-center justify-between gap-2"
+              : "p-2 sm:p-3 md:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3",
           )}
         >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-2 sm:gap-3">
+          <div
+            className={cn(
+              "flex items-center justify-between w-full gap-2",
+              isMobile
+                ? "flex-row"
+                : "flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3",
+            )}
+          >
             <Select value={language} onValueChange={onLanguageChange}>
-              <SelectTrigger className="w-full sm:w-[150px] text-sm h-9">
+              <SelectTrigger
+                className={cn(
+                  "text-sm h-8",
+                  isMobile ? "w-[120px]" : "w-full sm:w-[150px]",
+                )}
+              >
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
               <SelectContent>
@@ -94,7 +108,12 @@ export const CodeEditorUI = forwardRef<HTMLDivElement, CodeEditorUIProps>(
             <Button
               onClick={onRunTests}
               disabled={isSubmitting}
-              className="w-full sm:w-auto min-w-[100px] h-9 text-sm"
+              className={cn(
+                "text-sm",
+                isMobile
+                  ? "h-8 min-w-[80px]"
+                  : "w-full sm:w-auto min-w-[100px] h-9",
+              )}
               size="sm"
             >
               {isSubmitting ? "Running..." : "Run Tests"}
@@ -115,15 +134,15 @@ export const CodeEditorUI = forwardRef<HTMLDivElement, CodeEditorUIProps>(
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-1 right-1 z-10 h-6 w-6 rounded-full bg-background/80 backdrop-blur-sm shadow-sm"
+            className="absolute top-2 right-2 z-10 h-8 w-8 rounded-full bg-background/90 backdrop-blur-sm shadow-md"
             onClick={() => {
               setControlsVisible(!controlsVisible);
             }}
           >
             {controlsVisible ? (
-              <ChevronUp className="h-4 w-4" />
+              <ChevronUp className="h-5 w-5" />
             ) : (
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className="h-5 w-5" />
             )}
           </Button>
         )}
@@ -158,12 +177,12 @@ export const CodeEditorUI = forwardRef<HTMLDivElement, CodeEditorUIProps>(
               onClick={onRunTests}
               disabled={isSubmitting}
               size="icon"
-              className="absolute bottom-4 right-4 z-10 h-12 w-12 rounded-full shadow-lg"
+              className="absolute bottom-6 right-6 z-10 h-14 w-14 rounded-full shadow-xl bg-primary hover:bg-primary-highlight"
             >
-              <Play className="h-5 w-5" />
+              <Play className="h-6 w-6" />
               {isSubmitting && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-background border-t-transparent" />
+                  <div className="h-6 w-6 animate-spin rounded-full border-2 border-background border-t-transparent" />
                 </div>
               )}
             </Button>
