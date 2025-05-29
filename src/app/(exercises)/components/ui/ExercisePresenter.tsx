@@ -30,7 +30,7 @@ type ExercisePresenterProps = {
   onTabChange: (tab: string) => void;
   onLanguageChange: (lang: Language) => void;
   onTestResults: (results: TestResult[]) => void;
-  onRunTests: () => Promise<void>;
+  onRunTests?: () => Promise<void>;
 };
 
 export function ExercisePresenter({
