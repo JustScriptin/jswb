@@ -28,6 +28,7 @@ export function MobileEditorViewUI({
   exercise,
   showInstructions,
   lastTestRun,
+  isInCodeView,
   onShowInstructions,
   onHideInstructions,
   onTestFeedbackClick,
@@ -43,9 +44,12 @@ export function MobileEditorViewUI({
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-lg font-semibold">Instructions</h2>
+            <h2 className="text-lg font-semibold">
+              {isInCodeView ? "Exercise" : "My Code"}
+            </h2>
             <Button variant="ghost" size="icon" onClick={onHideInstructions}>
               <ChevronLeft className="h-4 w-4" />
+              <span className="sr-only">Back to code editor</span>
             </Button>
           </div>
           <div className="flex-1 overflow-y-auto p-4">
@@ -70,12 +74,12 @@ export function MobileEditorViewUI({
           <div className="flex items-center gap-2">
             <Link href="/exercises">
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 border-muted-foreground/30 hover:bg-muted/80"
               >
                 <ChevronLeft className="h-4 w-4" />
-                <span className="text-xs">Back</span>
+                <span className="text-xs font-medium">Exercises List</span>
               </Button>
             </Link>
 
@@ -86,7 +90,9 @@ export function MobileEditorViewUI({
               className="flex items-center gap-1"
             >
               <ChevronRight className="h-4 w-4" />
-              <span className="text-xs">Instructions</span>
+              <span className="text-xs">
+                {isInCodeView ? "Exercise" : "My Code"}
+              </span>
             </Button>
           </div>
 
