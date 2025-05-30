@@ -36,9 +36,7 @@ export function TestCasesTabDisplay({
 
         <div className="space-y-3">
           {testCases.map((testCase, index) => {
-            const testResult = testResults.find(
-              (result) => result.id === testCase.id,
-            );
+            const testResult = testResults[index];
 
             return (
               <TestCaseAccordionDisplay

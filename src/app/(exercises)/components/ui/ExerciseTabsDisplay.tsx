@@ -70,7 +70,7 @@ export function ExerciseTabsDisplay({
       <TabsContent value="learn">
         <LearnTabContent
           educationContent={mdxContent.educationContent}
-          concept={mdxContent.educationConcept}
+          _concept={mdxContent.educationConcept}
         />
       </TabsContent>
 

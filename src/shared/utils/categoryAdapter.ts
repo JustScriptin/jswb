@@ -14,8 +14,10 @@ export function getCategoryObject(category: CategoryName) {
     async: "async patterns",
   };
 
+  // Return a proper CategoryObject with name, label and color properties
   return {
     name: category,
-    method: methodMap[category] || category,
+    label: methodMap[category] || category,
+    color: category, // Color will be determined by the component based on category name
   };
 }

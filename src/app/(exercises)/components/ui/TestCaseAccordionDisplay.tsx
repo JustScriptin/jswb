@@ -7,7 +7,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/shared/components/ui/tabs";
+} from "@/shared/components/ui/accordion";
 import { cn } from "@/shared/lib/utils";
 import type { TestCase, TestResult } from "@/shared/types/exercise";
 
@@ -31,7 +31,7 @@ export function TestCaseAccordionDisplay({
       type="single"
       collapsible
       value={isOpen ? `item-${index}` : ""}
-      onValueChange={(value) => {
+      onValueChange={(value: string) => {
         setIsOpen(value === `item-${index}`);
       }}
       className="border rounded-md overflow-hidden"

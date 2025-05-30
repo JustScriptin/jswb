@@ -9,7 +9,7 @@ import {
   CardContent,
 } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
-import { CodeEditor, type CodeEditorHandle } from "../CodeEditor";
+import { CodeEditor } from "../CodeEditor";
 import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
 import { cn } from "@/shared/lib/utils";
 
@@ -17,31 +17,15 @@ export type CodeEditorPanelDisplayProps = {
   className?: string;
   exercise: Exercise;
   language: Language;
-  defaultValue: string;
-  testResults: TestResult[];
-  isSubmitting: boolean;
-  error: string | null;
-  onLanguageChange: (language: string) => void;
+  onLanguageChange: (language: Language) => void;
   onTestResults: (results: TestResult[]) => void;
-  editorRef?: React.RefObject<CodeEditorHandle>;
 };
 
 export const CodeEditorPanelDisplay = forwardRef<
   HTMLDivElement,
   CodeEditorPanelDisplayProps
 >(function CodeEditorPanelDisplay(
-  {
-    className,
-    exercise,
-    language,
-    defaultValue,
-    testResults,
-    isSubmitting,
-    error,
-    onLanguageChange,
-    onTestResults,
-    editorRef,
-  },
+  { className, exercise, language, onLanguageChange, onTestResults },
   ref,
 ) {
   return (
@@ -63,14 +47,10 @@ export const CodeEditorPanelDisplay = forwardRef<
       </CardHeader>
       <CardContent className="p-0 flex-grow overflow-hidden">
         <CodeEditor
+          exercise={exercise}
           language={language}
-          defaultValue={defaultValue}
-          testResults={testResults}
-          isSubmitting={isSubmitting}
-          error={error}
           onLanguageChange={onLanguageChange}
           onTestResults={onTestResults}
-          ref={editorRef}
         />
       </CardContent>
     </Card>
