@@ -19,7 +19,7 @@ export type MobileEditorViewDisplayProps = {
   language: Language;
   onLanguageChange: (lang: Language) => void;
   onTestResults: (results: TestResult[]) => void;
-  editorRef: React.RefObject<CodeEditorHandle>;
+  _editorRef: React.RefObject<CodeEditorHandle>;
   passedTests: number;
   totalTests: number;
   hasRun: boolean;
@@ -46,7 +46,7 @@ export function MobileEditorViewDisplay({
   language,
   onLanguageChange,
   onTestResults,
-  editorRef,
+  _editorRef,
   passedTests,
   totalTests,
   hasRun,
@@ -147,9 +147,8 @@ export function MobileEditorViewDisplay({
         {/* Editor takes full remaining height */}
         <div className="flex-1 min-h-0 overflow-hidden">
           <CodeEditorPanelDisplay
-            ref={editorRef}
             slug={exerciseMetadata.slug}
-            defaultValue={exerciseMetadata.starterCode}
+            defaultValue={exerciseMetadata.starterCode ?? ""}
             testCasesCount={exerciseMetadata.testCases.length}
             language={language}
             onLanguageChange={onLanguageChange}

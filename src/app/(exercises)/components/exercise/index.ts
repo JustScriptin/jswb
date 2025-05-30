@@ -7,7 +7,7 @@ export { ExercisePresenter } from "./ExercisePresenter";
 export { ShortcutsDialog } from "./ShortcutsDialog";
 export { ShortcutItem } from "./ShortcutItem";
 export { MobileEditorView } from "./MobileEditorView";
-export { MobileEditorViewContainer } from "./MobileEditorViewContainer";
+// MobileEditorViewContainer has been removed in the refactoring
 
 export type { ExerciseContentContainerProps } from "./ExerciseContentContainer.types";
 export type { ExerciseHeaderContainerProps } from "./ExerciseHeaderContainer";

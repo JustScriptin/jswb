@@ -16,7 +16,7 @@ import { cn } from "@/shared/lib/utils";
 export type CodeEditorPanelDisplayProps = {
   className?: string;
   slug: string;
-  defaultValue?: string;
+  defaultValue: string;
   testCasesCount: number;
   language: Language;
   onLanguageChange: (language: Language) => void;

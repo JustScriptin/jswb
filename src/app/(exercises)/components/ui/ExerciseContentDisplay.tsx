@@ -21,7 +21,7 @@ export type ExerciseContentDisplayProps = {
   hasRun: boolean;
   editorRef: React.RefObject<CodeEditorHandle>;
   onTabChange: (tab: string) => void;
-  onLanguageChange: (language: string) => void;
+  onLanguageChange: (language: Language) => void;
   onTestResults: (results: TestResult[]) => void;
 };
 
