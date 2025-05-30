@@ -64,7 +64,7 @@ export default function ExercisesPage(): ReactElement {
       getCategoryObject(exercise.category).name === selectedCategory;
     const matchesMethod =
       selectedMethod === "all" ||
-      getCategoryObject(exercise.category).method === selectedMethod;
+      getCategoryObject(exercise.category).label === selectedMethod;
     return matchesSearch && matchesCategory && matchesMethod;
   });
 
