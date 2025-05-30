@@ -38,7 +38,6 @@ export function MobileEditorView(props: MobileEditorViewContainerProps) {
   return (
     <MobileEditorViewDisplay
       {...props}
-      _editorRef={props.editorRef}
       showInstructions={showInstructions}
       lastTestRun={lastTestRun}
       onShowInstructions={handleShowInstructions}

@@ -8,7 +8,6 @@ import { Button } from "@/shared/components/ui/button";
 import { ChevronLeft, ChevronRight, CheckCircle2, XCircle } from "lucide-react";
 import type { TestResult, Language, Exercise } from "@/shared/types/exercise";
 import type { ExerciseMDXContent } from "@/shared/types/services";
-import type { CodeEditorHandle } from "../CodeEditor.types";
 
 export type MobileEditorViewDisplayProps = {
   exerciseMetadata: Exercise;
@@ -19,7 +18,6 @@ export type MobileEditorViewDisplayProps = {
   language: Language;
   onLanguageChange: (lang: Language) => void;
   onTestResults: (results: TestResult[]) => void;
-  _editorRef: React.RefObject<CodeEditorHandle>;
   passedTests: number;
   totalTests: number;
   hasRun: boolean;
@@ -46,7 +44,6 @@ export function MobileEditorViewDisplay({
   language,
   onLanguageChange,
   onTestResults,
-  _editorRef,
   passedTests,
   totalTests,
   hasRun,
@@ -148,7 +145,7 @@ export function MobileEditorViewDisplay({
         <div className="flex-1 min-h-0 overflow-hidden">
           <CodeEditorPanelDisplay
             slug={exerciseMetadata.slug}
-            defaultValue={exerciseMetadata.starterCode ?? ""}
+            defaultValue={mdxContent.starterCode}
             testCasesCount={exerciseMetadata.testCases.length}
             _language={language}
             onLanguageChange={onLanguageChange}

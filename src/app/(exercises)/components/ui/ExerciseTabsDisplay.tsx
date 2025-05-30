@@ -9,7 +9,7 @@ import {
 } from "@/shared/components/ui/tabs";
 import { LearnTabContent } from "./LearnTabContent";
 import { InstructionsTabContent } from "./InstructionsTabContent";
-import { TestCasesTab } from "../tabs/TestCasesTab";
+import { TestCasesTabDisplay } from "./TestCasesTabDisplay";
 import { TestResultBadge } from "./TestResultBadge";
 import type { Exercise, TestResult } from "@/shared/types/exercise";
 import type { ExerciseMDXContent } from "@/shared/types/services";
@@ -81,7 +81,7 @@ export function ExerciseTabsDisplay({
       </TabsContent>
 
       <TabsContent value="tests">
-        <TestCasesTab
+        <TestCasesTabDisplay
           testCases={exerciseMetadata.testCases}
           testResults={testResults}
           passedTests={passedTests}
