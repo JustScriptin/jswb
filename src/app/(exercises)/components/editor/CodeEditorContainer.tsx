@@ -2,7 +2,7 @@
 
 import { forwardRef, useImperativeHandle } from "react";
 import { useCodeEditor } from "../../hooks/useCodeEditor";
-import { CodeEditorUI } from "./CodeEditorUI";
+import { CodeEditorDisplay } from "../ui/CodeEditorDisplay";
 import {
   DEFAULT_LANGUAGE,
   DEFAULT_CODE_TEMPLATE,
@@ -84,7 +84,7 @@ export const CodeEditorContainer = forwardRef<
   );
 
   return (
-    <CodeEditorUI
+    <CodeEditorDisplay
       className={className}
       language={language}
       defaultValue={defaultValue}

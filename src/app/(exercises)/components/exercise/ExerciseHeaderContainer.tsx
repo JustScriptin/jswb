@@ -1,6 +1,6 @@
 "use client";
 
-import { ExerciseHeaderUI } from "./ExerciseHeaderUI";
+import { ExerciseHeaderDisplay } from "../ui/ExerciseHeaderDisplay";
 
 export type ExerciseHeaderContainerProps = {
   isFullscreen: boolean;
@@ -16,7 +16,7 @@ export function ExerciseHeaderContainer({
   onToggleFullscreen,
 }: ExerciseHeaderContainerProps) {
   return (
-    <ExerciseHeaderUI
+    <ExerciseHeaderDisplay
       isFullscreen={isFullscreen}
       onToggleFullscreen={onToggleFullscreen}
     />

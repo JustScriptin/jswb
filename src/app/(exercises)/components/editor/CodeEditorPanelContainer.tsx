@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
-import { CodeEditorPanelUI } from "./CodeEditorPanelUI";
+import { CodeEditorPanelDisplay } from "../ui/CodeEditorPanelDisplay";
 import type { CodeEditorHandle } from "../CodeEditor";
 import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
 
@@ -24,7 +24,7 @@ export const CodeEditorPanelContainer = forwardRef<
   ref,
 ) {
   return (
-    <CodeEditorPanelUI
+    <CodeEditorPanelDisplay
       ref={ref}
       exercise={exercise}
       language={language}
