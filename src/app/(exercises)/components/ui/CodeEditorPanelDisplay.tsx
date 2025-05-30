@@ -18,7 +18,7 @@ export type CodeEditorPanelDisplayProps = {
   slug: string;
   defaultValue: string;
   testCasesCount: number;
-  language: Language;
+  _language: Language; // Renamed to match parameter name
   onLanguageChange: (language: Language) => void;
   onTestResults: (results: TestResult[]) => void;
 };
@@ -32,7 +32,7 @@ export const CodeEditorPanelDisplay = forwardRef<
     slug,
     defaultValue,
     testCasesCount,
-    language,
+    _language, // Prefix with underscore to indicate intentionally unused
     onLanguageChange,
     onTestResults,
   },
@@ -59,7 +59,6 @@ export const CodeEditorPanelDisplay = forwardRef<
         <CodeEditor
           slug={slug}
           defaultValue={defaultValue}
-          language={language}
           onLanguageChange={onLanguageChange}
           onTestResults={onTestResults}
         />

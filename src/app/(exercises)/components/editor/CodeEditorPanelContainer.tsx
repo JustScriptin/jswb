@@ -26,7 +26,7 @@ export const CodeEditorPanelContainer = forwardRef<
     <CodeEditorPanelDisplay
       ref={ref}
       slug={exercise.slug}
-      defaultValue={exercise.starterCode}
+      defaultValue={exercise.starterCode ?? ""}
       testCasesCount={exercise.testCases.length}
       language={language}
       onLanguageChange={onLanguageChange}
