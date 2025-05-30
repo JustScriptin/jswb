@@ -7,25 +7,31 @@ export * from "../exercises/components/StatsCard";
 export type { CodeEditorHandle } from "./CodeEditor.types";
 
 export { CodeEditorContainer } from "./editor/CodeEditorContainer";
-export { CodeEditorUI } from "./editor/CodeEditorUI";
 export { CodeEditorPanelContainer } from "./editor/CodeEditorPanelContainer";
-export { CodeEditorPanelUI } from "./editor/CodeEditorPanelUI";
+export { CodeEditorPanel } from "./editor/CodeEditorPanel";
 
 export { ExerciseHeaderContainer } from "./exercise/ExerciseHeaderContainer";
-export { ExerciseHeaderUI } from "./exercise/ExerciseHeaderUI";
 export { ExerciseContentContainer } from "./exercise/ExerciseContentContainer";
-export { ExerciseContentUI } from "./exercise/ExerciseContentUI";
-export { ExerciseTitle } from "./exercise/ExerciseTitle";
+export { MobileEditorView } from "./exercise/MobileEditorView";
 
 export { ExerciseTabsContainer } from "./tabs/ExerciseTabsContainer";
-export { ExerciseTabsUI } from "./tabs/ExerciseTabsUI";
 export { TestCasesTabContainer } from "./tabs/TestCasesTabContainer";
-export { TestCasesTabUI } from "./tabs/TestCasesTabUI";
 export { TestCaseAccordionContainer } from "./tabs/TestCaseAccordionContainer";
-export { TestCaseAccordionUI } from "./tabs/TestCaseAccordionUI";
-export { LearnTabMDX } from "./tabs/LearnTabMDX";
-export { InstructionsTabMDX } from "./tabs/InstructionsTabMDX";
-export { TestResultBadge } from "./tabs/TestResultBadge";
+export { TestCasesTab } from "./tabs/TestCasesTab";
+export { TestCaseAccordion } from "./tabs/TestCaseAccordion";
+
+export { CodeEditorDisplay } from "./ui/CodeEditorDisplay";
+export { CodeEditorPanelDisplay } from "./ui/CodeEditorPanelDisplay";
+export { ExerciseHeaderDisplay } from "./ui/ExerciseHeaderDisplay";
+export { ExerciseContentDisplay } from "./ui/ExerciseContentDisplay";
+export { ExerciseTabsDisplay } from "./ui/ExerciseTabsDisplay";
+export { TestCasesTabDisplay } from "./ui/TestCasesTabDisplay";
+export { TestCaseAccordionDisplay } from "./ui/TestCaseAccordionDisplay";
+export { LearnTabContent } from "./ui/LearnTabContent";
+export { InstructionsTabContent } from "./ui/InstructionsTabContent";
+export { TestResultBadge } from "./ui/TestResultBadge";
+export { ExerciseTitle } from "./ui/ExerciseTitle";
+export { MobileEditorViewDisplay } from "./ui/MobileEditorViewDisplay";
 
 export { ExerciseContainer } from "./containers/ExerciseContainer";
 export { ExercisePresenter } from "./exercise/ExercisePresenter";

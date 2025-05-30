@@ -2,17 +2,42 @@
 
 import Link from "next/link";
 import { cn } from "@/shared/lib/utils";
-import { ExerciseTabsMDX } from "../tabs";
-import { CodeEditorPanel } from "../editor";
+import { ExerciseTabsDisplay } from "./ExerciseTabsDisplay";
+import { CodeEditorPanelDisplay } from "./CodeEditorPanelDisplay";
 import { Button } from "@/shared/components/ui/button";
 import { ChevronLeft, ChevronRight, CheckCircle2, XCircle } from "lucide-react";
-import type { MobileEditorViewUIProps } from "./MobileEditorView.types";
+import type { TestResult, Language, Exercise } from "@/shared/types/exercise";
+import type { ExerciseMDXContent } from "@/shared/types/services";
+import type { CodeEditorHandle } from "../CodeEditor.types";
+
+export type MobileEditorViewDisplayProps = {
+  exerciseMetadata: Exercise;
+  mdxContent: ExerciseMDXContent;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  testResults: TestResult[];
+  language: Language;
+  onLanguageChange: (lang: Language) => void;
+  onTestResults: (results: TestResult[]) => void;
+  editorRef: React.RefObject<CodeEditorHandle>;
+  passedTests: number;
+  totalTests: number;
+  hasRun: boolean;
+  showInstructions: boolean;
+  lastTestRun: {
+    passed: number;
+    total: number;
+  } | null;
+  onShowInstructions: () => void;
+  onHideInstructions: () => void;
+  onTestFeedbackClick: () => void;
+};
 
 /**
- * Presentational component for mobile editor view
+ * Mobile editor view display component
  * Renders a full-screen editor with slide-in instructions panel
  */
-export function MobileEditorViewUI({
+export function MobileEditorViewDisplay({
   exerciseMetadata,
   mdxContent,
   activeTab,
@@ -25,14 +50,12 @@ export function MobileEditorViewUI({
   passedTests,
   totalTests,
   hasRun,
-  exercise,
   showInstructions,
   lastTestRun,
-
   onShowInstructions,
   onHideInstructions,
   onTestFeedbackClick,
-}: MobileEditorViewUIProps) {
+}: MobileEditorViewDisplayProps) {
   return (
     <>
       {/* Instructions Panel - slides in from left on mobile */}
@@ -41,6 +64,7 @@ export function MobileEditorViewUI({
           "fixed inset-0 z-50 bg-background transition-transform duration-300 ease-in-out",
           showInstructions ? "translate-x-0" : "-translate-x-full",
         )}
+        data-component="MobileEditorViewDisplay-Instructions"
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center p-4 border-b">
@@ -63,7 +87,7 @@ export function MobileEditorViewUI({
             </Button>
           </div>
           <div className="flex-1 overflow-y-auto p-4">
-            <ExerciseTabsMDX
+            <ExerciseTabsDisplay
               exerciseMetadata={exerciseMetadata}
               mdxContent={mdxContent}
               activeTab={activeTab}
@@ -78,7 +102,10 @@ export function MobileEditorViewUI({
       </div>
 
       {/* Editor Panel - full screen on mobile */}
-      <div className="flex flex-col h-[100vh] w-full fixed inset-0 top-0 left-0 z-40 bg-background">
+      <div
+        className="flex flex-col h-[100vh] w-full fixed inset-0 top-0 left-0 z-40 bg-background"
+        data-component="MobileEditorViewDisplay-Editor"
+      >
         {/* Mobile Header with Navigation */}
         <div className="flex items-center justify-between p-3 border-b bg-background/95 backdrop-blur-sm">
           <div
@@ -119,9 +146,11 @@ export function MobileEditorViewUI({
 
         {/* Editor takes full remaining height */}
         <div className="flex-1 min-h-0 overflow-hidden">
-          <CodeEditorPanel
+          <CodeEditorPanelDisplay
             ref={editorRef}
-            exercise={exercise}
+            slug={exerciseMetadata.slug}
+            defaultValue={exerciseMetadata.starterCode}
+            testCasesCount={exerciseMetadata.testCases.length}
             language={language}
             onLanguageChange={onLanguageChange}
             onTestResults={onTestResults}
@@ -132,4 +161,4 @@ export function MobileEditorViewUI({
   );
 }
 
-MobileEditorViewUI.displayName = "MobileEditorViewUI";
+MobileEditorViewDisplay.displayName = "MobileEditorViewDisplay";

@@ -8,3 +8,4 @@ export { ExerciseTitle } from "./ExerciseTitle";
 export { TestResultBadge } from "./TestResultBadge";
 export { LearnTabContent } from "./LearnTabContent";
 export { InstructionsTabContent } from "./InstructionsTabContent";
+export { MobileEditorViewDisplay } from "./MobileEditorViewDisplay";
