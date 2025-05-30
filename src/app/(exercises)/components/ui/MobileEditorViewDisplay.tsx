@@ -150,7 +150,7 @@ export function MobileEditorViewDisplay({
             slug={exerciseMetadata.slug}
             defaultValue={exerciseMetadata.starterCode ?? ""}
             testCasesCount={exerciseMetadata.testCases.length}
-            language={language}
+            _language={language}
             onLanguageChange={onLanguageChange}
             onTestResults={onTestResults}
           />

@@ -21,7 +21,7 @@ export type ExercisePresenterProps = {
   totalTests: number;
   hasRun: boolean;
 
-  editorRef: React.RefObject<CodeEditorHandle | null>;
+  editorRef: React.RefObject<CodeEditorHandle>;
 
   onToggleFullscreen: () => void;
   onTabChange: (tab: string) => void;

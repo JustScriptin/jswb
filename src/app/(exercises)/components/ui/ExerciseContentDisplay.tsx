@@ -87,7 +87,7 @@ export function ExerciseContentDisplay({
           slug={exerciseMetadata.slug}
           defaultValue={mdxContent.starterCode}
           testCasesCount={exerciseMetadata.testCases.length}
-          language={language}
+          _language={language}
           onLanguageChange={onLanguageChange}
           onTestResults={onTestResults}
         />
