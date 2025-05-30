@@ -10,12 +10,14 @@ import {
 } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { CodeEditor } from "../CodeEditor";
-import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
+import type { TestResult, Language } from "@/shared/types/exercise";
 import { cn } from "@/shared/lib/utils";
 
 export type CodeEditorPanelDisplayProps = {
   className?: string;
-  exercise: Exercise;
+  slug: string;
+  defaultValue?: string;
+  testCasesCount: number;
   language: Language;
   onLanguageChange: (language: Language) => void;
   onTestResults: (results: TestResult[]) => void;
@@ -25,7 +27,15 @@ export const CodeEditorPanelDisplay = forwardRef<
   HTMLDivElement,
   CodeEditorPanelDisplayProps
 >(function CodeEditorPanelDisplay(
-  { className, exercise, language, onLanguageChange, onTestResults },
+  {
+    className,
+    slug,
+    defaultValue,
+    testCasesCount,
+    language,
+    onLanguageChange,
+    onTestResults,
+  },
   ref,
 ) {
   return (
@@ -38,7 +48,7 @@ export const CodeEditorPanelDisplay = forwardRef<
         <div className="flex items-center justify-between">
           <CardTitle className="text-base sm:text-lg">Code Editor</CardTitle>
           <Badge variant="outline" className="text-xs font-normal">
-            {exercise.testCases.length} Tests
+            {testCasesCount} Tests
           </Badge>
         </div>
         <CardDescription className="text-xs sm:text-sm">
@@ -47,7 +57,8 @@ export const CodeEditorPanelDisplay = forwardRef<
       </CardHeader>
       <CardContent className="p-0 flex-grow overflow-hidden">
         <CodeEditor
-          exercise={exercise}
+          slug={slug}
+          defaultValue={defaultValue}
           language={language}
           onLanguageChange={onLanguageChange}
           onTestResults={onTestResults}

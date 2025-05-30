@@ -84,15 +84,12 @@ export function ExerciseContentDisplay({
 
       <div className="flex flex-col h-[calc(100vh-13rem)]">
         <CodeEditorPanelDisplay
-          exercise={exerciseMetadata}
-          language={language}
+          slug={exerciseMetadata.slug}
           defaultValue={mdxContent.starterCode}
-          testResults={testResults}
-          isSubmitting={false}
-          error={null}
+          testCasesCount={exerciseMetadata.testCases.length}
+          language={language}
           onLanguageChange={onLanguageChange}
           onTestResults={onTestResults}
-          editorRef={editorRef}
         />
       </div>
     </div>

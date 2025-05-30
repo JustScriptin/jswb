@@ -21,7 +21,6 @@ export function MobileEditorViewContainer({
   passedTests,
   totalTests,
   hasRun,
-  exercise,
 }: MobileEditorViewContainerProps) {
   const [showInstructions, setShowInstructions] = useState(false);
   const [lastTestRun, setLastTestRun] = useState<{
@@ -69,7 +68,7 @@ export function MobileEditorViewContainer({
       passedTests={passedTests}
       totalTests={totalTests}
       hasRun={hasRun}
-      exercise={exercise}
+      exercise={exerciseMetadata}
       showInstructions={showInstructions}
       lastTestRun={lastTestRun}
       onShowInstructions={handleShowInstructions}
