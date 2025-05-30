@@ -24,7 +24,6 @@ export function MobileEditorViewContainer({
   exercise,
 }: MobileEditorViewContainerProps) {
   const [showInstructions, setShowInstructions] = useState(false);
-  const [isInCodeView, setIsInCodeView] = useState(true);
   const [lastTestRun, setLastTestRun] = useState<{
     passed: number;
     total: number;
@@ -38,18 +37,16 @@ export function MobileEditorViewContainer({
 
   const handleShowInstructions = () => {
     setShowInstructions(true);
-    setIsInCodeView(false);
   };
 
   const handleHideInstructions = () => {
     setShowInstructions(false);
-    setIsInCodeView(true);
   };
 
   const handleTestFeedbackClick = () => {
     onTabChange("tests");
+
     setShowInstructions(true);
-    setIsInCodeView(false);
   };
 
   return (
@@ -69,7 +66,6 @@ export function MobileEditorViewContainer({
       exercise={exercise}
       showInstructions={showInstructions}
       lastTestRun={lastTestRun}
-      isInCodeView={isInCodeView}
       onShowInstructions={handleShowInstructions}
       onHideInstructions={handleHideInstructions}
       onTestFeedbackClick={handleTestFeedbackClick}

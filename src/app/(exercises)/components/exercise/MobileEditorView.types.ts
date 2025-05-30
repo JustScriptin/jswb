@@ -26,7 +26,6 @@ export type MobileEditorViewContainerProps = {
  */
 export type MobileEditorViewUIProps = MobileEditorViewContainerProps & {
   showInstructions: boolean;
-  isInCodeView: boolean;
   lastTestRun: {
     passed: number;
     total: number;
