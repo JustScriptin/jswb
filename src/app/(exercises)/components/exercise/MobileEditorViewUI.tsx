@@ -43,24 +43,24 @@ export function MobileEditorViewUI({
         )}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-lg font-semibold">Instructions</h2>
-            <div className="flex items-center gap-2">
-              <Link href="/exercises">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-1 border-muted-foreground/30 hover:bg-muted/80"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  <span className="text-xs font-medium">Exercises List</span>
-                </Button>
-              </Link>
-              <Button variant="ghost" size="icon" onClick={onHideInstructions}>
+          <div className="flex items-center p-4 border-b">
+            <Link href="/exercises">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-1 border-muted-foreground/30 hover:bg-muted/80"
+              >
                 <ChevronLeft className="h-4 w-4" />
-                <span className="sr-only">Back to code editor</span>
+                <span className="text-xs font-medium">Exercises List</span>
               </Button>
-            </div>
+            </Link>
+            <h2 className="text-lg font-semibold flex-1 text-center">
+              Exercise
+            </h2>
+            <Button variant="ghost" size="icon" onClick={onHideInstructions}>
+              <ChevronLeft className="h-4 w-4" />
+              <span className="sr-only">Back to code editor</span>
+            </Button>
           </div>
           <div className="flex-1 overflow-y-auto p-4">
             <ExerciseTabsMDX
@@ -81,15 +81,13 @@ export function MobileEditorViewUI({
       <div className="flex flex-col h-[100vh] w-full fixed inset-0 top-0 left-0 z-40 bg-background">
         {/* Mobile Header with Navigation */}
         <div className="flex items-center justify-between p-3 border-b bg-background/95 backdrop-blur-sm">
-          <Button
-            variant="outline"
-            size="sm"
+          <div
             onClick={onShowInstructions}
-            className="flex items-center gap-1"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-muted/50 hover:bg-muted/80 cursor-pointer transition-colors"
           >
             <ChevronRight className="h-4 w-4" />
-            <span className="text-xs">Instructions</span>
-          </Button>
+            <span className="text-xs font-medium">Exercise</span>
+          </div>
 
           {/* Clickable Test Results Badge */}
           {lastTestRun && hasRun && (

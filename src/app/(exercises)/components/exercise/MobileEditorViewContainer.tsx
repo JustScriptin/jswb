@@ -44,9 +44,15 @@ export function MobileEditorViewContainer({
   };
 
   const handleTestFeedbackClick = () => {
-    onTabChange("tests");
-
     setShowInstructions(true);
+
+    setTimeout(() => {
+      onTabChange("tests");
+
+      setTimeout(() => {
+        onTabChange("tests");
+      }, 50);
+    }, 10);
   };
 
   return (

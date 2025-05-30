@@ -21,8 +21,20 @@ type ExerciseTabsMDXProps = {
  * Exercise tabs component
  * Delegates to the container component for state management and business logic
  */
-export function ExerciseTabsMDX(props: ExerciseTabsMDXProps) {
-  return <ExerciseTabsContainer {...props} />;
+export function ExerciseTabsMDX({
+  activeTab,
+  onTabChange,
+  ...rest
+}: ExerciseTabsMDXProps) {
+  const forceTestsTab = activeTab === "tests" ? "tests" : activeTab;
+
+  return (
+    <ExerciseTabsContainer
+      initialTab={forceTestsTab}
+      onTabChange={onTabChange}
+      {...rest}
+    />
+  );
 }
 
 ExerciseTabsMDX.displayName = "ExerciseTabsMDX";
