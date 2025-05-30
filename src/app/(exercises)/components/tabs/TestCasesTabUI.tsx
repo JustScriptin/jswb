@@ -38,34 +38,36 @@ export function TestCasesTabUI({
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>Practice Examples</span>
-          <AnimatePresence mode="wait">
-            {hasRun && (
-              <motion.div
-                variants={animations.testResult}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className={cn(
-                  "text-sm px-3 py-1 rounded-full",
-                  passedTests === totalTests
-                    ? "bg-success/20 text-success"
-                    : "bg-destructive/20 text-destructive",
-                )}
-              >
-                {passedTests === totalTests ? (
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4" />
-                    All Tests Passed
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-2">
-                    <XCircle className="h-4 w-4" />
-                    {totalTests - passedTests} Failed
-                  </span>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="ml-4">
+            <AnimatePresence mode="wait">
+              {hasRun && (
+                <motion.div
+                  variants={animations.testResult}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className={cn(
+                    "text-sm px-3 py-1 rounded-full",
+                    passedTests === totalTests
+                      ? "bg-success/20 text-success"
+                      : "bg-destructive/20 text-destructive",
+                  )}
+                >
+                  {passedTests === totalTests ? (
+                    <span className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4" />
+                      All Tests Passed
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <XCircle className="h-4 w-4" />
+                      {totalTests - passedTests} Failed
+                    </span>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </CardTitle>
         <CardDescription>
           Test your understanding with these examples
