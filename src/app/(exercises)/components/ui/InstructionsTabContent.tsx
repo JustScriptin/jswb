@@ -4,20 +4,20 @@ import type { ReactElement } from "react";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import styles from "@/shared/styles/markdown.module.css";
 
-type InstructionsTabMDXProps = {
+type InstructionsTabContentProps = {
   descriptionContent: ReactElement;
 };
 
-export function InstructionsTabMDX({
+export function InstructionsTabContent({
   descriptionContent,
-}: InstructionsTabMDXProps) {
+}: InstructionsTabContentProps) {
   return (
     <Card>
-      <CardContent className="pt-6">
+      <CardContent className="p-4 sm:p-6">
         <div className={styles.markdown}>{descriptionContent}</div>
       </CardContent>
     </Card>
   );
 }
 
-InstructionsTabMDX.displayName = "InstructionsTabMDX";
+InstructionsTabContent.displayName = "InstructionsTabContent";

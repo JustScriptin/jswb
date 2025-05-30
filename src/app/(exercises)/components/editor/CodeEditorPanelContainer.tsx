@@ -1,8 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
-import { CodeEditorPanelUI } from "./CodeEditorPanelUI";
-import type { CodeEditorHandle } from "../CodeEditor";
+import { CodeEditorPanelDisplay } from "../ui/CodeEditorPanelDisplay";
 import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
 
 export type CodeEditorPanelContainerProps = {
@@ -17,17 +16,19 @@ export type CodeEditorPanelContainerProps = {
  * Manages state and logic for the code editor panel
  */
 export const CodeEditorPanelContainer = forwardRef<
-  CodeEditorHandle,
+  HTMLDivElement,
   CodeEditorPanelContainerProps
 >(function CodeEditorPanelContainer(
   { exercise, language, onLanguageChange, onTestResults },
   ref,
 ) {
   return (
-    <CodeEditorPanelUI
+    <CodeEditorPanelDisplay
       ref={ref}
-      exercise={exercise}
-      language={language}
+      slug={exercise.slug}
+      defaultValue={exercise.starterCode ?? ""}
+      testCasesCount={exercise.testCases.length}
+      _language={language}
       onLanguageChange={onLanguageChange}
       onTestResults={onTestResults}
     />

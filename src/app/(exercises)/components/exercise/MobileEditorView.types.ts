@@ -6,7 +6,7 @@ import type { CodeEditorHandle } from "../CodeEditor.types";
  * Props for the MobileEditorViewContainer component
  */
 export type MobileEditorViewContainerProps = {
-  exerciseMetadata: Omit<Exercise, "description" | "education">;
+  exerciseMetadata: Exercise;
   mdxContent: ExerciseMDXContent;
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -14,11 +14,10 @@ export type MobileEditorViewContainerProps = {
   language: Language;
   onLanguageChange: (lang: Language) => void;
   onTestResults: (results: TestResult[]) => void;
-  editorRef: React.RefObject<CodeEditorHandle | null>;
+  editorRef: React.RefObject<CodeEditorHandle>;
   passedTests: number;
   totalTests: number;
   hasRun: boolean;
-  exercise: Exercise;
 };
 
 /**

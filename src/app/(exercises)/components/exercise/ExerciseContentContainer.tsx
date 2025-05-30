@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { ExerciseContentUI } from "./ExerciseContentUI";
+import { ExerciseContentDisplay } from "../ui/ExerciseContentDisplay";
 import type { ExerciseContentContainerProps } from "./ExerciseContentContainer.types";
 
 /**
@@ -37,8 +37,8 @@ export function ExerciseContentContainer({
   );
 
   return (
-    <ExerciseContentUI
-      exerciseMetadata={exerciseMetadata}
+    <ExerciseContentDisplay
+      exerciseMetadata={exercise}
       mdxContent={mdxContent}
       isFullscreen={isFullscreen}
       testResults={testResults}
@@ -51,7 +51,6 @@ export function ExerciseContentContainer({
       passedTests={passedTests}
       totalTests={totalTests}
       hasRun={hasRun}
-      exercise={exercise}
     />
   );
 }

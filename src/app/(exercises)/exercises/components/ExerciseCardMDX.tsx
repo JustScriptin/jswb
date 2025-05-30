@@ -43,12 +43,12 @@ export function ExerciseCardMDX({
               {getCategoryObject(exercise.category).name}
             </Badge>
             <Badge variant="outline" className="capitalize">
-              {getCategoryObject(exercise.category).method}
+              {getCategoryObject(exercise.category).label}
             </Badge>
           </div>
           <CardTitle className="line-clamp-2">{exercise.title}</CardTitle>
           <CardDescription className="line-clamp-3">
-            Practice {getCategoryObject(exercise.category).method} with this
+            Practice {getCategoryObject(exercise.category).label} with this
             interactive coding challenge
           </CardDescription>
         </CardHeader>

@@ -18,7 +18,9 @@ export function ExerciseContainer({
   exerciseMetadata,
   mdxContent,
 }: ExerciseContainerProps) {
-  const editorRef = useRef<CodeEditorHandle | null>(null);
+  const editorRef = useRef<CodeEditorHandle>(
+    null as unknown as CodeEditorHandle,
+  );
 
   const exercise: Exercise = {
     ...exerciseMetadata,

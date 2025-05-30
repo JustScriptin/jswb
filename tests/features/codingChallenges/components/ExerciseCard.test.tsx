@@ -99,7 +99,7 @@ describe("ExerciseCardMDX", () => {
 
     // Check category and method badges
     expect(screen.getByText(categoryObj.name)).toBeInTheDocument();
-    expect(screen.getByText(categoryObj.method)).toBeInTheDocument();
+    expect(screen.getByText(categoryObj.label)).toBeInTheDocument();
 
     // Check test cases count
     expect(

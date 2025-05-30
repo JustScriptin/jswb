@@ -7,28 +7,31 @@ import { animations } from "@/shared/lib/animations";
 type TestResultBadgeProps = {
   passed: number;
   total: number;
-  visible?: boolean;
+  visible: boolean;
 };
 
 export function TestResultBadge({
   passed,
   total,
-  visible = true,
+  visible,
 }: TestResultBadgeProps) {
+  if (!visible) return null;
+
   const allPassed = passed === total;
+  const variant = allPassed ? "success" : "warning";
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       {visible && (
         <motion.div
-          variants={animations.scale}
-          initial="initial"
-          animate="animate"
-          exit="exit"
+          initial={animations.fadeIn.initial}
+          animate={animations.fadeIn.animate}
+          exit={animations.fadeIn.exit}
+          className="absolute -top-1 -right-1"
         >
           <Badge
-            variant={allPassed ? "success" : "destructive"}
-            className="ml-2 text-xs"
+            variant={variant}
+            className="text-[10px] h-5 px-1.5 ml-1.5 font-medium"
           >
             {passed}/{total}
           </Badge>

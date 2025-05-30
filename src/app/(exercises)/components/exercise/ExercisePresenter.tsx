@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/shared/lib/utils";
 import { ExerciseHeader } from "./ExerciseHeader";
-import { ExerciseTitle } from "./ExerciseTitle";
+import { ExerciseTitle } from "../ui/ExerciseTitle";
 import { ExerciseContentMDX } from "./ExerciseContentMDX";
 import { exerciseAnimations } from "../../helpers/animations";
 import { getCategoryObject } from "@/shared/utils/categoryAdapter";

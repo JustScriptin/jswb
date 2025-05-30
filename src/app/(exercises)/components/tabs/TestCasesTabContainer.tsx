@@ -1,6 +1,6 @@
 "use client";
 
-import { TestCasesTabUI } from "./TestCasesTabUI";
+import { TestCasesTabDisplay } from "../ui/TestCasesTabDisplay";
 import type { TestCase, TestResult } from "@/shared/types/exercise";
 
 export type TestCasesTabContainerProps = {
@@ -23,7 +23,7 @@ export function TestCasesTabContainer({
   hasRun,
 }: TestCasesTabContainerProps) {
   return (
-    <TestCasesTabUI
+    <TestCasesTabDisplay
       testCases={testCases}
       testResults={testResults}
       passedTests={passedTests}

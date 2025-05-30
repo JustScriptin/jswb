@@ -7,14 +7,14 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
-import { LearnTabMDX } from "./LearnTabMDX";
-import { InstructionsTabMDX } from "./InstructionsTabMDX";
-import { TestCasesTab } from "./TestCasesTab";
+import { LearnTabContent } from "./LearnTabContent";
+import { InstructionsTabContent } from "./InstructionsTabContent";
+import { TestCasesTabDisplay } from "./TestCasesTabDisplay";
 import { TestResultBadge } from "./TestResultBadge";
 import type { Exercise, TestResult } from "@/shared/types/exercise";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 
-export type ExerciseTabsUIProps = {
+export type ExerciseTabsDisplayProps = {
   exerciseMetadata: Omit<Exercise, "description" | "education">;
   mdxContent: ExerciseMDXContent;
   activeTab: string;
@@ -29,7 +29,7 @@ export type ExerciseTabsUIProps = {
  * Presentational component for exercise tabs
  * Renders tab navigation and content based on active tab
  */
-export function ExerciseTabsUI({
+export function ExerciseTabsDisplay({
   exerciseMetadata,
   mdxContent,
   activeTab,
@@ -38,7 +38,7 @@ export function ExerciseTabsUI({
   passedTests,
   totalTests,
   hasRun,
-}: ExerciseTabsUIProps) {
+}: ExerciseTabsDisplayProps) {
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
       <TabsList className="w-full overflow-x-auto overflow-y-hidden">
@@ -68,20 +68,20 @@ export function ExerciseTabsUI({
       </TabsList>
 
       <TabsContent value="learn">
-        <LearnTabMDX
+        <LearnTabContent
           educationContent={mdxContent.educationContent}
-          concept={mdxContent.educationConcept}
+          _concept={mdxContent.educationConcept}
         />
       </TabsContent>
 
       <TabsContent value="instructions" className="space-y-4">
-        <InstructionsTabMDX
+        <InstructionsTabContent
           descriptionContent={mdxContent.descriptionContent}
         />
       </TabsContent>
 
       <TabsContent value="tests">
-        <TestCasesTab
+        <TestCasesTabDisplay
           testCases={exerciseMetadata.testCases}
           testResults={testResults}
           passedTests={passedTests}
@@ -93,4 +93,4 @@ export function ExerciseTabsUI({
   );
 }
 
-ExerciseTabsUI.displayName = "ExerciseTabsUI";
+ExerciseTabsDisplay.displayName = "ExerciseTabsDisplay";

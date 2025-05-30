@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ExerciseTabsUI } from "./ExerciseTabsUI";
+import { ExerciseTabsDisplay } from "../ui/ExerciseTabsDisplay";
 import type { Exercise, TestResult } from "@/shared/types/exercise";
 import type { ExerciseMDXContent } from "@/shared/types/services";
 
@@ -38,7 +38,7 @@ export function ExerciseTabsContainer({
   };
 
   return (
-    <ExerciseTabsUI
+    <ExerciseTabsDisplay
       exerciseMetadata={exerciseMetadata}
       mdxContent={mdxContent}
       activeTab={activeTab}

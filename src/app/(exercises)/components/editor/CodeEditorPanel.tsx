@@ -2,7 +2,6 @@
 
 import { forwardRef } from "react";
 import { CodeEditorPanelContainer } from "./CodeEditorPanelContainer";
-import type { CodeEditorHandle } from "../CodeEditor";
 import type { Exercise, TestResult, Language } from "@/shared/types/exercise";
 
 export type { CodeEditorPanelContainerProps } from "./CodeEditorPanelContainer";
@@ -18,11 +17,10 @@ type CodeEditorPanelProps = {
  * Code editor panel component
  * Delegates to the container component for state management and business logic
  */
-export const CodeEditorPanel = forwardRef<
-  CodeEditorHandle,
-  CodeEditorPanelProps
->(function CodeEditorPanel(props, ref) {
-  return <CodeEditorPanelContainer {...props} ref={ref} />;
-});
+export const CodeEditorPanel = forwardRef<HTMLDivElement, CodeEditorPanelProps>(
+  function CodeEditorPanel(props, ref) {
+    return <CodeEditorPanelContainer {...props} ref={ref} />;
+  },
+);
 
 CodeEditorPanel.displayName = "CodeEditorPanel";
