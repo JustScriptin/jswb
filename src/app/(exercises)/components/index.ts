@@ -1,8 +1,6 @@
 export { ExerciseClientMDX } from "./ExerciseClientMDX";
 export { CodeEditor } from "./CodeEditor";
 export { ExercisePageSkeleton } from "./ExercisePageSkeleton";
-export * from "../exercises/components/ExerciseCardMDX";
-export * from "../exercises/components/StatsCard";
 
 export type { CodeEditorHandle } from "./CodeEditor.types";
 
