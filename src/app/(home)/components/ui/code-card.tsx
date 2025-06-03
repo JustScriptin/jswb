@@ -171,23 +171,23 @@ export const CodeCard = memo(function CodeCard() {
 
   return (
     <motion.div
-      className="relative w-full max-w-[560px] h-[360px] rounded-[var(--radius-lg)] bg-code-bg border border-code-border shadow-[var(--shadow-lg)] overflow-hidden"
+      className="relative w-full max-w-[560px] h-[280px] sm:h-[320px] md:h-[360px] rounded-[var(--radius-lg)] bg-code-bg border border-code-border shadow-[var(--shadow-lg)] overflow-hidden"
       initial={{ y: 20 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
       whileHover={{ y: -5, transition: { duration: 0.3, ease: "easeOut" } }}
     >
-      <div className="p-6 h-full flex flex-col">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-3 h-3 rounded-[var(--radius-full)] bg-destructive"></div>
-          <div className="w-3 h-3 rounded-[var(--radius-full)] bg-warning"></div>
-          <div className="w-3 h-3 rounded-[var(--radius-full)] bg-success"></div>
-          <div className="ml-2 text-xs text-muted-foreground">
+      <div className="p-4 sm:p-5 md:p-6 h-full flex flex-col">
+        <div className="flex items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-[var(--radius-full)] bg-destructive"></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-[var(--radius-full)] bg-warning"></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-[var(--radius-full)] bg-success"></div>
+          <div className="ml-2 text-[10px] sm:text-xs text-muted-foreground">
             array-challenge.js
           </div>
         </div>
 
-        <div className="flex-1 text-code-text font-mono text-sm leading-relaxed">
+        <div className="flex-1 text-code-text font-mono text-xs sm:text-sm leading-relaxed overflow-hidden">
           <SyntaxHighlighter
             code={typedCode}
             showCursor={isTyping}
@@ -195,8 +195,10 @@ export const CodeCard = memo(function CodeCard() {
           />
         </div>
 
-        <div className="mt-4 flex items-center justify-end gap-3">
-          <div className="text-xs text-muted-foreground mr-2">Tests:</div>
+        <div className="mt-3 sm:mt-4 flex items-center justify-end gap-2 sm:gap-3">
+          <div className="text-[10px] sm:text-xs text-muted-foreground mr-1 sm:mr-2">
+            Tests:
+          </div>
           {Array.from({ length: TESTS_COUNT }).map((_, i) => {
             const orderIndex = TESTS_DISPLAY_ORDER.indexOf(i);
             const isPassed = orderIndex !== -1 && passedCount > orderIndex;
@@ -225,7 +227,7 @@ function TestIndicator({
   return (
     <motion.div
       className={cn(
-        "w-6 h-6 rounded-[var(--radius-full)] flex items-center justify-center",
+        "w-5 h-5 sm:w-6 sm:h-6 rounded-[var(--radius-full)] flex items-center justify-center",
         passed ? "bg-success" : "bg-muted/30",
       )}
       animate={
@@ -237,7 +239,9 @@ function TestIndicator({
       }
       transition={{ duration: 0.3 }}
     >
-      {passed && <Check className="w-3 h-3 text-success-foreground" />}
+      {passed && (
+        <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-success-foreground" />
+      )}
     </motion.div>
   );
 }

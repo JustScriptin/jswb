@@ -13,7 +13,10 @@ export function useScrollProgress() {
 
   useEffect(() => {
     return scrollY.on("change", (latest) => {
-      setShowNav(latest > 64);
+      // Once the nav is shown, keep it visible
+      if (latest > 64) {
+        setShowNav(true);
+      }
       setScrollProgress(
         Math.min(latest / (document.body.scrollHeight - window.innerHeight), 1),
       );

@@ -222,6 +222,9 @@
   --z-40: 40;
   --z-50: 50;
   --z-auto: auto;
+  --z-noise: 1;
+  --z-navbar: 100;
+  --z-floating: 90;
 }
 
 /* Base styles */
