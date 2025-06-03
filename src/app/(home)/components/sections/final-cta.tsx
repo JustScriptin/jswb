@@ -17,14 +17,14 @@ export function FinalCta() {
     <section className="py-24 bg-gradient-to-r from-primary to-secondary flex items-center justify-center relative">
       <div className="container max-w-7xl mx-auto px-4 text-center relative z-10">
         <motion.h2
-          className="text-4xl font-semibold text-primary-foreground mb-6"
+          className="text-4xl font-bold text-white mb-6"
           {...fadeInUp(0)}
           viewport={{ once: true }}
         >
           Ready to build muscle memory?
         </motion.h2>
         <motion.div
-          className="max-w-xl mx-auto text-center mb-10 text-primary-foreground/90"
+          className="max-w-xl mx-auto text-center mb-10 text-white/95 text-lg"
           {...fadeInUp(0.1)}
           viewport={{ once: true }}
         >

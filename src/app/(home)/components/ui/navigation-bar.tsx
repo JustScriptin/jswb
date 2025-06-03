@@ -19,7 +19,7 @@ export const NavigationBar = memo(function NavigationBar({
 }: NavigationBarProps) {
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 z-[var(--z-navbar)] h-16 backdrop-blur-md bg-background/90 border-b border-border/10"
+      className="fixed top-0 left-0 right-0 z-[var(--z-navbar)] h-16 backdrop-blur-xl backdrop-saturate-150 bg-background/60 border-b border-border/20 shadow-sm"
       initial={{ y: -64 }}
       animate={{ y: 0 }}
       exit={{ y: -64 }}
